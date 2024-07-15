@@ -40,6 +40,9 @@ export default app
 ## Add a custom domain
 ![Screenshot 2024-07-15 at 15 57 11](https://github.com/user-attachments/assets/14242b43-20b0-419d-ba6f-fce713e411b9)
 
-## Bingo.
+## It works
 ![Screenshot 2024-07-15 at 16 31 24](https://github.com/user-attachments/assets/b3a1d6e1-3a3b-4086-a4fe-cfa320870d96)
+
+## [Tweet](https://x.com/jldec/status/1812879762483990874)
+![Screenshot 2024-07-15 at 16 58 01](https://github.com/user-attachments/assets/15407a94-e7c6-417f-98e4-06c266d42c70)
 
