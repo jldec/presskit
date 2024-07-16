@@ -41,15 +41,19 @@ app.use(async (c, next) => {
 					<Style>{css`
 						html {
 							font-family: Arial, Helvetica, sans-serif;
-							font-size: 14px;
+							line-height: 1.4;
 							margin: 1em;
 						}
 						img {
 							max-width: 100%;
 						}
 						.content {
-							max-width: 40em;
+							max-width: 50em;
 							margin: auto;
+							color: #333;
+						}
+						a {
+							color: #55d;
 						}
 					`}</Style>
 				</head>
