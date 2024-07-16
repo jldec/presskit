@@ -30,8 +30,6 @@ async function getContent(url: string) {
 }
 
 // https://hono.dev/docs/api/context#render-setrenderer
-//
-// NOTE: was unable to stop escaping snippets in jsx
 // https://hono.dev/docs/helpers/html#insert-snippets-into-jsx
 app.use(async (c, next) => {
 	c.setRenderer((htmlContent) => {
