@@ -8,9 +8,14 @@ I have started a new thing.
 The goal is to have fun, and build something useful.  
 If it works you can have fun and build something useful too.
 
-#### today
-- [x] Create a git repo https://github.com/jldec/thing with a markdown file.
-- [x] Deploy a cloudflare worker https://thing.jldec.me/ to publish the markdown file.
+#### Step 1
+Publish content from GitHub with zero build using [hono](https://hono.dev/).
+
+- [x] Create a git repo with a markdown file.  
+      https://github.com/jldec/thing
+
+- [x] Deploy a cloudflare worker to publish the markdown file.  
+      https://thing.jldec.me/
 
 ## pnpm create hono
 ![Screenshot 2024-07-15 at 15 02 13](https://github.com/user-attachments/assets/8cb9e73c-2675-457f-9f5b-dd80e6042da4)
