@@ -23,7 +23,7 @@ async function getContent(url: string) {
 	} catch (error) {
 		return {
 			statusCode: 500 as StatusCode,
-			atts: {},
+			attrs: {},
 			html: (error as any).message as string
 		}
 	}
