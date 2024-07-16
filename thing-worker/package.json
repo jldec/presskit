@@ -2,14 +2,19 @@
 	"name": "thing-worker",
 	"scripts": {
 		"dev": "wrangler dev src/index.ts",
-		"ship": "wrangler deploy --minify src/index.ts"
+		"ship": "wrangler deploy --minify src/index.ts",
+		"test": "vitest run"
 	},
 	"dependencies": {
-		"hono": "^4.4.13"
+		"@std/front-matter": "npm:@jsr/std__front-matter@1.0.0-rc.2",
+		"hono": "^4.5.0",
+		"markdown-it": "^14.1.0"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20240529.0",
-		"wrangler": "^3.57.2"
+		"@cloudflare/workers-types": "^4.20240712.0",
+		"@types/markdown-it": "^14.1.1",
+		"vitest": "^2.0.3",
+		"wrangler": "^3.65.0"
 	},
 	"prettier": {
 		"useTabs": true,

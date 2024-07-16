@@ -25,3 +25,9 @@ For the first commit we just deal with routing.
 ![Screenshot 2024-07-16 at 14 07 15](https://github.com/user-attachments/assets/38331b9d-f9a4-47af-be30-e65eb4e282c2)
 
 ## Markdown to HTML
+This part requires 2 new dependencies. 
+
+To process yaml frontmatter I chose https://jsr.io/@std/front-matter because it appears to be actively maintained and I liked the new api. 
+
+To parse markdown I chose https://www.npmjs.com/package/markdown-it in anticipation of offering extensions like [Vitepress](https://vitepress.dev/guide/markdown).
+
