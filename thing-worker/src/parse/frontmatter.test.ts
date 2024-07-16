@@ -34,6 +34,15 @@ test('parseFrontmatter', {}, () => {
 	expect(parseFrontmatter(content)).toEqual(expectedResult)
 })
 
+const noFrontmatter = `# no frontmatter here
+yo`
+
+const expectedResultNoFrontMatter = {
+	frontMatter: '',
+	body: noFrontmatter,
+	attrs: {}
+}
+
 test('parseFrontmatter undefined when no frontMatter', {}, () => {
-	expect(parseFrontmatter('# no frontmatter here\nyo')).toBeUndefined()
+	expect(parseFrontmatter(noFrontmatter)).toEqual(expectedResultNoFrontMatter)
 })
