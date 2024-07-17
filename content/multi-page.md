@@ -34,7 +34,8 @@ This part required 2 new dependencies. To process yaml frontmatter I chose https
 #### Add basic CSS
 https://presskit.jldec.me/  
 This is just enough CSS to constrain with page width and center the content with a sans-serif font. 
-![Screenshot 2024-07-17 at 11 54 16](https://github.com/user-attachments/assets/16513eb6-cc1e-4999-aea7-93690abcb460)
+![Screenshot 2024-07-17 at 13 07 41](https://github.com/user-attachments/assets/d43e5f3f-3d29-485d-882f-11a64c997213)
 
 #### [Next](tailwind)
-- introduce TailwindCSS
+- introduce TailwindCSS.
+- Generate index and nav using directory listing of content files and frontmatter.  
