@@ -12,10 +12,10 @@ If it works you can have fun and build something useful too.
 Publish content from GitHub with zero build using [hono](https://hono.dev/).
 
 - [x] Create a git repo with a markdown file.  
-      https://github.com/jldec/thing
+      https://github.com/jldec/presskit
 
 - [x] Deploy a cloudflare worker to publish the markdown file.  
-      https://thing.jldec.me/
+      https://presskit.jldec.me/
 
 ## pnpm create hono
 ![Screenshot 2024-07-15 at 15 02 13](https://github.com/user-attachments/assets/8cb9e73c-2675-457f-9f5b-dd80e6042da4)
@@ -23,13 +23,13 @@ Publish content from GitHub with zero build using [hono](https://hono.dev/).
 ## GitHub repo
 ![Screenshot 2024-07-15 at 15 21 46](https://github.com/user-attachments/assets/d7b0c0b0-61c4-4c4d-8d4d-339d3f803c78)
 
-## [../thing-worker/src/index.ts](../thing-worker/src/index.ts)
+## [../presskit-worker/src/index.ts](../presskit-worker/src/index.ts)
 ```ts
 import { Hono } from 'hono'
 
 const app = new Hono()
 
-const fileUrl = 'https://raw.githubusercontent.com/jldec/thing/main/content/new-thing.md'
+const fileUrl = 'https://raw.githubusercontent.com/jldec/presskit/main/content/new-thing.md'
 
 app.get('/', async (c) => {
 	const req = await fetch(fileUrl)

@@ -1,4 +1,4 @@
-name = "thing-worker"
+name = "presskit-worker"
 compatibility_date = "2024-07-15"
 
 # [vars]

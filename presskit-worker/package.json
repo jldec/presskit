@@ -1,5 +1,5 @@
 {
-	"name": "thing-worker",
+	"name": "presskit-worker",
 	"scripts": {
 		"dev": "wrangler dev src/index.tsx",
 		"ship": "wrangler deploy --minify src/index.tsx",

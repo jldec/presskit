@@ -7,7 +7,7 @@ import { parseMarkdown } from './parse/markdown'
 
 const app = new Hono()
 
-const fileUrlPrefix = 'https://raw.githubusercontent.com/jldec/thing/main/content'
+const fileUrlPrefix = 'https://raw.githubusercontent.com/jldec/presskit/main/content'
 const indexFile = 'index.md'
 
 async function getContent(url: string) {

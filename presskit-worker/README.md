@@ -1,4 +1,4 @@
-# thing-worker
+# presskit-worker
 - `pnpm create hono`
 - choose `cloudflare-workers` template
 - modify package json etc. to taste
