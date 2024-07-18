@@ -34,8 +34,10 @@ async function getContent(url: string) {
 app.use(async (c, next) => {
 	c.setRenderer((htmlContent) => {
 		return c.html(
-			<html>
+			<html lang="en">
 				<head>
+					<meta charset="utf-8" />
+					<meta name="viewport" content="width=device-width, initial-scale=1" />
 					<Style>{css`
 						html {
 							font-family: Arial, Helvetica, sans-serif;
