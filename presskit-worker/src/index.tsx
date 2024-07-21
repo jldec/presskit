@@ -4,6 +4,11 @@ import { StatusCode } from 'hono/utils/http-status'
 import { raw } from 'hono/html'
 import { parseFrontmatter } from './parse/frontmatter'
 import { parseMarkdown } from './parse/markdown'
+
+// @ts-expect-error
+// TODO - figure out if this is required.
+// followed: https://hono.dev/docs/getting-started/cloudflare-workers#serve-static-files
+// see also: https://github.com/honojs/hono/issues/1127
 import manifest from '__STATIC_CONTENT_MANIFEST'
 
 const app = new Hono()
