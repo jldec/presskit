@@ -1,11 +1,14 @@
 import { Hono } from 'hono'
-import { css, Style } from 'hono/css'
+import { serveStatic } from 'hono/cloudflare-workers'
 import { StatusCode } from 'hono/utils/http-status'
 import { raw } from 'hono/html'
 import { parseFrontmatter } from './parse/frontmatter'
 import { parseMarkdown } from './parse/markdown'
+import manifest from '__STATIC_CONTENT_MANIFEST'
 
 const app = new Hono()
+
+app.get('/static/*', serveStatic({ root: './', manifest }))
 
 const fileUrlPrefix = 'https://raw.githubusercontent.com/jldec/presskit/main/content'
 const indexFile = 'index.md'
@@ -38,26 +41,13 @@ app.use(async (c, next) => {
 				<head>
 					<meta charset="utf-8" />
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
-					<Style>{css`
-						html {
-							font-family: Arial, Helvetica, sans-serif;
-							line-height: 1.4;
-							margin: 1em;
-						}
-						img {
-							max-width: 100%;
-						}
-						.content {
-							max-width: 50em;
-							margin: auto;
-							color: #333;
-						}
-						a {
-							color: #55d;
-						}
-					`}</Style>
+					<link href="static/css/style.css" rel="stylesheet" />
 				</head>
-				<body class="content">{raw(htmlContent)}</body>
+				<body>
+					<div class="p-4">
+					<div class="prose mx-auto ">{raw(htmlContent)}</div>
+					</div>
+				</body>
 			</html>
 		)
 	})

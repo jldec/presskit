@@ -10,6 +10,7 @@ Publish content from GitHub with zero build using [hono](https://hono.dev/).
 - [x] Deploy a cloudflare worker to publish the markdown file. https://presskit.jldec.me/
 
 ####  pnpm create hono
+https://hono.dev/docs/getting-started/cloudflare-pages#_1-setup
 ![Screenshot 2024-07-15 at 15 02 13](https://github.com/user-attachments/assets/8cb9e73c-2675-457f-9f5b-dd80e6042da4)
 
 ####  New GitHub repo
