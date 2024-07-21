@@ -1,8 +1,11 @@
 {
 	"name": "presskit-worker",
 	"scripts": {
-		"dev": "wrangler dev src/index.tsx",
-		"ship": "wrangler deploy --minify src/index.tsx",
+		"dev": "pnpm run '/^watch:*/'",
+		"watch:wrangler": "wrangler dev src/index.tsx",
+		"build:css": "tailwindcss -i src/style.css -o public/static/css/style.css",
+		"watch:tailwind": "tailwindcss -i src/style.css -o public/static/css/style.css --watch",
+		"ship": "build:css && wrangler deploy --minify src/index.tsx",
 		"test": "vitest run"
 	},
 	"dependencies": {
@@ -12,7 +15,9 @@
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240712.0",
+		"@tailwindcss/typography": "^0.5.13",
 		"@types/markdown-it": "^14.1.1",
+		"tailwindcss": "^3.4.6",
 		"vitest": "^2.0.3",
 		"wrangler": "^3.65.0"
 	},
