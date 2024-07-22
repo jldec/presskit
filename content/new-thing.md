@@ -2,7 +2,7 @@
 date: 2024-07-15
 title: New Thing
 ---
-[Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind)
+[Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind) | [summarize](summarize)
 
 # New Thing
 Publish content from GitHub with zero build using [hono](https://hono.dev/).
