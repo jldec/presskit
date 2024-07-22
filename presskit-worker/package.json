@@ -2,10 +2,10 @@
 	"name": "presskit-worker",
 	"scripts": {
 		"dev": "pnpm run '/^watch:*/'",
-		"watch:wrangler": "wrangler dev src/index.tsx",
+		"watch:wrangler": "wrangler dev src/index.tsx --remote",
 		"build:css": "tailwindcss -i src/style.css -o public/static/css/style.css",
 		"watch:tailwind": "tailwindcss -i src/style.css -o public/static/css/style.css --watch",
-		"ship": "build:css && wrangler deploy --minify src/index.tsx",
+		"ship": "pnpm run build:css && wrangler deploy --minify src/index.tsx",
 		"test": "vitest run"
 	},
 	"dependencies": {
