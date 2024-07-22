@@ -109,16 +109,17 @@ app.post('/tree', async (c) => {
 	}
 })
 
-app.get('/projects', async (c) => {
+// Translate request path into file URL, including .md extension
+// https://hono.dev/docs/api/routing#including-slashes
+app.get('/:path{.+$}', async (c) => {
+	const { path } = c.req.param()
 	let content: Content
-	const cachedContent = await c.env.page_cache.get(projectsKey)
+	const cachedContent = await c.env.page_cache.get(path)
 	if (cachedContent !== null) {
 		content = JSON.parse(cachedContent) as Content
-		console.log('used cached content', content)
 	} else {
-		content = await getContent(`${projectsUrl}`)
-		console.log('fetched content from file', content)
-		c.executionCtx.waitUntil(summarizeAndCache(c.env, content))
+		content = await getContent(`${fileUrlPrefix}/${path}.md`)
+		c.executionCtx.waitUntil(summarizeAndCache(c.env, path, content))
 	}
 	c.status(content.statusCode)
 	return c.render(
@@ -126,22 +127,13 @@ app.get('/projects', async (c) => {
 	)
 })
 
-async function summarizeAndCache(env: Bindings, content: Content) {
+async function summarizeAndCache(env: Bindings, key: string, content: Content) {
 	content.summary = await env.AI.run('@cf/facebook/bart-large-cnn', {
 		input_text: content.html,
 		max_length: 50
 	})
 	// console.log('summarized content', JSON.stringify(content,null,2))
-	return env.page_cache.put(projectsKey, JSON.stringify(content))
+	return env.page_cache.put(key, JSON.stringify(content))
 }
-
-// Translate request path into file URL, including .md extension
-// https://hono.dev/docs/api/routing#including-slashes
-app.get('/:path{.+$}', async (c) => {
-	const { path } = c.req.param()
-	const content = await getContent(`${fileUrlPrefix}/${path}.md`)
-	c.status(content.statusCode)
-	return c.render(content.html)
-})
 
 export default app
