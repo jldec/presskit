@@ -2,11 +2,11 @@
 date: 2024-07-20
 title: Tailwind
 ---
-[Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind)
+[Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind) | [summarize](summarize)
 
 # Tailwind
 
-Adding [Tailwind CSS](https://tailwindcss.com/) to a hono-based worker was a bit harder than expected
+Adding [Tailwind CSS](https://tailwindcss.com/) to a hono-based worker took some time to figure out.
 
 I wanted to introduce Tailwind without necessarily also changing the build toolchain (vite instead of wrangler) or changing the deployment model to Cloudflare Pages from vanilla workers.
 
