@@ -1,11 +1,11 @@
 ## [pressskit.jldec.me](https://presskit.jldec.me/)
-[![head](https://github.com/user-attachments/assets/31f4863c-977c-40c0-8a9d-8664151ac58a)](https://jldec.me/blog/what-web-publishing-should-be-like)
+[![head](https://github.com/user-attachments/assets/fbeab9eb-974c-4f24-913e-c693c8774440)](https://jldec.me/blog/what-web-publishing-should-be-like)
 
 ## What is this?
 Presskit is an active exploration of ideas for [next-gen web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).
 
 ### Basics
-- Owners edit their "raw" content somewhere in a convenient format. For now that's GitHub and markdown + images.
+- Owners keep their raw content somewhere, in a convenient format e.g. GitHub and markdown + images.
 - The content has a URL ie. your domain, and a page path/slug.
 - The tool does the rest.
 
