@@ -1,4 +1,20 @@
-# [pressskit.jldec.me](https://presskit.jldec.me/)
+## [pressskit.jldec.me](https://presskit.jldec.me/)
+[![head](https://github.com/user-attachments/assets/31f4863c-977c-40c0-8a9d-8664151ac58a)](https://jldec.me/blog/what-web-publishing-should-be-like)
+
+## What is this?
+Presskit is an active exploration of ideas for [next-gen web publishin](https://jldec.me/blog/what-web-publishing-should-be-like).
+
+### Basics
+- Owners edit their "raw" content somewhere in a convenient format. For now that's GitHub and markdown + images.
+- The content has a URL ie. your domain, and a page path/slug.
+- The tool does the rest.
+
+### Ideas
+- The URL comes first, if it can be mapped to content it becomes a page, and 404 if not.
+- Everything else about the page happens dynamically, potentially on-demand, and may change over time. E.g. conversion to HTML, processing of images, illustrations, styling. 
+- Editing is a conversation with the tool. You can change the source content if you want to, but you can also tell the tool to add/remove/enhance the resulting output.
+
+### Progress
 
 1. [Published](https://presskit.jldec.me/new-thing) one unformatted [page](content/new-thing.md) at https://thing.jldec.me using [hono](https://hono.dev/).
   ![Screenshot 2024-07-16 at 11 28 09](https://github.com/user-attachments/assets/fea0cc4e-125b-4f14-84a6-c4b19385bc8d)
