@@ -9,6 +9,6 @@
 
 3. Added Tailwind CSS.
 
-4. Added AI generated summaries
+4. Added AI generated summaries while participating in the [Cozy Hack SF](https://lu.ma/wco3g23k?tk=5aQXWb)
    ![cozy-content(2)](https://github.com/user-attachments/assets/43694062-5fcf-41a8-b2cb-45f201a6caf0)
 
