@@ -1,11 +1,9 @@
 ---
 title: presskit.jldec.me
 ---
-
+[![head](https://github.com/user-attachments/assets/fbeab9eb-974c-4f24-913e-c693c8774440)](https://jldec.me/blog/what-web-publishing-should-be-like)
 # presskit
-I have started a new thing.  
-The goal is to have fun, and build something useful.  
-If it works you can have fun and build something useful too.
+Presskit is an active exploration of ideas for [next-gen web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).
 
 1. Published a single markdown page from GitHub with zero build. -- [New Thing](new-thing)
 2. Published a 2nd content page, and a basic landing page with HTML. -- [Serve multiple pages](multi-page)
