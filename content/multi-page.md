@@ -2,7 +2,7 @@
 date: 2024-07-16
 title: Serve Multiple Pages
 ---
-[Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind)
+[Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind) | [summarize](summarize)
 
 # Serve multiple pages
 
