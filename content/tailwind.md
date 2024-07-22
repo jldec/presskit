@@ -1,5 +1,5 @@
 ---
-date: 2024-07-16
+date: 2024-07-20
 title: Tailwind
 ---
 [Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind)

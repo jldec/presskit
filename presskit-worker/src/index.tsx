@@ -11,14 +11,27 @@ import { parseMarkdown } from './parse/markdown'
 // see also: https://github.com/honojs/hono/issues/1127
 import manifest from '__STATIC_CONTENT_MANIFEST'
 
-const app = new Hono()
+type Bindings = {
+	page_cache: KVNamespace
+	AI: Ai
+	GH_PAT: string
+}
+
+const app = new Hono<{ Bindings: Bindings }>()
 
 app.get('/static/*', serveStatic({ root: './', manifest }))
 
 const fileUrlPrefix = 'https://raw.githubusercontent.com/jldec/presskit/main/content'
 const indexFile = 'index.md'
 
-async function getContent(url: string) {
+type Content = {
+	statusCode: StatusCode
+	attrs: any
+	html: string
+	summary?: AiSummarizationOutput
+}
+
+async function getContent(url: string): Promise<Content> {
 	try {
 		const response = await fetch(url)
 		const parsedContent = parseFrontmatter(await response.text())
@@ -50,7 +63,7 @@ app.use(async (c, next) => {
 				</head>
 				<body>
 					<div class="p-4">
-					<div class="prose mx-auto ">{raw(htmlContent)}</div>
+						<div class="prose mx-auto ">{raw(htmlContent)}</div>
 					</div>
 				</body>
 			</html>
@@ -64,6 +77,63 @@ app.get('/', async (c) => {
 	c.status(content.statusCode)
 	return c.render(content.html)
 })
+
+const projectsUrl =
+	'https://raw.githubusercontent.com/jldec/jldec.me/c14da87a6340e7e45fe9943b8f4d4c15340de9b4/content/index.md'
+const projectsKey = '/projects'
+
+app.get('/tree', async (c) => {
+	let cachedTree = await c.env.page_cache.get('TREE')
+	if (cachedTree !== null) {
+		return c.json(JSON.parse(cachedTree))
+	} else return c.notFound()
+})
+
+const treeUrl = 'https://api.github.com/repos/jldec/presskit/git/trees/HEAD?recursive=TRUE'
+
+app.post('/tree', async (c) => {
+	let resp = await fetch(treeUrl, {
+		headers: {
+			Accept: 'application/vnd.github+json',
+			Authorization: `Bearer ${c.env.GH_PAT}`,
+			'X-GitHub-Api-Version': '2022-11-28',
+			'User-Agent': 'presskit-worker'
+		}
+	})
+	if (resp.ok) {
+		await c.env.page_cache.put('TREE', JSON.stringify(await resp.json()))
+		return c.text('OK')
+	} else {
+		c.status(resp.status as StatusCode)
+		return c.text(resp.statusText)
+	}
+})
+
+app.get('/projects', async (c) => {
+	let content: Content
+	const cachedContent = await c.env.page_cache.get(projectsKey)
+	if (cachedContent !== null) {
+		content = JSON.parse(cachedContent) as Content
+		console.log('used cached content', content)
+	} else {
+		content = await getContent(`${projectsUrl}`)
+		console.log('fetched content from file', content)
+		c.executionCtx.waitUntil(summarizeAndCache(c.env, content))
+	}
+	c.status(content.statusCode)
+	return c.render(
+		'<h2>Summary</h2>' + (content.summary?.summary ?? ' No summary yet.') + '<hr>' + content.html
+	)
+})
+
+async function summarizeAndCache(env: Bindings, content: Content) {
+	content.summary = await env.AI.run('@cf/facebook/bart-large-cnn', {
+		input_text: content.html,
+		max_length: 50
+	})
+	// console.log('summarized content', JSON.stringify(content,null,2))
+	return env.page_cache.put(projectsKey, JSON.stringify(content))
+}
 
 // Translate request path into file URL, including .md extension
 // https://hono.dev/docs/api/routing#including-slashes
