@@ -5,16 +5,7 @@ title: Cache and summarize
 [Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind) | [summarize](summarize)
 
 # Cache and Summarize content using AI
+- Content is fetched from file the first time the page is requested
+- The page content is rendered immediately to avoid waiting
+- An AI generated summary is added for subsequent requests
 
-# KV namespace presskit-worker-page-cache
-
-```
-$ pnpm wrangler kv namespace create page-cache
-
-🌀 Creating namespace with title "presskit-worker-page-cache"
-✨ Success!
-Add the following to your configuration file in your kv_namespaces array:
-[[kv_namespaces]]
-binding = "page_cache"
-id = "e96508e82717498584c7ccd03ba8469f"
-```
