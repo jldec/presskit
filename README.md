@@ -1,4 +1,4 @@
-## [pressskit.jldec.me](https://presskit.jldec.me/)
+## Presskit
 [![head](https://github.com/user-attachments/assets/fbeab9eb-974c-4f24-913e-c693c8774440)](https://jldec.me/blog/what-web-publishing-should-be-like)
 
 ## What is this?
