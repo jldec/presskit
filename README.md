@@ -4,15 +4,12 @@
 ## What is this?
 Presskit is an active exploration of ideas for [next-gen web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).
 
-### Basics
-- Owners keep their raw content somewhere, in a convenient format e.g. GitHub and markdown + images.
-- The content has a URL ie. your domain, and a page path/slug.
-- The tool does the rest.
-
-### Ideas
-- The URL comes first, if it can be mapped to content it becomes a page, and 404 if not.
-- Everything else about the page happens dynamically, potentially on-demand, and may change over time. E.g. conversion to HTML, processing of images, illustrations, styling. 
-- Editing is a conversation with the tool. You can change the source content if you want to, but you can also tell the tool to add/remove/enhance the resulting output.
+### How it works
+- Raw content is stored in a convenient format, reachable by API e.g. on GitHub or Airtable.
+- Content items have identifiers e.g. for linking to other items, or refer to images. 
+- Presskit serves URLs which are mapped to content.
+- It can perform conversion to HTML, image processing, styling, illustration ...
+- Configuring Presskit takes the form of a conversation. _Make it so._
 
 ### Progress
 
