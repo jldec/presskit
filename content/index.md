@@ -1,8 +1,21 @@
 ---
 title: presskit.jldec.me
+nav:
+  - text: Presskit
+    link: /
+  - text: new-thing
+    link: /new-thing
+  - text: multi-page
+    link: /multi-page
+  - text: tailwind
+    link: /tailwind
+  - text: summarize
+    link: /summarize
+  - text: daisyUI
+    link: /daisyui
 ---
-[![head](https://github.com/user-attachments/assets/fbeab9eb-974c-4f24-913e-c693c8774440)](https://jldec.me/blog/what-web-publishing-should-be-like)
-# presskit
+
+# Presskit
 Presskit is an active exploration of ideas for [next-gen web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).
 
 1. Published a single markdown page from GitHub with zero build. -- [New Thing](new-thing)

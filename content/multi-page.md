@@ -2,8 +2,6 @@
 date: 2024-07-16
 title: Serve Multiple Pages
 ---
-[Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind) | [summarize](summarize)
-
 # Serve multiple pages
 
 Continuing the [New Thing](new-thing), today's goal is to improve our worker to serve an index page and multiple content pages, and to make the content look nicer.

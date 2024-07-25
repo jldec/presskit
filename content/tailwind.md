@@ -2,8 +2,6 @@
 date: 2024-07-20
 title: Tailwind
 ---
-[Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind) | [summarize](summarize)
-
 # Tailwind
 
 Adding [Tailwind CSS](https://tailwindcss.com/) to a hono-based worker took some time to figure out.

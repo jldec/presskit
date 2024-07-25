@@ -2,8 +2,6 @@
 date: 2024-07-21
 title: Cache and summarize
 ---
-[Home](/) | [new-thing](new-thing) | [multi-page](multi-page) | [tailwind](tailwind) | [summarize](summarize)
-
 # Cache and Summarize content using AI
 First steps using AI for content enrichment.
 This was added while participating in [Cozy Hack SF](https://lu.ma/wco3g23k?tk=5aQXWb)

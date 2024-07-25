@@ -1,9 +1,18 @@
 import { Hono } from 'hono'
+import { jsxRenderer } from 'hono/jsx-renderer'
+import { memo } from 'hono/jsx'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { StatusCode } from 'hono/utils/http-status'
 import { raw } from 'hono/html'
 import { parseFrontmatter } from './parse/frontmatter'
 import { parseMarkdown } from './parse/markdown'
+
+// https://hono.dev/docs/middleware/builtin/jsx-renderer#extending-contextrenderer
+declare module 'hono' {
+	interface ContextRenderer {
+		(content: string | Promise<string>, props: { title?: string; htmlContent?: string }): Response
+	}
+}
 
 // @ts-expect-error
 // TODO - figure out if this is required.
@@ -31,6 +40,8 @@ type Content = {
 	summary?: AiSummarizationOutput
 }
 
+let homeContent: Content | null = null
+
 async function getContent(url: string): Promise<Content> {
 	try {
 		const response = await fetch(url)
@@ -50,37 +61,82 @@ async function getContent(url: string): Promise<Content> {
 	}
 }
 
+const Navbar = async () => {
+	if (homeContent === null) await getHomeContent()
+	return (
+		<div class="navbar justify-center bg-primary text-primary-content">
+			{homeContent?.attrs.nav?.map((item: any) => (
+				<a class="link px-2" href={item.link}>
+					{item.text ?? item.link}
+				</a>
+			))}
+		</div>
+	)
+}
+
 // https://hono.dev/docs/api/context#render-setrenderer
 // https://hono.dev/docs/helpers/html#insert-snippets-into-jsx
-app.use(async (c, next) => {
-	c.setRenderer((htmlContent) => {
-		return c.html(
+app.use(
+	jsxRenderer(({ children, title, htmlContent }) => {
+		return (
 			<html lang="en">
 				<head>
 					<meta charset="utf-8" />
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
+					<title>{title ?? 'Presskit'}</title>
 					<link href="static/css/style.css" rel="stylesheet" />
 				</head>
 				<body>
+					<Navbar />
 					<div class="p-4">
-						<div class="prose mx-auto ">{raw(htmlContent)}</div>
+						<div class="prose mx-auto ">
+							{children}
+							{raw(htmlContent)}
+						</div>
 					</div>
 				</body>
 			</html>
 		)
 	})
-	await next()
-})
+)
+
+async function getHomeContent() {
+	homeContent = await getContent(`${fileUrlPrefix}/${indexFile}`)
+	homeContent.attrs = {
+		nav: [
+			{
+				text: 'home',
+				link: '/'
+			},
+			{
+				text: 'new-thing',
+				link: '/new-thing'
+			},
+			{
+				text: 'multi-page',
+				link: '/multi-page'
+			},
+			{
+				text: 'tailwind',
+				link: '/tailwind'
+			},
+			{
+				text: 'summarize',
+				link: '/summarize'
+			},
+			{
+				text: 'daisyUI',
+				link: '/daisyui'
+			}
+		]
+	}
+	console.log(JSON.stringify(homeContent.attrs))
+}
 
 app.get('/', async (c) => {
-	const content = await getContent(`${fileUrlPrefix}/${indexFile}`)
-	c.status(content.statusCode)
-	return c.render(content.html)
+	if (homeContent === null) await getHomeContent()
+	return c.render('', { htmlContent: homeContent?.html, title: homeContent?.attrs?.title })
 })
-
-const projectsUrl =
-	'https://raw.githubusercontent.com/jldec/jldec.me/c14da87a6340e7e45fe9943b8f4d4c15340de9b4/content/index.md'
-const projectsKey = '/projects'
 
 app.get('/tree', async (c) => {
 	let cachedTree = await c.env.page_cache.get('TREE')
@@ -123,7 +179,12 @@ app.get('/:path{.+$}', async (c) => {
 	}
 	c.status(content.statusCode)
 	return c.render(
-		'<h2>Summary</h2>' + (content.summary?.summary ?? ' No summary yet.') + '<hr>' + content.html
+		<>
+			<h2>AI Summary</h2>
+			{content.summary?.summary ?? ' No summary yet.'}
+			<hr />
+		</>,
+		{ htmlContent: content.html, title: content.attrs?.title }
 	)
 })
 
