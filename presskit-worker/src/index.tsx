@@ -6,7 +6,6 @@ import { StatusCode } from 'hono/utils/http-status'
 import { raw } from 'hono/html'
 import { parseFrontmatter } from './parse/frontmatter'
 import { parseMarkdown } from './parse/markdown'
-import { extname } from '@std/path'
 
 // https://hono.dev/docs/middleware/builtin/jsx-renderer#extending-contextrenderer
 declare module 'hono' {
@@ -60,8 +59,27 @@ async function getContent(url: string): Promise<Content> {
 	}
 }
 
-const Navbar: FC = async (props) => {
+const NavItems: FC = async () => {
 	if (homeContent === null) await getHomeContent()
+	return (
+		<>
+			{homeContent?.attrs.nav?.map((item: any) => (
+				<li>
+					<a class="link px-2" href={item.link}>
+						{item.text ?? item.link}
+					</a>
+				</li>
+			))}
+			<li>
+				<a class="link px-2 font-black" href="/test-htmx">
+					Admin
+				</a>
+			</li>
+		</>
+	)
+}
+
+const Navbar: FC = async (props) => {
 	return (
 		<div class="drawer">
 			<input id="presskit-nav" type="checkbox" class="drawer-toggle" />
@@ -91,13 +109,7 @@ const Navbar: FC = async (props) => {
 					</div>
 					<div class="hidden flex-none lg:block">
 						<ul class="menu menu-horizontal">
-							{homeContent?.attrs.nav?.map((item: any) => (
-								<li>
-									<a class="link px-2" href={item.link}>
-										{item.text ?? item.link}
-									</a>
-								</li>
-							))}
+							<NavItems />
 						</ul>
 					</div>
 				</div>
@@ -111,13 +123,7 @@ const Navbar: FC = async (props) => {
 							Presskit
 						</a>
 					</li>
-					{homeContent?.attrs.nav?.map((item: any) => (
-						<li>
-							<a class="link px-2" href={item.link}>
-								{item.text ?? item.link}
-							</a>
-						</li>
-					))}
+					<NavItems />
 				</ul>
 			</div>
 		</div>
@@ -135,6 +141,7 @@ app.use(
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
 					<title>{title ?? 'Presskit'}</title>
 					<link href="/css/style.css" rel="stylesheet" />
+					<script src="/js/htmx.js"></script>
 				</head>
 				<body>
 					<Navbar>
@@ -159,6 +166,27 @@ async function getHomeContent() {
 app.get('/', async (c) => {
 	if (homeContent === null) await getHomeContent()
 	return c.render('', { htmlContent: homeContent?.html, title: homeContent?.attrs?.title })
+})
+
+// test api
+app.get('/api/headers', async (c) => {
+	const headers = Object.fromEntries(c.req.raw.headers)
+	if (c.req.query('pretty')) {
+		return c.text(JSON.stringify(headers, null, 2))
+	}
+	return c.json(headers)
+})
+
+app.get('/test-htmx', async (c) => {
+	return c.render(
+		<>
+			<button class="btn btn-accent mb-2" hx-get="/api/headers?pretty=1" hx-target=".textarea-accent">
+				Fetch headers
+			</button>
+			<textarea class="textarea textarea-accent w-full" rows={20} placeholder="watch this space"></textarea>
+		</>,
+		{}
+	)
 })
 
 app.get('/tree', async (c) => {
