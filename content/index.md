@@ -1,8 +1,6 @@
 ---
 title: presskit.jldec.me
 nav:
-  - text: Presskit
-    link: /
   - text: new-thing
     link: /new-thing
   - text: multi-page
