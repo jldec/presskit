@@ -3,12 +3,13 @@
 	"scripts": {
 		"dev": "pnpm run '/^watch:*/'",
 		"watch:wrangler": "wrangler dev src/index.tsx --remote",
-		"build:css": "tailwindcss -i src/style.css -o public/static/css/style.css",
-		"watch:tailwind": "tailwindcss -i src/style.css -o public/static/css/style.css --watch",
+		"build:css": "tailwindcss -i src/style.css -o public/css/style.css",
+		"watch:tailwind": "tailwindcss -i src/style.css -o public/css/style.css --watch",
 		"ship": "pnpm run build:css && wrangler deploy --minify src/index.tsx",
 		"test": "vitest run"
 	},
 	"dependencies": {
+		"@std/path": "npm:@jsr/std__path@1.0.1",
 		"@std/front-matter": "npm:@jsr/std__front-matter@1.0.0-rc.2",
 		"hono": "^4.5.0",
 		"markdown-it": "^14.1.0"
