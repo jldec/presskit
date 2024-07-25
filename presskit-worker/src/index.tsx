@@ -170,7 +170,7 @@ app.get('/', async (c) => {
 
 // test api
 app.get('/api/headers', async (c) => {
-	const headers = Object.fromEntries(c.req.raw.headers)
+	const headers = Object.fromEntries(c.req.raw.headers.entries())
 	if (c.req.query('pretty')) {
 		return c.text(JSON.stringify(headers, null, 2))
 	}
