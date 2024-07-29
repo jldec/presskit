@@ -3,13 +3,15 @@
 
 ## What is this?
 Presskit is an active exploration of ideas for [next-gen web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).
+[Worker code]([presskit-worker](https://github.com/jldec/presskit/blob/main/presskit-worker/src/index.tsx)) and [markdown source content](https://github.com/jldec/presskit/tree/main/content) both live in this repo for now.
 
 ### How it works
-- Raw content is stored in a convenient format, reachable by API e.g. on GitHub or Airtable.
-- Content items have identifiers e.g. for linking to other items, or refer to images. 
-- Presskit serves URLs which are mapped to content.
-- It can perform conversion to HTML, image processing, styling, illustration ...
-- Configuring Presskit takes the form of a conversation. _Make it so._
+
+- Presskit serves websites. No coding is required.
+- Users start with a domain, enable Presskit, and point to their content sources.
+- Content is stored in convenient formats, reachable by API, e.g. on GitHub.
+- Presskit maps website request URLs to fetch content and serves back HTML.
+- Extensive custom AI enrichment is possible. 
 
 ### Progress
 
@@ -25,3 +27,15 @@ Presskit is an active exploration of ideas for [next-gen web publishing](https:/
 4. Added [AI generated summaries](https://presskit.jldec.me/summarize) while participating in [Cozy Hack SF](https://lu.ma/wco3g23k?tk=5aQXWb).
    ![cozy-content(2)](https://github.com/user-attachments/assets/43694062-5fcf-41a8-b2cb-45f201a6caf0)
 
+5. Used [daisyUI](https://presskit.jldec.me/daisyui) for responsive [navbar/navbar](https://daisyui.com/components/drawer/#navbar-menu-for-desktop--sidebar-drawer-for-mobile) navigation.  
+  ![Screenshot 2024-07-29 at 19 19 46](https://github.com/user-attachments/assets/6806f55b-2dd5-4801-b65f-464e914b6113)  
+  ![Screenshot 2024-07-29 at 19 16 29](https://github.com/user-attachments/assets/1ac24765-86a0-44c2-9110-982ffbc1d1f7)
+
+### Coming soon
+
+- Configurable sources. (currently hardwired to this repo)
+- Image caching, image processing, and link-rewriting (a.t.m images are fully qualified, unproxied urls)
+- Auto-discover content, generate sidebar for docs like [gitkit](https://gitkitjs.dev/).
+- More AI enrichment.
+- Content editing.
+- Pluggable themes.
