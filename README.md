@@ -1,19 +1,21 @@
-## Presskit
-[![head](https://github.com/user-attachments/assets/fbeab9eb-974c-4f24-913e-c693c8774440)](https://jldec.me/blog/what-web-publishing-should-be-like)
+# Presskit
 
 ## What is this?
-Presskit is an active exploration of ideas for [next-gen web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).
-[Worker code]([presskit-worker](https://github.com/jldec/presskit/blob/main/presskit-worker/src/index.tsx)) and [markdown source content](https://github.com/jldec/presskit/tree/main/content) both live in this repo for now.
+Presskit is an active exploration of ideas for [next-gen web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).  
+_Many of these ideas are aspirational and expected to evolve as we get deeper._
 
-### How it works
+[Worker code](https://github.com/jldec/presskit/blob/main/presskit-worker/src/index.tsx) and [markdown source content](https://github.com/jldec/presskit/tree/main/content) both live in this repo for now.
+
+## How it works
 
 - Presskit serves websites. No coding is required.
-- Users start with a domain, enable Presskit, and point to their content sources.
-- Content is stored in convenient formats, reachable by API, e.g. on GitHub.
-- Presskit maps website request URLs to fetch content and serves back HTML.
-- Extensive custom AI enrichment is possible. 
+- Users will start with a domain, enable Presskit, and point to their content sources.
+- Content lives in convenient formats, reachable by API, e.g. on GitHub.
+- Presskit maps URLs to content, and serves back HTML.
+- Extensive AI enrichment will make raw content discoverable and easily consumable. (_This will require crawling and caching._)
+- Editorial tooling will provide users with full control.
 
-### Progress
+## Progress
 
 1. [Published](https://presskit.jldec.me/new-thing) one unformatted [page](content/new-thing.md) at https://thing.jldec.me using [hono](https://hono.dev/).
   ![Screenshot 2024-07-16 at 11 28 09](https://github.com/user-attachments/assets/fea0cc4e-125b-4f14-84a6-c4b19385bc8d)
@@ -31,7 +33,7 @@ Presskit is an active exploration of ideas for [next-gen web publishing](https:/
   ![Screenshot 2024-07-29 at 19 19 46](https://github.com/user-attachments/assets/6806f55b-2dd5-4801-b65f-464e914b6113)  
   ![Screenshot 2024-07-29 at 19 16 29](https://github.com/user-attachments/assets/1ac24765-86a0-44c2-9110-982ffbc1d1f7)
 
-### Coming soon
+## Coming soon
 
 - Configurable sources. (currently hardwired to this repo)
 - Image caching, image processing, and link-rewriting (a.t.m images are fully qualified, unproxied urls)
