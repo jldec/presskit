@@ -6,8 +6,7 @@ _Many of these ideas are aspirational and expected to evolve as we get deeper._
 
 [Worker code](https://github.com/jldec/presskit/blob/main/presskit-worker/src/index.tsx) and [markdown source content](https://github.com/jldec/presskit/tree/main/content) both live in this repo for now.
 
-## How it works
-
+## The vision
 - Presskit serves websites. No coding is required.
 - Users will start with a domain, enable Presskit, and point to their content sources.
 - Content lives in convenient formats, reachable by API, e.g. on GitHub.
@@ -16,7 +15,6 @@ _Many of these ideas are aspirational and expected to evolve as we get deeper._
 - Editorial tooling will provide users with full control.
 
 ## Progress
-
 1. [Published](https://presskit.jldec.me/new-thing) one unformatted [page](content/new-thing.md) at https://thing.jldec.me using [hono](https://hono.dev/).
   ![Screenshot 2024-07-16 at 11 28 09](https://github.com/user-attachments/assets/fea0cc4e-125b-4f14-84a6-c4b19385bc8d)
 
