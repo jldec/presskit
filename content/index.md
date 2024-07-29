@@ -20,6 +20,7 @@ Presskit is an active exploration of ideas for [next-gen web publishing](https:/
 2. Published a 2nd content page, and a basic landing page with HTML. -- [Serve multiple pages](multi-page)
 3. Introduced [Tailwind CSS](tailwind).
 4. Added [AI generated summaries](https://presskit.jldec.me/summarize) while participating in [Cozy Hack SF](https://lu.ma/wco3g23k?tk=5aQXWb).
+5. Used [daisyUI](daisyui) for responsive [navbar/navbar](https://daisyui.com/components/drawer/#navbar-menu-for-desktop--sidebar-drawer-for-mobile) navigation.
 
 ---
 _See worker code and markdown content in [github.com/jldec/presskit](https://github.com/jldec/presskit)._
