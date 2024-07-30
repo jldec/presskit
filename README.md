@@ -1,18 +1,17 @@
 # Presskit
+Communicate your ideas on the Web today.
 
 ## What is this?
-Presskit is an active exploration of ideas for [next-gen web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).  
+Presskit is an active exploration of [agentic AI for Web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).  
 [Worker code](https://github.com/jldec/presskit/blob/main/presskit-worker/src/index.tsx) and [markdown source content](https://github.com/jldec/presskit/tree/main/content) both live in this repo for now.
 
 ## The vision
-- Presskit serves websites. No coding is required.
-- Users will start with a domain, enable Presskit, and point to their content sources.
-- Content lives in convenient formats, reachable by API, e.g. on GitHub.
-- Presskit maps URLs to content, and serves back HTML.
-- Extensive AI enrichment will make raw content discoverable and easily consumable. (_This will require crawling and caching._)
-- Editorial tooling will provide users with full control.
+- Presskit serves HTML websites. No coding is required.
+- Users will start with a domain, enable Presskit, and activate their raw content sources.
+- AI agents will convert raw content into fresh, easily consumable, discoverable URLs on the Web.
+- Editorial tooling will provide users with fine-grained control.
 
-## Progress
+##. Progress
 1. [Published](https://presskit.jldec.me/new-thing) one unformatted [page](content/new-thing.md) at https://thing.jldec.me using [hono](https://hono.dev/).
   ![Screenshot 2024-07-16 at 11 28 09](https://github.com/user-attachments/assets/fea0cc4e-125b-4f14-84a6-c4b19385bc8d)
 
