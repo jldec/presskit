@@ -2,8 +2,6 @@
 
 ## What is this?
 Presskit is an active exploration of ideas for [next-gen web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).  
-_Many of these ideas are aspirational and expected to evolve as we get deeper._
-
 [Worker code](https://github.com/jldec/presskit/blob/main/presskit-worker/src/index.tsx) and [markdown source content](https://github.com/jldec/presskit/tree/main/content) both live in this repo for now.
 
 ## The vision
