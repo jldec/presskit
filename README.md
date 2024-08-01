@@ -1,8 +1,5 @@
 # Presskit
-Communicate your ideas on the Web today.
-
-## What is this?
-Presskit is an active exploration of [agentic AI for Web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).  
+Presskit is an active exploration of [agentic Web publishing](https://jldec.me/blog/what-web-publishing-should-be-like).  
 [Worker code](https://github.com/jldec/presskit/blob/main/presskit-worker/src/index.tsx) and [markdown source content](https://github.com/jldec/presskit/tree/main/content) both live in this repo for now.
 
 ## The vision
