@@ -3,8 +3,8 @@
 	"scripts": {
 		"dev": "wrangler dev src/index.tsx",
 		"dev:remote": "wrangler dev src/index.tsx --remote",
-		"build:css": "tailwindcss -i src/style.css -o public/css/style.css",
-		"watch:css": "tailwindcss -i src/style.css -o public/css/style.css --watch",
+		"build:css": "tailwindcss -i src/styles.css -o public/css/styles.css",
+		"watch:css": "tailwindcss -i src/styles.css -o public/css/styles.css --watch",
 		"ship": "pnpm run build:css && wrangler deploy --minify src/index.tsx",
 		"test": "vitest"
 	},
