@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { parseFrontmatter } from './frontmatter'
+import { parseFrontmatter } from '.'
 
 const frontMatter = `foo: bar
 baz: 1
