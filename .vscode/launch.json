@@ -11,6 +11,17 @@
       "attachExistingChildren": false,
       "autoAttachChildProcesses": false,
       "sourceMaps": true // works with or without this line
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Vitest Tests",
+      "autoAttachChildProcesses": true,
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
+      "args": ["run", "${relativeFile}"],
+      "smartStep": true,
+      "console": "integratedTerminal"
     }
   ]
 }

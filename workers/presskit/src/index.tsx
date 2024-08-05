@@ -4,8 +4,8 @@ import { type FC } from 'hono/jsx'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { StatusCode } from 'hono/utils/http-status'
 import { raw } from 'hono/html'
-import { parseFrontmatter } from './parse/frontmatter'
-import { parseMarkdown } from './parse/markdown'
+import { parseFrontmatter } from './frontmatter'
+import { parseMarkdown } from './markdown'
 
 // https://hono.dev/docs/middleware/builtin/jsx-renderer#extending-contextrenderer
 declare module 'hono' {
@@ -22,7 +22,7 @@ import manifest from '__STATIC_CONTENT_MANIFEST'
 
 type Bindings = {
 	page_cache: KVNamespace
-	AI: Ai
+	AI: any
 	GH_PAT: string
 }
 
@@ -84,7 +84,7 @@ const Navbar: FC = async (props) => {
 		<div class="drawer">
 			<input id="presskit-nav" type="checkbox" class="drawer-toggle" />
 			<div class="drawer-content flex flex-col">
-				<div class="navbar bg-base-300 w-full">
+				<div class="navbar bg-base-200 w-full">
 					<div class="flex-none lg:hidden">
 						<label for="presskit-nav" aria-label="open sidebar" class="btn btn-square btn-ghost">
 							<svg
@@ -135,7 +135,7 @@ const Navbar: FC = async (props) => {
 app.use(
 	jsxRenderer(({ children, title, htmlContent }) => {
 		return (
-			<html lang="en">
+			<html lang="en" data-theme="emerald">
 				<head>
 					<meta charset="utf-8" />
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -169,24 +169,76 @@ app.get('/', async (c) => {
 })
 
 // test api
-app.get('/api/headers', async (c) => {
-	const headers = Object.fromEntries(c.req.raw.headers.entries())
-	if (c.req.query('pretty')) {
-		return c.text(JSON.stringify(headers, null, 2))
+app.get('/api/echo', async (c) => {
+	const req = c.req.raw
+	const echo = {
+		method: req.method,
+		url: req.url,
+		headers: Object.fromEntries(req.headers.entries()),
+		cf: req.cf,
+		body: await req.text(),
+		booger: 1
 	}
-	return c.json(headers)
+	if (c.req.query('pretty')) {
+		return c.text(JSON.stringify(echo, null, 2))
+	}
+	return c.json(echo)
+})
+
+// test api
+app.get('/api/manifest', async (c) => {
+	const o = JSON.parse(manifest)
+	if (c.req.query('pretty')) {
+		return c.text(JSON.stringify(o, null, 2))
+	}
+	return c.json(o)
 })
 
 app.get('/test-htmx', async (c) => {
 	return c.render(
 		<>
-			<button class="btn btn-accent mb-2" hx-get="/api/headers?pretty=1" hx-target=".textarea-accent">
-				Fetch headers
+			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/echo?pretty=1" hx-target=".textarea-secondary">
+				Echo
 			</button>
-			<textarea class="textarea textarea-accent w-full" rows={20} placeholder="watch this space"></textarea>
+			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/manifest?pretty=1" hx-target=".textarea-secondary">
+				Manifest
+			</button>
+			<textarea class="textarea textarea-secondary w-full" rows={20} placeholder="watch this space"></textarea>
 		</>,
 		{}
 	)
+})
+
+app.get('/test-function-call', async (c) => {
+	const response = await c.env.AI.run('@cf/mistral/mistral-7b-instruct-v0.1', {
+		messages: [
+			{
+				role: 'user',
+				content: 'what is the weather in london?'
+			}
+		],
+		tools: [
+			{
+				name: 'getWeather',
+				description: 'Return the weather for a latitude and longitude',
+				parameters: {
+					type: 'object',
+					properties: {
+						latitude: {
+							type: 'string',
+							description: 'The latitude for the given location'
+						},
+						longitude: {
+							type: 'string',
+							description: 'The longitude for the given location'
+						}
+					},
+					required: ['latitude', 'longitude']
+				}
+			}
+		]
+	})
+	return c.text(JSON.stringify(response,null,2))
 })
 
 app.get('/tree', async (c) => {
