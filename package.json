@@ -3,7 +3,10 @@
 		"useTabs": true,
 		"singleQuote": true,
 		"semi": false,
-		"printWidth": 120,
+		"printWidth": 100,
 		"trailingComma": "none"
+	},
+	"devDependencies": {
+		"vitest": "^2.0.5"
 	}
 }

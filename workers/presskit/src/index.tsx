@@ -1,12 +1,13 @@
-import { Hono } from 'hono'
-import { jsxRenderer } from 'hono/jsx-renderer'
+import { Hono, Context } from 'hono'
+import { jsxRenderer, useRequestContext } from 'hono/jsx-renderer'
 import { type FC } from 'hono/jsx'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { StatusCode } from 'hono/utils/http-status'
 import { raw } from 'hono/html'
-import { parseFrontmatter } from './frontmatter'
-import { parseMarkdown } from './markdown'
-
+import { parseFrontmatter } from './markdown/parse-frontmatter'
+import { parseMarkdown } from './markdown/parse-markdown'
+import { extname } from '@std/path'
+import { hash } from './markdown/hash'
 // https://hono.dev/docs/middleware/builtin/jsx-renderer#extending-contextrenderer
 declare module 'hono' {
 	interface ContextRenderer {
@@ -15,15 +16,17 @@ declare module 'hono' {
 }
 
 // @ts-expect-error
-// TODO - figure out if this is required.
+// TODO - figure out how to avoid ts error.
 // followed: https://hono.dev/docs/getting-started/cloudflare-workers#serve-static-files
 // see also: https://github.com/honojs/hono/issues/1127
 import manifest from '__STATIC_CONTENT_MANIFEST'
 
 type Bindings = {
-	page_cache: KVNamespace
+	PAGE_CACHE: KVNamespace
+	IMAGES: R2Bucket
 	AI: any
 	GH_PAT: string
+	IMAGE_KEY: string
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
@@ -40,7 +43,12 @@ type Content = {
 
 let homeContent: Content | null = null
 
-async function getContent(url: string): Promise<Content> {
+async function getContent(
+	url: string,
+	c: Context<{
+		Bindings: Bindings
+	}>
+): Promise<Content> {
 	try {
 		const response = await fetch(url)
 		const parsedContent = parseFrontmatter(await response.text())
@@ -48,7 +56,7 @@ async function getContent(url: string): Promise<Content> {
 		return {
 			statusCode: response.status as StatusCode,
 			attrs: parsedContent.attrs,
-			html: parseMarkdown(parsedContent.body)
+			html: parseMarkdown(parsedContent.body, { hashPrefix: c.env.IMAGE_KEY })
 		}
 	} catch (error) {
 		return {
@@ -60,7 +68,8 @@ async function getContent(url: string): Promise<Content> {
 }
 
 const NavItems: FC = async () => {
-	if (homeContent === null) await getHomeContent()
+	const c = useRequestContext()
+	if (homeContent === null) await getHomeContent(c)
 	return (
 		<>
 			{homeContent?.attrs.nav?.map((item: any) => (
@@ -71,7 +80,7 @@ const NavItems: FC = async () => {
 				</li>
 			))}
 			<li>
-				<a class="link px-2 font-black" href="/test-htmx">
+				<a class="link px-2 font-black" href="/admin">
 					Admin
 				</a>
 			</li>
@@ -158,17 +167,50 @@ app.use(
 	})
 )
 
-async function getHomeContent() {
-	homeContent = await getContent(`${fileUrlPrefix}/${indexFile}`)
+async function getHomeContent(c: Context<{ Bindings: Bindings }>) {
+	homeContent = await getContent(`${fileUrlPrefix}/${indexFile}`, c)
 	console.log(JSON.stringify(homeContent.attrs))
 }
 
 app.get('/', async (c) => {
-	if (homeContent === null) await getHomeContent()
+	if (homeContent === null) await getHomeContent(c)
 	return c.render('', { htmlContent: homeContent?.html, title: homeContent?.attrs?.title })
 })
 
-// test api
+app.get('/admin', async (c) => {
+	return c.render(
+		<>
+			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/echo" hx-target=".json">
+				echo
+			</button>
+			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/manifest" hx-target=".json">
+				manifest
+			</button>
+			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/cache" hx-target=".json">
+				cache
+			</button>
+			<button class="btn btn-secondary mb-2 mr-2" hx-delete="/api/cache" hx-target=".json">
+				delete cache
+			</button>
+			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/images" hx-target=".json">
+				images
+			</button>
+			<button class="btn btn-secondary mb-2 mr-2" hx-delete="/api/images" hx-target=".json">
+				delete images
+			</button>
+			<pre class="json"></pre>
+		</>,
+		{}
+	)
+})
+
+// Formatted c.json()
+function fjson(o: any) {
+	return new Response(JSON.stringify(o, null, 2), {
+		headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+	})
+}
+
 app.get('/api/echo', async (c) => {
 	const req = c.req.raw
 	const echo = {
@@ -179,72 +221,50 @@ app.get('/api/echo', async (c) => {
 		body: await req.text(),
 		booger: 1
 	}
-	if (c.req.query('pretty')) {
-		return c.text(JSON.stringify(echo, null, 2))
-	}
-	return c.json(echo)
+	return fjson(echo)
 })
 
-// test api
 app.get('/api/manifest', async (c) => {
 	const o = JSON.parse(manifest)
-	if (c.req.query('pretty')) {
-		return c.text(JSON.stringify(o, null, 2))
-	}
-	return c.json(o)
+	return fjson(o)
 })
 
-app.get('/test-htmx', async (c) => {
-	return c.render(
-		<>
-			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/echo?pretty=1" hx-target=".textarea-secondary">
-				Echo
-			</button>
-			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/manifest?pretty=1" hx-target=".textarea-secondary">
-				Manifest
-			</button>
-			<textarea class="textarea textarea-secondary w-full" rows={20} placeholder="watch this space"></textarea>
-		</>,
-		{}
-	)
+app.get('/api/cache', async (c) => {
+	const list = await c.env.PAGE_CACHE.list()
+	const keys = list.keys.map((o) => o.name)
+	return fjson(list)
 })
 
-app.get('/test-function-call', async (c) => {
-	const response = await c.env.AI.run('@cf/mistral/mistral-7b-instruct-v0.1', {
-		messages: [
-			{
-				role: 'user',
-				content: 'what is the weather in london?'
-			}
-		],
-		tools: [
-			{
-				name: 'getWeather',
-				description: 'Return the weather for a latitude and longitude',
-				parameters: {
-					type: 'object',
-					properties: {
-						latitude: {
-							type: 'string',
-							description: 'The latitude for the given location'
-						},
-						longitude: {
-							type: 'string',
-							description: 'The longitude for the given location'
-						}
-					},
-					required: ['latitude', 'longitude']
-				}
-			}
-		]
-	})
-	return c.text(JSON.stringify(response,null,2))
+app.delete('/api/cache', async (c) => {
+	const list = await c.env.PAGE_CACHE.list()
+	const keys = list.keys.map((o) => o.name)
+	const deleted = await Promise.all(keys.map((key) => c.env.PAGE_CACHE.delete(key)))
+	return fjson(deleted)
+})
+
+app.get('/api/images', async (c) => {
+	const list = await c.env.IMAGES.list({ include: ['httpMetadata', 'customMetadata'] })
+	const r2Objects = list.objects
+	const data = r2Objects.map((r2Object) => ({
+		key: r2Object.key,
+		size: r2Object.size,
+		...r2Object.customMetadata,
+		...r2Object.httpMetadata,
+		etag: r2Object.etag
+	}))
+	return fjson(data)
+})
+
+app.delete('/api/images', async (c) => {
+	let keys = (await c.env.IMAGES.list()).objects.map((object) => object.key)
+	await c.env.IMAGES.delete(keys)
+	return fjson(keys)
 })
 
 app.get('/tree', async (c) => {
-	let cachedTree = await c.env.page_cache.get('TREE')
+	let cachedTree = await c.env.PAGE_CACHE.get('TREE')
 	if (cachedTree !== null) {
-		return c.json(JSON.parse(cachedTree))
+		return fjson(JSON.parse(cachedTree))
 	} else return c.notFound()
 })
 
@@ -260,7 +280,7 @@ app.post('/tree', async (c) => {
 		}
 	})
 	if (resp.ok) {
-		await c.env.page_cache.put('TREE', JSON.stringify(await resp.json()))
+		await c.env.PAGE_CACHE.put('TREE', JSON.stringify(await resp.json()))
 		return c.text('OK')
 	} else {
 		c.status(resp.status as StatusCode)
@@ -268,17 +288,70 @@ app.post('/tree', async (c) => {
 	}
 })
 
+// serve images from r2 bucket
+// if not found, serve from og src, and upload to r2 in background
+// protects against unwanted sideloading by signing hashes
+// TODO: make signed hashes more seccure
+// TODO: use CF cache, and add cache control headers
+// TODO: multi-part and ranges
+app.get('/img/:image{.+$}', async (c) => {
+	const image = c.req.param('image')
+	let object = await c.env.IMAGES.get(image)
+	if (object !== null) {
+		const headers = new Headers()
+		object.writeHttpMetadata(headers)
+		headers.set('etag', object.httpEtag)
+		return c.body(object.body, { headers })
+	}
+
+	const og = c.req.query('og')
+	if (!og) return c.notFound()
+
+	const hashPrefix = c.env.IMAGE_KEY
+	const check = hash(hashPrefix + og)
+	if (check !== image) {
+		console.log('image hash mismatch', check, image)
+		return c.notFound()
+	}
+	const resp = await fetch(og)
+	if (!resp.ok || !resp.body) return c.notFound()
+
+	const [body, body2] = resp.body.tee()
+	c.executionCtx.waitUntil(
+		c.env.IMAGES.put(image, body2, {
+			customMetadata: { og },
+			httpMetadata: storeHeaders(resp.headers)
+		})
+	)
+	return c.body(body, { headers: resp.headers })
+})
+
+function storeHeaders(ogHeaders: Headers) {
+	// https://developers.cloudflare.com/r2/api/workers/workers-api-reference/#http-metadata
+	// don't store the original cache-control headers (for now)
+	const copyList = ['Content-Type', 'Content-Language', 'Content-Encoding', 'Content-Disposition']
+	const headers = new Headers()
+	copyList.forEach((header) => {
+		if (ogHeaders.has(header)) {
+			headers.set(header, ogHeaders.get(header) as string)
+		}
+	})
+	return headers
+}
+
 // middleware fetches markdown content, fall through if not found
+// only serves extensionless routes
 app.use(async (c, next) => {
 	let path = c.req.path // includes leading /
+	if (extname(path) !== '') return await next()
 	let content: Content
 	let cached = false
-	const cachedContent = await c.env.page_cache.get(path)
+	const cachedContent = await c.env.PAGE_CACHE.get(path)
 	if (cachedContent !== null) {
 		content = JSON.parse(cachedContent) as Content
 		cached = true
 	} else {
-		content = await getContent(`${fileUrlPrefix}${path}.md`)
+		content = await getContent(`${fileUrlPrefix}${path}.md`, c)
 	}
 	if (content.statusCode === 200) {
 		if (!cached) {
@@ -306,8 +379,8 @@ async function summarizeAndCache(env: Bindings, key: string, content: Content) {
 		input_text: content.html,
 		max_length: 50
 	})
-	// console.log('summarized content', JSON.stringify(content,null,2))
-	await env.page_cache.put(key, JSON.stringify(content))
+	console.log('summarized content', JSON.stringify(content, null, 2))
+	await env.PAGE_CACHE.put(key, JSON.stringify(content))
 }
 
 app.notFound((c) => {

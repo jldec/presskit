@@ -9,19 +9,19 @@
 		"test": "vitest"
 	},
 	"dependencies": {
-		"@std/front-matter": "npm:@jsr/std__front-matter@1.0.0-rc.2",
-		"hono": "^4.5.0",
+		"@std/front-matter": "npm:@jsr/std__front-matter@1.0.1",
+		"@std/path": "npm:@jsr/std__path@1.0.2",
+		"hono": "^4.5.4",
 		"markdown-it": "^14.1.0"
 	},
 	"devDependencies": {
 		"@cloudflare/ai-utils": "^1.0.1",
-		"@cloudflare/workers-types": "^4.20240712.0",
+		"@cloudflare/workers-types": "^4.20240729.0",
 		"@tailwindcss/typography": "^0.5.13",
-		"@types/markdown-it": "^14.1.1",
+		"@types/markdown-it": "^14.1.2",
 		"daisyui": "^4.12.10",
 		"htmx.org": "^2.0.1",
 		"tailwindcss": "^3.4.6",
-		"vitest": "^2.0.5",
 		"wrangler": "^3.65.0"
 	}
 }

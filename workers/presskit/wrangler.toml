@@ -8,7 +8,14 @@ bucket = "./public"
 [ai]
 binding = "AI"
 
+[[r2_buckets]]
+# pnpm wrangler r2 bucket create presskit-img-v0
+binding = 'IMAGES'
+bucket_name = 'presskit-img-v0'
+
 [[kv_namespaces]]
-binding = "page_cache"
-id = "e96508e82717498584c7ccd03ba8469f"
-preview_id = "3df9af57bd124086bc0cf93e9eb206fd"
+# pnpm wrangler kv namespace create PAGE_CACHE
+# pnpm wrangler kv namespace create PAGE_CACHE --preview
+binding = "PAGE_CACHE"
+id = "65c4126075304a93baaacea9187ff8a9"
+preview_id = "b52a7190959c4127b32cd717b9aa8936"
