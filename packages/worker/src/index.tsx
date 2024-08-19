@@ -8,6 +8,11 @@ import { parseFrontmatter } from './markdown/parse-frontmatter'
 import { parseMarkdown } from './markdown/parse-markdown'
 import { extname } from '@std/path'
 import { hash } from './markdown/hash'
+import { routePartykitRequest } from 'partyserver'
+
+// PartyServer
+export { Chat } from './chat'
+
 // https://hono.dev/docs/middleware/builtin/jsx-renderer#extending-contextrenderer
 declare module 'hono' {
 	interface ContextRenderer {
@@ -84,6 +89,11 @@ const NavItems: FC = async () => {
 					Admin
 				</a>
 			</li>
+			<li>
+				<a class="link px-2 font-black" href="/chat">
+					Chat
+				</a>
+			</li>
 		</>
 	)
 }
@@ -151,6 +161,7 @@ app.use(
 					<title>{title ?? 'Presskit'}</title>
 					<link href="/css/styles.css" rel="stylesheet" />
 					<script src="/js/htmx.js"></script>
+					<script src="/js/index.js"></script>
 				</head>
 				<body>
 					<Navbar>
@@ -199,6 +210,17 @@ app.get('/admin', async (c) => {
 				delete images
 			</button>
 			<pre class="json"></pre>
+		</>,
+		{}
+	)
+})
+
+app.get('/chat', async (c) => {
+	return c.render(
+		<>
+		<h1>Chat</h1>
+		<div id="chat-root"></div>
+		<script src="/js/partychat.js" type="module"></script>
 		</>,
 		{}
 	)
@@ -382,6 +404,12 @@ async function summarizeAndCache(env: Bindings, key: string, content: Content) {
 	console.log('summarized content', JSON.stringify(content, null, 2))
 	await env.PAGE_CACHE.put(key, JSON.stringify(content))
 }
+
+// listen for websocket (partySocket) requests
+// unclear if this is an efficient way to do this - maybe better to mount this on a route instead.
+app.use(async (c, next) => {
+	return (await routePartykitRequest(c.req.raw, c.env) || await next())
+})
 
 app.notFound((c) => {
 	return c.render(

@@ -2,8 +2,12 @@ name = "presskit-worker"
 compatibility_date = "2024-07-12"
 main = "src/index.tsx"
 
+# secrets
+# GH_PAT: Expires on Mon, Sep 16 2024
+# IMAGE_KEY: no expiration
+
 [site]
-bucket = "./public"
+bucket = "../../public"
 
 [ai]
 binding = "AI"
@@ -19,3 +23,11 @@ bucket_name = 'presskit-img-v0'
 binding = "PAGE_CACHE"
 id = "65c4126075304a93baaacea9187ff8a9"
 preview_id = "b52a7190959c4127b32cd717b9aa8936"
+
+[[durable_objects.bindings]]
+name = "Chat"
+class_name = "Chat"
+
+[[migrations]]
+tag = "v1" # Should be unique for each entry
+new_classes = ["Chat"]
