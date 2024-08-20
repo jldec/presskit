@@ -49,7 +49,7 @@ export class Chat extends Server<Env> {
 				...aiMessage
 			})
 
-			const aiMessageStream = (await this.env.AI.run('@cf/meta/llama-2-7b-chat-int8', {
+			const aiMessageStream = (await this.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
 				stream: true,
 				messages: this.messages.map((m) => ({
 					content: m.content,
