@@ -94,6 +94,11 @@ const NavItems: FC = async () => {
 					Chat
 				</a>
 			</li>
+			<li>
+				<a class="link px-2 font-black" href="/test">
+					Test
+				</a>
+			</li>
 		</>
 	)
 }
@@ -161,7 +166,6 @@ app.use(
 					<title>{title ?? 'Presskit'}</title>
 					<link href="/css/styles.css" rel="stylesheet" />
 					<script src="/js/htmx.js"></script>
-					<script src="/js/index.js"></script>
 				</head>
 				<body>
 					<Navbar>
@@ -218,13 +222,23 @@ app.get('/admin', async (c) => {
 app.get('/chat', async (c) => {
 	return c.render(
 		<>
-		<h1>Chat</h1>
 		<div id="chat-root"></div>
 		<script src="/js/partychat.js" type="module"></script>
 		</>,
 		{}
 	)
 })
+
+app.get('/test', async (c) => {
+	return c.render(
+		<>
+			<h1>Test Page</h1>
+			<p>This is a test page to demonstrate rendering.</p>
+		</>,
+		{ title: "Test Page" }
+	)
+})
+
 
 // Formatted c.json()
 function fjson(o: any) {
@@ -406,9 +420,10 @@ async function summarizeAndCache(env: Bindings, key: string, content: Content) {
 }
 
 // listen for websocket (partySocket) requests
-// unclear if this is an efficient way to do this - maybe better to mount this on a route instead.
 app.use(async (c, next) => {
-	return (await routePartykitRequest(c.req.raw, c.env) || await next())
+	const party = c.req.path.startsWith('/parties') && await routePartykitRequest(c.req.raw, c.env)
+	console.log('routePartykitRequest', c.req.url, party)
+	return (party  || await next())
 })
 
 app.notFound((c) => {

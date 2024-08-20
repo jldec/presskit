@@ -1,7 +1,8 @@
 {
 	"name": "presskit-worker",
 	"scripts": {
-		"build": "esbuild ./index.tsx --bundle --format=esm --platform=browser --outfile=../../public/js/partychat.js"
+		"build": "esbuild ./index.tsx --bundle --format=esm --platform=browser --outfile=../../public/js/partychat.js",
+		"dev": "esbuild ./index.tsx --watch --bundle --format=esm --platform=browser --outfile=../../public/js/partychat.js"
 	},
 	"dependencies": {
 		"nanoid": "^5.0.7",
