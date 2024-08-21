@@ -17,11 +17,12 @@ function filePath(path: string): string {
 export async function getContent(path: string, c: Context): Promise<Content | null> {
 	try {
 		if (path === '/' && homeContent) return homeContent
+
 		const cachedContent = await c.env.PAGE_CACHE.get(path)
 		if (cachedContent !== null) return JSON.parse(cachedContent) as Content
 
 		const response = await fetch(filePath(path))
-		if (!response.ok) throw new Error(`${response.status} error fetching ${path}`	)
+		if (!response.ok) throw new Error(`${response.status} error fetching ${path}`)
 		const parsedFrontmatter = parseFrontmatter(await response.text())
 		const content = {
 			statusCode: response.status as StatusCode,

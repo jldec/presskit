@@ -1,4 +1,4 @@
-import { Hono, type Context, type Bindings, type Content, type StatusCode } from './types'
+import { Hono, type StatusCode } from './types'
 import { jsxRenderer, useRequestContext } from 'hono/jsx-renderer'
 import { type FC } from 'hono/jsx'
 import { serveStatic } from 'hono/cloudflare-workers'
@@ -310,8 +310,6 @@ app.use(async (c, next) => {
 	if (extname(path) !== '' || path.startsWith('/parties')) return await next()
 	const content = await getContent(path, c)
 	if (content) {
-		console.log('markdown', c.req.url, content.statusCode)
-		c.status(content.statusCode)
 		return c.render('', { htmlContent: content.html, title: content.attrs?.title })
 	}
 	// else fall through

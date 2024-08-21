@@ -1,7 +1,5 @@
 import { Hono as HonoBase, Context as ContextBase } from 'hono'
-import type { StatusCode as StatusCodeBase } from 'hono/utils/http-status'
-
-export type StatusCode = StatusCodeBase
+export type { StatusCode } from 'hono/utils/http-status'
 
 export type Bindings = {
 	PAGE_CACHE: KVNamespace
@@ -15,7 +13,6 @@ export class Hono extends HonoBase<{ Bindings: Bindings }> {}
 export type Context = ContextBase<{ Bindings: Bindings }>
 
 export type Content = {
-	statusCode: StatusCode
 	attrs: any
 	html: string
 	summary?: AiSummarizationOutput
