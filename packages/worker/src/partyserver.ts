@@ -1,3 +1,5 @@
+// Original code copied from https://github.com/threepointone/durable-chat
+// MIT License (c) 2024 Sunil Pai
 import { type Connection, type ConnectionContext, Server, type WSMessage } from 'partyserver'
 import { nanoid } from 'nanoid'
 import { EventSourceParserStream } from 'eventsource-parser/stream'

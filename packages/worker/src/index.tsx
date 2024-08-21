@@ -1,17 +1,15 @@
-import { Hono, Context } from 'hono'
+import { Hono, type Context, type Bindings, type Content, type StatusCode } from './types'
 import { jsxRenderer, useRequestContext } from 'hono/jsx-renderer'
 import { type FC } from 'hono/jsx'
 import { serveStatic } from 'hono/cloudflare-workers'
-import { StatusCode } from 'hono/utils/http-status'
 import { raw } from 'hono/html'
-import { parseFrontmatter } from './markdown/parse-frontmatter'
-import { parseMarkdown } from './markdown/parse-markdown'
 import { extname } from '@std/path'
 import { hash } from './markdown/hash'
 import { routePartykitRequest } from 'partyserver'
+import { getContent } from './markdown/get-content'
 
-// PartyServer
-export { Chat } from './chat'
+// PartyServer durable object
+export { Chat } from './partyserver'
 
 // https://hono.dev/docs/middleware/builtin/jsx-renderer#extending-contextrenderer
 declare module 'hono' {
@@ -26,58 +24,14 @@ declare module 'hono' {
 // see also: https://github.com/honojs/hono/issues/1127
 import manifest from '__STATIC_CONTENT_MANIFEST'
 
-type Bindings = {
-	PAGE_CACHE: KVNamespace
-	IMAGES: R2Bucket
-	AI: any
-	GH_PAT: string
-	IMAGE_KEY: string
-}
-
-const app = new Hono<{ Bindings: Bindings }>()
-
-const fileUrlPrefix = 'https://raw.githubusercontent.com/jldec/presskit/main/content'
-const indexFile = 'index.md'
-
-type Content = {
-	statusCode: StatusCode
-	attrs: any
-	html: string
-	summary?: AiSummarizationOutput
-}
-
-let homeContent: Content | null = null
-
-async function getContent(
-	url: string,
-	c: Context<{
-		Bindings: Bindings
-	}>
-): Promise<Content> {
-	try {
-		const response = await fetch(url)
-		const parsedContent = parseFrontmatter(await response.text())
-
-		return {
-			statusCode: response.status as StatusCode,
-			attrs: parsedContent.attrs,
-			html: parseMarkdown(parsedContent.body, { hashPrefix: c.env.IMAGE_KEY })
-		}
-	} catch (error) {
-		return {
-			statusCode: 500 as StatusCode,
-			attrs: {},
-			html: (error as any).message as string
-		}
-	}
-}
+const app = new Hono()
 
 const NavItems: FC = async () => {
 	const c = useRequestContext()
-	if (homeContent === null) await getHomeContent(c)
+	const navItems = (await getContent('/', c))?.attrs?.nav || []
 	return (
 		<>
-			{homeContent?.attrs.nav?.map((item: any) => (
+			{navItems.map((item: any) => (
 				<li>
 					<a class="link px-2" href={item.link}>
 						{item.text ?? item.link}
@@ -92,11 +46,6 @@ const NavItems: FC = async () => {
 			<li>
 				<a class="link px-2 font-black" href="/chat">
 					Chat
-				</a>
-			</li>
-			<li>
-				<a class="link px-2 font-black" href="/test">
-					Test
 				</a>
 			</li>
 		</>
@@ -182,16 +131,6 @@ app.use(
 	})
 )
 
-async function getHomeContent(c: Context<{ Bindings: Bindings }>) {
-	homeContent = await getContent(`${fileUrlPrefix}/${indexFile}`, c)
-	console.log(JSON.stringify(homeContent.attrs))
-}
-
-app.get('/', async (c) => {
-	if (homeContent === null) await getHomeContent(c)
-	return c.render('', { htmlContent: homeContent?.html, title: homeContent?.attrs?.title })
-})
-
 app.get('/admin', async (c) => {
 	return c.render(
 		<>
@@ -222,28 +161,17 @@ app.get('/admin', async (c) => {
 app.get('/chat', async (c) => {
 	return c.render(
 		<>
-		<div id="chat-root"></div>
-		<script src="/js/partychat.js" type="module"></script>
+			<div id="chat-root"></div>
+			<script src="/js/partychat.js" type="module"></script>
 		</>,
 		{}
 	)
 })
 
-app.get('/test', async (c) => {
-	return c.render(
-		<>
-			<h1>Test Page</h1>
-			<p>This is a test page to demonstrate rendering.</p>
-		</>,
-		{ title: "Test Page" }
-	)
-})
-
-
 // Formatted c.json()
 function fjson(o: any) {
 	return new Response(JSON.stringify(o, null, 2), {
-		headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+		headers: { 'Content-Type': 'application/json;charset=UTF-8' }
 	})
 }
 
@@ -376,32 +304,15 @@ function storeHeaders(ogHeaders: Headers) {
 }
 
 // middleware fetches markdown content, fall through if not found
-// only serves extensionless routes
+// only serves extensionless route including root '/'
 app.use(async (c, next) => {
-	let path = c.req.path // includes leading /
-	if (extname(path) !== '') return await next()
-	let content: Content
-	let cached = false
-	const cachedContent = await c.env.PAGE_CACHE.get(path)
-	if (cachedContent !== null) {
-		content = JSON.parse(cachedContent) as Content
-		cached = true
-	} else {
-		content = await getContent(`${fileUrlPrefix}${path}.md`, c)
-	}
-	if (content.statusCode === 200) {
-		if (!cached) {
-			c.executionCtx.waitUntil(summarizeAndCache(c.env, path, content))
-		}
+	const path = c.req.path // includes leading /
+	if (extname(path) !== '' || path.startsWith('/parties')) return await next()
+	const content = await getContent(path, c)
+	if (content) {
+		console.log('markdown', c.req.url, content.statusCode)
 		c.status(content.statusCode)
-		return c.render(
-			<>
-				<h2>AI Summary</h2>
-				{content.summary?.summary ?? ' No summary yet.'}
-				<hr />
-			</>,
-			{ htmlContent: content.html, title: content.attrs?.title }
-		)
+		return c.render('', { htmlContent: content.html, title: content.attrs?.title })
 	}
 	// else fall through
 	await next()
@@ -410,20 +321,11 @@ app.use(async (c, next) => {
 // serve static from the root
 app.get(serveStatic({ root: './', manifest }))
 
-async function summarizeAndCache(env: Bindings, key: string, content: Content) {
-	content.summary = await env.AI.run('@cf/facebook/bart-large-cnn', {
-		input_text: content.html,
-		max_length: 50
-	})
-	console.log('summarized content', JSON.stringify(content, null, 2))
-	await env.PAGE_CACHE.put(key, JSON.stringify(content))
-}
-
 // listen for websocket (partySocket) requests
 app.use(async (c, next) => {
-	const party = c.req.path.startsWith('/parties') && await routePartykitRequest(c.req.raw, c.env)
+	const party = c.req.path.startsWith('/parties') && (await routePartykitRequest(c.req.raw, c.env))
 	console.log('routePartykitRequest', c.req.url, party)
-	return (party  || await next())
+	return party || (await next())
 })
 
 app.notFound((c) => {
