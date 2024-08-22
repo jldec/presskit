@@ -7,18 +7,18 @@
 		"test": "vitest"
 	},
 	"dependencies": {
-		"@std/front-matter": "npm:@jsr/std__front-matter@1.0.1",
+		"@std/front-matter": "npm:@jsr/std__front-matter@1.0.2",
 		"@std/path": "npm:@jsr/std__path@1.0.2",
 		"eventsource-parser": "^2.0.1",
-		"hono": "^4.5.4",
+		"hono": "^4.5.8",
 		"markdown-it": "^14.1.0",
 		"nanoid": "^5.0.7",
-		"partyserver": "^0.0.51"
+		"partyserver": "^0.0.52"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20240729.0",
+		"@cloudflare/workers-types": "^4.20240821.0",
 		"@types/markdown-it": "^14.1.2",
 		"htmx.org": "^2.0.1",
-		"wrangler": "^3.65.0"
+		"wrangler": "^3.72.1"
 	}
 }

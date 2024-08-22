@@ -1,7 +1,7 @@
 {
 	"scripts": {
-		"build:css": "tailwindcss -i ./styles.css -o public/css/styles.css",
-		"watch:css": "tailwindcss -i ./styles.css -o public/css/styles.css --watch"
+		"dev": "tailwindcss -i ./styles.css -o public/css/styles.css --watch",
+		"css": "tailwindcss -i ./styles.css -o public/css/styles.css"
 	},
 	"devDependencies": {
 		"daisyui": "^4.12.10",

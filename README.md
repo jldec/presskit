@@ -25,11 +25,14 @@ Presskit is an active exploration of [agentic Web publishing](https://jldec.me/b
   ![Screenshot 2024-07-29 at 19 19 46](https://github.com/user-attachments/assets/6806f55b-2dd5-4801-b65f-464e914b6113)  
   ![Screenshot 2024-07-29 at 19 16 29](https://github.com/user-attachments/assets/1ac24765-86a0-44c2-9110-982ffbc1d1f7)
 
-## Coming soon
+6. Auto-migrate images to R2. Image urls are rewritten to point to `/img/<hash>?og=<original-url>` during markdown to html rendering. The /img/* handler tries to fetch from R2 first, and falls back to using the og url and then uploading to R2. The hash includes a secret prefix (salt), to make it hard to inject images bypassing the markdown processor. TODO: cache control headers.
 
+7. Multi-person chat. Started work on this during the Cloudflare WorkersAI Virtual Hack Camp. Used Sunil Pai's [durable-chat template](https://github.com/threepointone/durable-chat). Pushed working chat with nicer daisyUI message bubbles and localstorage persisted names.
+
+## Coming
+- Layouts for landing page, blog pages
 - Configurable sources. (currently hardwired to this repo)
-- Image caching, image processing, and link-rewriting (a.t.m images are fully qualified, unproxied urls)
-- Auto-discover content, generate sidebar for docs like [gitkit](https://gitkitjs.dev/).
-- More AI enrichment.
-- Content editing.
-- Pluggable themes.
+- Validate content URLs by scanning sources [gitkit](https://gitkitjs.dev/).
+- Better admin and obserability
+- Image processing
+- Content editing

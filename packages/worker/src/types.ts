@@ -14,6 +14,6 @@ export type Context = ContextBase<{ Bindings: Bindings }>
 
 export type Content = {
 	attrs: any
+	md: string
 	html: string
-	summary?: AiSummarizationOutput
 }

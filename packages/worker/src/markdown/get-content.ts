@@ -25,8 +25,8 @@ export async function getContent(path: string, c: Context): Promise<Content | nu
 		if (!response.ok) throw new Error(`${response.status} error fetching ${path}`)
 		const parsedFrontmatter = parseFrontmatter(await response.text())
 		const content = {
-			statusCode: response.status as StatusCode,
 			attrs: parsedFrontmatter.attrs,
+			md: parsedFrontmatter.body,
 			html: parseMarkdown(parsedFrontmatter.body, { hashPrefix: c.env.IMAGE_KEY })
 		}
 		c.executionCtx.waitUntil(c.env.PAGE_CACHE.put(path, JSON.stringify(content)))
