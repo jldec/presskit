@@ -7,6 +7,7 @@ export type Bindings = {
 	AI: any
 	GH_PAT: string
 	IMAGE_KEY: string
+	ENVIRONMENT: string
 }
 
 export class Hono extends HonoBase<{ Bindings: Bindings }> {}

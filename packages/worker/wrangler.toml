@@ -5,6 +5,7 @@ main = "src/index.tsx"
 # secrets
 # GH_PAT: Expires on Mon, Sep 16 2024
 # IMAGE_KEY: no expiration
+# ENVIRONMENT: prod
 
 [site]
 bucket = "../../public"

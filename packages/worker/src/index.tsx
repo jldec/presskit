@@ -39,13 +39,8 @@ const NavItems: FC = async () => {
 				</li>
 			))}
 			<li>
-				<a class="link px-2 font-black" href="/admin">
+				<a class="link px-2" href="/admin">
 					Admin
-				</a>
-			</li>
-			<li>
-				<a class="link px-2 font-black" href="/chat">
-					Chat
 				</a>
 			</li>
 		</>
@@ -140,6 +135,9 @@ app.get('/admin', async (c) => {
 			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/manifest" hx-target=".json">
 				manifest
 			</button>
+			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/env" hx-target=".json">
+				env
+			</button>
 			<button class="btn btn-secondary mb-2 mr-2" hx-get="/api/cache" hx-target=".json">
 				cache
 			</button>
@@ -186,6 +184,10 @@ app.get('/api/echo', async (c) => {
 		booger: 1
 	}
 	return fjson(echo)
+})
+
+app.get('/api/env', async (c) => {
+	return fjson(c.env)
 })
 
 app.get('/api/manifest', async (c) => {

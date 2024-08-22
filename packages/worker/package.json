@@ -19,6 +19,6 @@
 		"@cloudflare/workers-types": "^4.20240821.0",
 		"@types/markdown-it": "^14.1.2",
 		"htmx.org": "^2.0.1",
-		"wrangler": "^3.72.1"
+		"wrangler": "^3.72.2"
 	}
 }
