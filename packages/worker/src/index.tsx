@@ -187,7 +187,7 @@ app.get('/api/echo', async (c) => {
 })
 
 app.get('/api/env', async (c) => {
-	return fjson(c.env)
+	return fjson(c.env.ENVIRONMENT)
 })
 
 app.get('/api/manifest', async (c) => {
