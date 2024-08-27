@@ -20,7 +20,7 @@ declare module 'hono' {
 // https://hono.dev/docs/helpers/html#insert-snippets-into-jsx
 // https://hono.dev/docs/middleware/builtin/jsx-renderer
 // jsxRenderer is required for <doctype html>
-export function renderHTML() {
+export function renderJsx() {
 	return jsxRenderer(({ children, layout, title, htmlContent }) => {
 		return (
 			<html lang="en" data-theme="emerald">
@@ -33,7 +33,6 @@ export function renderHTML() {
 				</head>
 				<body>
 					<Navbar>
-						{console.log('layout', layout)}
 						{componentMap[layout ?? 'DefaultLayout']({ children, htmlContent })}
 					</Navbar>
 				</body>

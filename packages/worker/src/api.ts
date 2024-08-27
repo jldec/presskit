@@ -3,15 +3,18 @@ import { Hono } from './types'
 // @ts-expect-error
 import manifest from '__STATIC_CONTENT_MANIFEST'
 
+// instance to be mounted at /api
 export const api = new Hono()
 
-// Formatted c.json()
+// pretty-print json
 function fjson(o: any) {
 	return new Response(JSON.stringify(o, null, 2), {
 		headers: { 'Content-Type': 'application/json;charset=UTF-8' }
 	})
 }
 
+// echo request
+// useful for debugging
 api.get('/echo', async (c) => {
 	const req = c.req.raw
 	const echo = {
@@ -35,6 +38,7 @@ api.get('/manifest', async (c) => {
 	return fjson(o)
 })
 
+// page cache
 api.get('/cache', async (c) => {
 	const list = await c.env.PAGE_CACHE.list()
 	const keys = list.keys.map((o) => o.name)
@@ -48,6 +52,7 @@ api.delete('/cache', async (c) => {
 	return fjson(deleted)
 })
 
+// images in R2
 api.get('/images', async (c) => {
 	const list = await c.env.IMAGES.list({ include: ['httpMetadata', 'customMetadata'] })
 	const r2Objects = list.objects

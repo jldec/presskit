@@ -4,8 +4,7 @@ import { hash } from './markdown/hash'
 // serve images from r2 bucket
 // if not found, serve from og src, and upload to r2 in background
 // protects against unwanted sideloading by signing hashes
-// TODO: make signed hashes more seccure
-// TODO: use CF cache, and add cache control headers
+// TODO: make signed hashes more secure
 // TODO: multi-part and ranges
 export async function getImage(image: string, c: Context) {
 	if (c.req.header('Cache-Control') !== 'no-cache') {

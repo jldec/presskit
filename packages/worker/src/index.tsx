@@ -4,7 +4,7 @@ import { extname } from '@std/path'
 import { routePartykitRequest } from 'partyserver'
 import { getMarkdown } from './markdown/get-markdown'
 import { getImage } from './images'
-import { renderHTML } from './renderer'
+import { renderJsx } from './renderer'
 import { Admin } from './components/admin'
 import { api } from './api'
 // PartyServer durable object
@@ -17,7 +17,7 @@ export { Chat } from './partyserver'
 import manifest from '__STATIC_CONTENT_MANIFEST'
 
 const app = new Hono()
-app.use(renderHTML())
+app.use(renderJsx())
 
 app.route('/api', api)
 
