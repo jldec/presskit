@@ -3,7 +3,7 @@
 // TODO: configurable prefix for image urls
 
 import type MarkdownIt from 'markdown-it'
-import { rewriteUrl } from './rewrite-url'
+import { hash } from './hash'
 
 export interface Options {
   /**
@@ -24,4 +24,10 @@ export const imagePlugin = (md: MarkdownIt, { imagePrefix, hashPrefix }: Options
     }
     return imageRule(tokens, idx, options, env, self)
   }
+}
+
+// does not preserve extension if og has one (same as github user-attachments)
+// hashPrefix should be secret to properly validate incoming img requests
+export function rewriteUrl(url: string, imagePrefix: string, hashPrefix: string) {
+	return `${imagePrefix}${hash(hashPrefix + url)}?og=${encodeURIComponent(url)}`
 }

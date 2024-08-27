@@ -26,7 +26,7 @@ async function getTextFile(path: string, c: Context): Promise<string> {
 	return await response.text()
 }
 
-export async function getContent(path: string, c: Context): Promise<Content | null> {
+export async function getMarkdown(path: string, c: Context): Promise<Content | null> {
 	try {
 		if (c.req.header('Cache-Control') !== 'no-cache') {
 			if (path === '/' && c.env.ENVIRONMENT !== 'dev' && homeContent) return homeContent
@@ -48,6 +48,27 @@ export async function getContent(path: string, c: Context): Promise<Content | nu
 		return content
 	} catch (error) {
 		console.error(error)
+		return null
+	}
+}
+
+// TODO: fetch tree and use to validate markdown paths
+const treeUrl = 'https://api.github.com/repos/jldec/presskit/git/trees/HEAD?recursive=TRUE'
+
+async function getTree(c: Context) {
+	let resp = await fetch(treeUrl, {
+		headers: {
+			Accept: 'application/vnd.github+json',
+			Authorization: `Bearer ${c.env.GH_PAT}`,
+			'X-GitHub-Api-Version': '2022-11-28',
+			'User-Agent': 'presskit-worker'
+		}
+	})
+	if (resp.ok) {
+		const tree = await resp.json()
+		c.executionCtx.waitUntil(c.env.PAGE_CACHE.put('TREE', JSON.stringify(tree)))
+		return tree
+	} else {
 		return null
 	}
 }

@@ -1,4 +1,5 @@
 ---
+layout: LandingPage
 title: presskit.jldec.me
 nav:
   - text: Chat
