@@ -11,9 +11,9 @@ import { api } from './api'
 export { Chat } from './partyserver'
 
 // @ts-expect-error
-// TODO - figure out how to avoid ts error.
+// TODO - fix this when cloudflare offers a better solution for workers static asssets.
 // followed: https://hono.dev/docs/getting-started/cloudflare-workers#serve-static-files
-// see also: https://github.com/honojs/hono/issues/1127
+// see also: https://github.com/honojs/hono/issues/11273
 import manifest from '__STATIC_CONTENT_MANIFEST'
 
 const app = new Hono()
@@ -22,10 +22,7 @@ app.use(renderJsx())
 app.route('/api', api)
 
 app.get('/admin', async (c) => {
-	return c.render(
-		<Admin />,
-		{}
-	)
+	return c.render(<Admin />, {})
 })
 
 app.get('/chat', async (c) => {
@@ -49,15 +46,10 @@ app.get('/img/:image{.+$}', async (c) => {
 app.use(async (c, next) => {
 	const path = c.req.path // includes leading /
 	if (extname(path) !== '' || path.startsWith('/parties')) return await next()
-	const content = await getMarkdown(path, c)
-	if (content) {
-		return c.render('', {
-			layout: content.attrs?.layout,
-			htmlContent: content.html,
-			title: content.attrs?.title
-		})
-	}
-	// else fall through
+
+	const page = await getMarkdown(path, c)
+	if (page) return c.render('', { page })
+
 	await next()
 })
 
@@ -77,7 +69,7 @@ app.notFound((c) => {
 			<h2>Sorry, can't find that.</h2>
 			<p>{c.req.url}.</p>
 		</>,
-		{ title: 'Presskit, Page not found' }
+		{}
 	)
 })
 

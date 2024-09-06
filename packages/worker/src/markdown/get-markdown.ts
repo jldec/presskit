@@ -1,9 +1,9 @@
-import type { Content, Context, StatusCode } from '../types'
+import type { Page, Context, StatusCode } from '../types'
 import { parseFrontmatter } from './parse-frontmatter'
 import { parseMarkdown } from './parse-markdown'
 
 // memoize to speed up homeContent().attrs for Nav
-let homeContent: Content | null = null
+let homePage: Page | null = null
 
 function fileUrlPrefix(c: Context) {
 	if (c.env.ENVIRONMENT === 'dev') {
@@ -26,13 +26,13 @@ async function getTextFile(path: string, c: Context): Promise<string> {
 	return await response.text()
 }
 
-export async function getMarkdown(path: string, c: Context): Promise<Content | null> {
+export async function getMarkdown(path: string, c: Context): Promise<Page | null> {
 	try {
 		if (c.req.header('Cache-Control') !== 'no-cache') {
-			if (path === '/' && c.env.ENVIRONMENT !== 'dev' && homeContent) return homeContent
+			if (path === '/' && c.env.ENVIRONMENT !== 'dev' && homePage) return homePage
 
 			const cachedContent = await c.env.PAGE_CACHE.get(path)
-			if (cachedContent !== null) return JSON.parse(cachedContent) as Content
+			if (cachedContent !== null) return JSON.parse(cachedContent) as Page
 		}
 		const text = await getTextFile(path, c)
 		const parsedFrontmatter = parseFrontmatter(text)
@@ -43,7 +43,7 @@ export async function getMarkdown(path: string, c: Context): Promise<Content | n
 		}
 		c.executionCtx.waitUntil(c.env.PAGE_CACHE.put(path, JSON.stringify(content)))
 		if (path === '/') {
-			homeContent = content
+			homePage = content
 		}
 		return content
 	} catch (error) {
