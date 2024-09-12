@@ -4,7 +4,7 @@ import { extname } from '@std/path'
 import { routePartykitRequest } from 'partyserver'
 import { getMarkdown } from './markdown/get-markdown'
 import { getImage } from './images'
-import { renderJsx } from './renderer'
+import { renderJsx } from './components/html-page'
 import { Admin } from './components/admin'
 import { api } from './api'
 // PartyServer durable object
@@ -58,16 +58,19 @@ app.get(serveStatic({ root: './', manifest }))
 
 // listen for websocket (partySocket) requests
 app.use(async (c, next) => {
-	const party = c.req.path.startsWith('/parties') && (await routePartykitRequest(c.req.raw, c.env))
-	console.log('routePartykitRequest', c.req.url, party)
-	return party || (await next())
+	if (c.req.path.startsWith('/parties')) {
+		const party = await routePartykitRequest(c.req.raw, c.env)
+		if (party) return party
+	}
+	await next()
 })
 
 app.notFound((c) => {
+	c.status(404)
 	return c.render(
 		<>
 			<h2>Sorry, can't find that.</h2>
-			<p>{c.req.url}.</p>
+			<p>{c.req.url}</p>
 		</>,
 		{}
 	)

@@ -4,11 +4,21 @@ title: Presskit
 twitter: '@presskitjs'
 layout: LandingPage
 
-nav:
+navlinks:
   - text: Chat
-    link: /chat
+    href: /chat
   - text: Progress
-    link: /progress
+    href: /progress
+  # - text: Guide
+  #   href: /guide/quickstart
+  # - text: Blog
+  #   href: /blog
+  # - href: https://twitter.com/presskitjs
+  #   icon: Twitter
+  #   text: Twitter
+  # - text: GitHub
+  #   href: https://github.com/jldec/presskit
+  #   icon: GitHub
 
 icon:
   image: 🍦
@@ -16,7 +26,7 @@ icon:
 
 hero:
   name: Presskit
-  text: Fast and simple collaborative Web publishing with AI.
+  text: Fast and simple collaborative Web publishing.
   tagline:
   icon: 🍦
   actionlinks:
@@ -54,18 +64,6 @@ features:
     text: Syntax highlighting for codeblocks
     details: Add your own prism languages.
     href: /guide/static-files
-
-navlinks:
-  - text: Guide
-    href: /guide/quickstart
-  - text: Blog
-    href: /blog
-  - href: https://twitter.com/presskitjs
-    icon: Twitter
-    text: Twitter
-  - text: GitHub
-    href: https://github.com/jldec/presskit
-    icon: GitHub
 
 sidebars:
   - text: Guide

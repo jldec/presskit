@@ -39,7 +39,9 @@ export async function getMarkdown(path: string, c: Context): Promise<Page | null
 		const content = {
 			attrs: parsedFrontmatter.attrs,
 			md: parsedFrontmatter.body,
-			html: parseMarkdown(parsedFrontmatter.body, { hashPrefix: c.env.IMAGE_KEY })
+			html: parsedFrontmatter.attrs.error
+				? errorHtml(parsedFrontmatter.attrs.error, filePath(path, c))
+				: parseMarkdown(parsedFrontmatter.body, { hashPrefix: c.env.IMAGE_KEY })
 		}
 		c.executionCtx.waitUntil(c.env.PAGE_CACHE.put(path, JSON.stringify(content)))
 		if (path === '/') {
@@ -50,6 +52,19 @@ export async function getMarkdown(path: string, c: Context): Promise<Page | null
 		console.error(error)
 		return null
 	}
+}
+
+export async function getRootConfig(c: Context) {
+	return (await getMarkdown('/', c))?.attrs
+}
+
+// TODO link to editor
+function errorHtml(error: unknown, path: string) {
+	return `<pre>${escapeHtml(path)}\n${escapeHtml('' + error)}</pre>`
+}
+
+function escapeHtml(s: string) {
+	return s.replaceAll('&', '&amp;').replaceAll('<', '&lt;')
 }
 
 // TODO: fetch tree and use to validate markdown paths

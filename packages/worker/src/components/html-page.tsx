@@ -5,20 +5,20 @@
 // jsxRenderer is required for <doctype html>
 
 import { jsxRenderer } from 'hono/jsx-renderer'
-import { Navbar } from './components/navbar'
-import { componentMap } from './components/component-map'
-import { Page } from './types'
+import { Navbar } from './navbar'
+import { componentMap } from './component-map'
+import { Page } from '../types'
 
 declare module 'hono' {
 	interface ContextRenderer {
-		(children: string | Promise<string>, props: { page?: Page }): Response
+		(children: string | Promise<string>, props: { page?: Page; status?: number }): Response
 	}
 }
 
 export function renderJsx() {
 	return jsxRenderer(({ children, page }) => {
 		return (
-			<html lang="en" data-theme="emerald">
+			<html lang="en" data-theme="dark">
 				<head>
 					<meta charset="utf-8" />
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,6 +28,13 @@ export function renderJsx() {
 				</head>
 				<body>
 					<Navbar>{componentMap[page?.attrs.layout ?? 'DefaultLayout']({ children, page })}</Navbar>
+					{page ? (
+						<details class="p-4">
+							<pre>{JSON.stringify(page, null, 2)}</pre>
+						</details>
+					) : (
+						<></>
+					)}
 				</body>
 			</html>
 		)

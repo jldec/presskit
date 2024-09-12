@@ -1,17 +1,12 @@
-import { raw } from 'hono/html'
 import { type FC } from 'hono/jsx'
+import { type Page } from '../types'
+import { Hero } from './hero'
 
-export const LandingPage: FC = ({ children, page }) => {
+export const LandingPage: FC<{ children: JSX.Element; page: Page }> = ({ children, page }) => {
 	return (
-		<div class="p-4">
-			<div class="prose mx-auto ">
-				<h1>Landing Page</h1>
-				{children}
-				{raw(page?.html ?? '')}
-			</div>
-			<details>
-			<pre>{JSON.stringify(page, null, 2)}</pre>
-			</details>
-		</div>
+		<>
+			<Hero page={page} />
+			{children}
+		</>
 	)
 }
