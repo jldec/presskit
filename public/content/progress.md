@@ -1,6 +1,8 @@
 ---
 title: Progress
 ---
+[Home](/)
+
 # Progress
 
 1. [Published](https://presskit.jldec.me/new-thing) one unformatted [page](content/new-thing.md) at https://thing.jldec.me using [hono](https://hono.dev/). The page is fetched from GitHub by a [Cloudflare worker](https://github.com/jldec/presskit/blob/073e5a25898d1ff253604fbfdf919d76772ae3c4/thing-worker/src/index.ts)
@@ -39,4 +41,9 @@ title: Progress
 
 1. `layout` frontmatter property controls rendering layout per-page.
 
+1. Added DaisyUI dropdown theme chooser.
+
+1. Improved yaml-error and not-found behavior.
+
+1. Replaced TailwindCSS and DaisyUI with [monospace CSS](https://github.com/owickstrom/the-monospace-web/blob/main/index.css) in an effort to simplify the stack, and reduce distraction.
 

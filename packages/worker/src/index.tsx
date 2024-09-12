@@ -5,7 +5,6 @@ import { routePartykitRequest } from 'partyserver'
 import { getMarkdown } from './markdown/get-markdown'
 import { getImage } from './images'
 import { renderJsx } from './components/html-page'
-import { Admin } from './components/admin'
 import { api } from './api'
 // PartyServer durable object
 export { Chat } from './partyserver'
@@ -20,20 +19,6 @@ const app = new Hono()
 app.use(renderJsx())
 
 app.route('/api', api)
-
-app.get('/admin', async (c) => {
-	return c.render(<Admin />, {})
-})
-
-app.get('/chat', async (c) => {
-	return c.render(
-		<>
-			<div id="chat-root"></div>
-			<script src="/js/partychat.js" type="module"></script>
-		</>,
-		{}
-	)
-})
 
 // serve images
 app.get('/img/:image{.+$}', async (c) => {

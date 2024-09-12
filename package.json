@@ -1,14 +1,6 @@
 {
-	"scripts": {
-		"dev": "tailwindcss -i ./styles.css -o public/css/styles.css --watch",
-		"css": "tailwindcss -i ./styles.css -o public/css/styles.css"
-	},
-	"devDependencies": {
-		"daisyui": "^4.12.10",
-		"tailwindcss": "^3.4.6",
-		"@tailwindcss/typography": "^0.5.13",
-		"vitest": "^2.0.5"
-	},
+	"scripts": {},
+	"devDependencies": {},
 	"prettier": {
 		"useTabs": true,
 		"singleQuote": true,

@@ -5,9 +5,9 @@
 // jsxRenderer is required for <doctype html>
 
 import { jsxRenderer } from 'hono/jsx-renderer'
-import { Navbar } from './navbar'
 import { componentMap } from './component-map'
 import { Page } from '../types'
+import { Debug as Dbg } from './debug'
 
 declare module 'hono' {
 	interface ContextRenderer {
@@ -27,14 +27,8 @@ export function renderJsx() {
 					<script src="/js/htmx.js"></script>
 				</head>
 				<body>
-					<Navbar>{componentMap[page?.attrs.layout ?? 'DefaultLayout']({ children, page })}</Navbar>
-					{page ? (
-						<details class="p-4">
-							<pre>{JSON.stringify(page, null, 2)}</pre>
-						</details>
-					) : (
-						<></>
-					)}
+					{(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({ children, page })}
+					<Dbg page={page} />
 				</body>
 			</html>
 		)

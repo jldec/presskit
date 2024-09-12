@@ -73,28 +73,16 @@ function App() {
 	})
 
 	return (
-		<div className="container mx-auto p-4">
-			<h1>Chat ({name})</h1>
-			<div className="chat-container space-y-4">
+		<div>
+			<h1>{name}</h1>
+			<div>
 				{messages.map((message) => (
-					<div
-						key={message.id}
-						className={`chat ${name === message.user ? 'chat-start' : 'chat-end'}`}
-					>
-						<div
-							className={`chat-bubble ${
-								message.user === name ? 'chat-bubble-info' :
-                message.user === 'AI' ? 'chat-bubble-accent' : 'chat-bubble'
-							}`}
-						>
-							{message.content}
-						</div>
-						<div className="chat-footer">{message.user}</div>
+					<div key={message.id}>
+						<div>{message.user}: {message.content}</div>
 					</div>
 				))}
 			</div>
 			<form
-				className="mt-4"
 				onSubmit={(e) => {
 					e.preventDefault()
 					const content = e.currentTarget.elements.namedItem('content') as HTMLInputElement
@@ -117,17 +105,13 @@ function App() {
 					content.value = ''
 				}}
 			>
-				<div className="flex w-full gap-2">
+				<div>
 					<input
 						type="text"
 						name="content"
-						className="input input-bordered flex-grow"
 						placeholder={`Hello ${name}! Type a message...`}
 						autoComplete="off"
 					/>
-					<button type="submit" className="btn btn-primary">
-						Send
-					</button>
 				</div>
 			</form>
 		</div>

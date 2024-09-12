@@ -613,7 +613,7 @@ var htmx = (function() {
       fragment.title = doc.title
     } else {
       // otherwise we have non-body partial HTML content, so wrap it in a template to maximize parsing flexibility
-      const doc = parseHTML('<body><template class="internal-htmx-wrapper">' + responseWithNoHead + '</template></body>')
+      const doc = parseHTML('<body><template>' + responseWithNoHead + '</template></body>')
       fragment = /** @type DocumentFragmentWithTitle */ (doc.querySelector('template').content)
       // extract title into fragment for later processing
       fragment.title = doc.title
