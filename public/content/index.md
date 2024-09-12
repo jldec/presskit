@@ -9,6 +9,4 @@ Fast and simple collaborative Web publishing.
 
 
 ---
-**Credits**
-
 Layout inspired by [The Monospace Web](https://owickstrom.github.io/the-monospace-web/)

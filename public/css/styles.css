@@ -11,7 +11,7 @@ MIT license
   --border-thickness: 2px;
   --font-size: 16px;
   --font-size-pre: 15px;
-  --text-color: #000;
+  --text-color: #111;
   --text-color-alt: #666;
   --text-color-subtle: #aaa;
   --background-color: #fff;
@@ -31,10 +31,10 @@ MIT license
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text-color: #fff;
+    --text-color: #ddd;
     --text-color-alt: #aaa;
-    --background-color: #000;
-    --background-color-alt: #111;
+    --background-color: #111;
+    --background-color-alt: #222;
   }
 }
 
