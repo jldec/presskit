@@ -15,7 +15,7 @@ MIT license
   --text-color-alt: #666;
   --text-color-subtle: #aaa;
   --background-color: #fff;
-  --background-color-alt: #f7f7f7;
+  --background-color-alt: #f0f0f0;
 
   --font-weight-normal: 500;
   --font-weight-medium: 600;
@@ -115,6 +115,10 @@ hr:after {
 
 a {
   text-decoration-thickness: var(--border-thickness);
+}
+
+a:hover {
+  text-decoration-style:double;
 }
 
 a:link, a:visited {
@@ -304,9 +308,9 @@ li::marker {
     height: var(--line-height);
 }
 
-input, button, textarea {
+input, textarea {
   border: var(--border-thickness) solid var(--text-color);
-  padding: 
+  padding:
     calc(var(--line-height) / 2 - var(--border-thickness))
     calc(1ch - var(--border-thickness));
   margin: 0;
@@ -338,11 +342,6 @@ input[type=checkbox]:checked:before {
   background: var(--text-color);
 }
 
-button:focus, input:focus {
-  --border-thickness: 3px;
-  outline: none;
-}
-
 input {
   width: calc(round(down, 100%, 1ch));
 }
@@ -353,12 +352,12 @@ input {
 ::-ms-input-placeholder {
   color: var(--text-color-alt);
 }
-button::-moz-focus-inner {
-  padding: 0;
-  border: 0
-}
 
 button {
+  border: var(--border-thickness) solid var(--text-color);
+  background: var(--background-color);
+  color: var(--text-color);
+  padding: 0.4rem 0.8rem;
   text-transform: uppercase;
   font-weight: var(--font-weight-medium);
   cursor: pointer;
