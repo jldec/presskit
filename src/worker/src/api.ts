@@ -1,4 +1,5 @@
 import { Hono } from './types'
+import { getTree } from './markdown/get-tree'
 
 // @ts-expect-error
 import manifest from '__STATIC_CONTENT_MANIFEST'
@@ -73,8 +74,5 @@ api.delete('/images', async (c) => {
 })
 
 api.get('/tree', async (c) => {
-	let cachedTree = await c.env.PAGE_CACHE.get('TREE')
-	if (cachedTree !== null) {
-		return fjson(JSON.parse(cachedTree))
-	} else return c.notFound()
+	return fjson(await getTree('/', c))
 })

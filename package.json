@@ -1,6 +1,5 @@
 {
 	"scripts": {},
-	"devDependencies": {},
 	"prettier": {
 		"useTabs": true,
 		"singleQuote": true,

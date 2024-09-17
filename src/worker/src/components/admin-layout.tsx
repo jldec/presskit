@@ -4,6 +4,9 @@ import { type FC } from 'hono/jsx'
 export const AdminLayout: FC = ({ page }) => (
 	<>
 		{raw(page?.html ?? '')}
+		<button hx-get="/api/tree" hx-target=".json">
+			tree
+		</button>{' '}
 		<button hx-get="/api/echo" hx-target=".json">
 			echo
 		</button>{' '}

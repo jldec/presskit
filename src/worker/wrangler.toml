@@ -1,6 +1,7 @@
 name = "presskit-worker"
 compatibility_date = "2024-07-12"
 main = "src/index.tsx"
+compatibility_flags = [ "nodejs_compat_v2" ]
 
 # secrets
 # GH_PAT: Expires on Mon, Sep 16 2024
@@ -19,11 +20,16 @@ binding = 'IMAGES'
 bucket_name = 'presskit-img-v0'
 
 [[kv_namespaces]]
-# pnpm wrangler kv namespace create PAGE_CACHE
-# pnpm wrangler kv namespace create PAGE_CACHE --preview
+# pnpm wrangler kv namespace create PAGE_CACHE/TREE_CACHE
+# pnpm wrangler kv namespace create PAGE_CACHE/TREE_CACHE --preview
 binding = "PAGE_CACHE"
 id = "65c4126075304a93baaacea9187ff8a9"
 preview_id = "b52a7190959c4127b32cd717b9aa8936"
+
+[[kv_namespaces]]
+binding = "TREE_CACHE"
+id = "b79c4cd1b3fd43fda786a45225650df2"
+preview_id = "daafea7aa1c748f39e1951085224ea4c"
 
 [[durable_objects.bindings]]
 name = "Chat"

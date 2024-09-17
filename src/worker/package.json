@@ -16,10 +16,10 @@
 		"partyserver": "^0.0.55"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20240821.0",
+		"@cloudflare/workers-types": "^4.20240909.0",
 		"@types/markdown-it": "^14.1.2",
 		"htmx.org": "^2.0.1",
-		"vitest": "^2.0.5",
-		"wrangler": "^3.72.2"
+		"vitest": "^2.1.1",
+		"wrangler": "^3.78.2"
 	}
 }

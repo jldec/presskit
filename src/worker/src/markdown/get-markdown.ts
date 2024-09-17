@@ -1,4 +1,4 @@
-import type { Page, Context, StatusCode } from '../types'
+import type { Page, Context } from '../types'
 import { parseFrontmatter } from './parse-frontmatter'
 import { parseMarkdown } from './parse-markdown'
 

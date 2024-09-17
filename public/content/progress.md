@@ -17,11 +17,11 @@ title: Progress
 
 1. Added [AI generated summaries](https://presskit.jldec.me/summarize) while participating in [Cozy Hack SF](https://lu.ma/wco3g23k?tk=5aQXWb). This feature has been been removed for now.
 
-1. Used [daisyUI](https://presskit.jldec.me/daisyui) for responsive [navbar/navbar](https://daisyui.com/components/drawer/#navbar-menu-for-desktop--sidebar-drawer-for-mobile) navigation.  
+1. Used [daisyUI](https://presskit.jldec.me/daisyui) for responsive [navbar/navbar](https://daisyui.com/components/drawer/#navbar-menu-for-desktop--sidebar-drawer-for-mobile) navigation.
 
 1. Auto-migrate images to R2.
 
-    A plugin to the markdown parser [rewrites](/packages/worker/src/markdown/rewrite-url.ts) image urls to point to `/img/<hash>?og=<original-url>`.
+    A plugin to the markdown parser [rewrites image urls](/src/worker/src/markdown/image-plugin.ts) to point to `/img/<hash>?og=<original-url>`.
 
     The /img/* handler tries to fetch from R2 first, and falls back to using the og url and then uploading to R2.
 
