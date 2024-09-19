@@ -1,4 +1,4 @@
-import { Hono, type WaitUntil } from './types'
+import { Page, Env, Hono, type WaitUntil } from './types'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { extname } from '@std/path'
 import { routePartykitRequest } from 'partyserver'
@@ -7,9 +7,10 @@ import { getPagePaths } from './markdown/get-dirs'
 import { getImage } from './images'
 import { renderJsx } from './components/html-page'
 import { api } from './api'
+import { DurableObject } from 'cloudflare:workers'
+
 // PartyServer durable object
 export { Chat } from './partyserver'
-export { Pages } from './pages'
 
 // @ts-expect-error
 // TODO - fix this when cloudflare offers a better solution for workers static asssets.
@@ -27,6 +28,25 @@ app.get('/img/:image{.+$}', async (c) => {
 	const image = c.req.param('image')
 	return await getImage(image, c)
 })
+
+export class Pages extends DurableObject {
+	page: Page | null = null
+	waitUntil: WaitUntil = (promise:Promise<any>) => this.ctx.waitUntil(promise)
+
+	constructor(ctx: DurableObjectState, env: Env) {
+		super(ctx, env)
+	}
+
+	// fetch page content on first access
+	// refetch content if noCache = true
+	async getPage(path: string, noCache = false) {
+		if (!this.page || noCache) {
+			this.page = await getMarkdown(path, this.env as Env, this.waitUntil, noCache)
+			console.log('getPage', this.page?.path, this.page?.dir?.length || 'no-dir', noCache)
+		}
+		return this.page
+	}
+}
 
 // serve markdown content, fall through if not found
 // only serves extensionless route including root '/'

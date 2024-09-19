@@ -20,6 +20,7 @@ binding = "AI"
 # pnpm wrangler r2 bucket create presskit-img-v0
 binding = 'IMAGES'
 bucket_name = 'presskit-img-v0'
+preview_bucket_name = 'presskit-img-v0-preview'
 
 [[kv_namespaces]]
 # pnpm wrangler kv namespace create PAGE_CACHE/TREE_CACHE
