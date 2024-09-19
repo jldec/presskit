@@ -1,5 +1,5 @@
 import { Hono } from './types'
-import { getTree } from './markdown/get-tree'
+import { getDirs, getPagePaths } from './markdown/get-dirs'
 
 // @ts-expect-error
 import manifest from '__STATIC_CONTENT_MANIFEST'
@@ -73,6 +73,10 @@ api.delete('/images', async (c) => {
 	return fjson(keys)
 })
 
-api.get('/tree', async (c) => {
-	return fjson(await getTree('/', c))
+api.get('/dirs', async (c) => {
+	return fjson(await getDirs(c.env))
+})
+
+api.get('/pagepaths', async (c) => {
+	return fjson(await getPagePaths(c.env))
 })

@@ -1,4 +1,4 @@
-import { Hono, type StatusCode } from './types'
+import { Hono, type WaitUntil } from './types'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { extname } from '@std/path'
 import { routePartykitRequest } from 'partyserver'
@@ -8,6 +8,7 @@ import { renderJsx } from './components/html-page'
 import { api } from './api'
 // PartyServer durable object
 export { Chat } from './partyserver'
+export { Pages } from './pages'
 
 // @ts-expect-error
 // TODO - fix this when cloudflare offers a better solution for workers static asssets.
@@ -31,8 +32,8 @@ app.get('/img/:image{.+$}', async (c) => {
 app.use(async (c, next) => {
 	const path = c.req.path // includes leading /
 	if (extname(path) !== '' || path.startsWith('/parties')) return await next()
-
-	const page = await getMarkdown(path, c)
+	const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
+	const page = await getMarkdown(path, c.env, waitUntil)
 	if (page) return c.render('', { page })
 
 	await next()

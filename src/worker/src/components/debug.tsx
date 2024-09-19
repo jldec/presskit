@@ -7,7 +7,7 @@ export const Debug: FC = ({ page }) => {
 		return (
 			<details>
 				<summary class="subtle">debug</summary>
-				<pre>{JSON.stringify(page.attrs, null, 2)}</pre>
+				<pre>{JSON.stringify(page, null, 2)}</pre>
 			</details>
 		)
 	return null;

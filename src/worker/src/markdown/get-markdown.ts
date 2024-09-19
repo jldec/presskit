@@ -1,49 +1,56 @@
-import type { Page, Context } from '../types'
+import type { Page, Env, WaitUntil } from '../types'
 import { parseFrontmatter } from './parse-frontmatter'
 import { parseMarkdown } from './parse-markdown'
+import { getDir } from './get-dirs'
 
 // memoize to speed up homeContent().attrs for Nav
 let homePage: Page | null = null
 
-function fileUrlPrefix(c: Context) {
-	if (c.env.ENVIRONMENT === 'dev') {
-		return `${new URL(c.req.url).origin}/content`
+function fileUrlPrefix(env: Env) {
+	if (env.ENVIRONMENT === 'dev') {
+		return `${new URL(env.APP_URL).origin}/content`
 	}
-	// TODO: use env.CONTENT_URL
-	return 'https://raw.githubusercontent.com/jldec/presskit/main/public/content'
+	return `https://raw.githubusercontent.com/${env.GH_REPO}/main/public/content`
 }
 
-function filePath(path: string, c: Context): string {
+function filePath(path: string, env: Env): string {
 	if (path.endsWith('/')) {
 		path += 'index'
 	}
-	return `${fileUrlPrefix(c)}${path}.md`
+	return `${fileUrlPrefix(env)}${path}.md`
 }
 
-async function getTextFile(path: string, c: Context): Promise<string> {
-	const response = await fetch(filePath(path, c))
+async function getTextFile(path: string, env: Env): Promise<string> {
+	const response = await fetch(filePath(path, env))
 	if (!response.ok) throw new Error(`${response.status} error fetching ${path}`)
 	return await response.text()
 }
 
-export async function getMarkdown(path: string, c: Context): Promise<Page | null> {
+export async function getMarkdown(
+	path: string,
+	env: Env,
+	waitUntil: WaitUntil,
+	noCache: boolean = false,
+): Promise<Page | null> {
 	try {
-		if (c.req.header('Cache-Control') !== 'no-cache') {
-			if (path === '/' && c.env.ENVIRONMENT !== 'dev' && homePage) return homePage
+		if (!noCache) {
+			if (path === '/' && env.ENVIRONMENT !== 'dev' && homePage) return homePage
 
-			const cachedContent = await c.env.PAGE_CACHE.get(path)
+			const cachedContent = await env.PAGE_CACHE.get(path)
 			if (cachedContent !== null) return JSON.parse(cachedContent) as Page
 		}
-		const text = await getTextFile(path, c)
+		const text = await getTextFile(path, env)
 		const parsedFrontmatter = parseFrontmatter(text)
 		const content = {
+			path,
 			attrs: parsedFrontmatter.attrs,
 			md: parsedFrontmatter.body,
 			html: parsedFrontmatter.attrs.error
-				? errorHtml(parsedFrontmatter.attrs.error, filePath(path, c))
-				: parseMarkdown(parsedFrontmatter.body, { hashPrefix: c.env.IMAGE_KEY })
+				? errorHtml(parsedFrontmatter.attrs.error, filePath(path, env))
+				: parseMarkdown(parsedFrontmatter.body, { hashPrefix: env.IMAGE_KEY }),
+			dir: await getDir(path, env)
 		}
-		c.executionCtx.waitUntil(c.env.PAGE_CACHE.put(path, JSON.stringify(content)))
+		waitUntil(env.PAGE_CACHE.put(path, JSON.stringify(content)))
 		if (path === '/') {
 			homePage = content
 		}
@@ -54,8 +61,8 @@ export async function getMarkdown(path: string, c: Context): Promise<Page | null
 	}
 }
 
-export async function getRootConfig(c: Context) {
-	return (await getMarkdown('/', c))?.attrs
+export async function getRootConfig(env: Env, waitUntil: WaitUntil)  {
+	return (await getMarkdown('/', env, waitUntil))?.attrs
 }
 
 // TODO link to editor
@@ -65,25 +72,4 @@ function errorHtml(error: unknown, path: string) {
 
 function escapeHtml(s: string) {
 	return s.replaceAll('&', '&amp;').replaceAll('<', '&lt;')
-}
-
-// TODO: fetch tree and use to validate markdown paths
-const treeUrl = 'https://api.github.com/repos/jldec/presskit/git/trees/HEAD?recursive=TRUE'
-
-async function getTree(c: Context) {
-	let resp = await fetch(treeUrl, {
-		headers: {
-			Accept: 'application/vnd.github+json',
-			Authorization: `Bearer ${c.env.GH_PAT}`,
-			'X-GitHub-Api-Version': '2022-11-28',
-			'User-Agent': 'presskit-worker'
-		}
-	})
-	if (resp.ok) {
-		const tree = await resp.json()
-		c.executionCtx.waitUntil(c.env.PAGE_CACHE.put('TREE', JSON.stringify(tree)))
-		return tree
-	} else {
-		return null
-	}
 }

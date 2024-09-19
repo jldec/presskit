@@ -1,23 +1,31 @@
 import { Hono as HonoBase, Context as ContextBase } from 'hono'
+import { Pages } from './pages'
 export type { StatusCode } from 'hono/utils/http-status'
 
-export type Bindings = {
+export type Env = {
 	PAGE_CACHE: KVNamespace
 	TREE_CACHE: KVNamespace
 	IMAGES: R2Bucket
 	AI: any
 	GH_PAT: string
+	GH_REPO: string
 	IMAGE_KEY: string
 	ENVIRONMENT: string
+	APP_URL: string
+	PAGES: DurableObjectNamespace<Pages>
 }
 
-export class Hono extends HonoBase<{ Bindings: Bindings }> {}
-export type Context = ContextBase<{ Bindings: Bindings }>
+export type WaitUntil = (promise: Promise<any>) => void
+
+export class Hono extends HonoBase<{ Bindings: Env }> {}
+export type Context = ContextBase<{ Bindings: Env }>
 
 export type Page = {
+	path: string
 	attrs: Frontmatter
 	md: string
 	html: string
+	dir?: string[]
 }
 
 export interface Frontmatter {

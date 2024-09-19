@@ -3,10 +3,12 @@ compatibility_date = "2024-07-12"
 main = "src/index.tsx"
 compatibility_flags = [ "nodejs_compat_v2" ]
 
-# secrets
-# GH_PAT: Expires on Mon, Sep 16 2024
-# IMAGE_KEY: no expiration
+# secrets - pnpm wrangler secret put <GH_PAT etc>
 # ENVIRONMENT: prod
+# APP_URL: https://presskit.jldec.me/
+# GH_PAT: Expires on Mon, Dec 16 2024
+# GH_REPO: jldec/presskit
+# IMAGE_KEY: no expiration
 
 [site]
 bucket = "../../public"
@@ -35,6 +37,10 @@ preview_id = "daafea7aa1c748f39e1951085224ea4c"
 name = "Chat"
 class_name = "Chat"
 
+[[durable_objects.bindings]]
+name = "PAGES"
+class_name = "Pages"
+
 [[migrations]]
 tag = "v1" # Should be unique for each entry
-new_classes = ["Chat"]
+new_classes = ["Chat", "Pages"]
