@@ -1,5 +1,4 @@
 import { Hono as HonoBase, Context as ContextBase } from 'hono'
-import { Pages } from './pages'
 export type { StatusCode } from 'hono/utils/http-status'
 
 export type Env = {
@@ -12,7 +11,7 @@ export type Env = {
 	IMAGE_KEY: string
 	ENVIRONMENT: string
 	APP_URL: string
-	PAGES: DurableObjectNamespace<Pages>
+	PAGES: DurableObjectNamespace
 }
 
 export type WaitUntil = (promise: Promise<any>) => void

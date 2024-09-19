@@ -40,8 +40,8 @@ class_name = "Chat"
 
 [[durable_objects.bindings]]
 name = "PAGES"
-class_name = "Pages"
+class_name = "PagesDO"
 
 [[migrations]]
 tag = "v1" # Should be unique for each entry
-new_classes = ["Chat", "Pages"]
+new_classes = ["Chat", "PagesDO"]

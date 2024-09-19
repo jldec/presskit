@@ -29,7 +29,7 @@ app.get('/img/:image{.+$}', async (c) => {
 	return await getImage(image, c)
 })
 
-export class Pages extends DurableObject {
+export class PagesDO extends DurableObject {
 	page: Page | null = null
 	waitUntil: WaitUntil = (promise:Promise<any>) => this.ctx.waitUntil(promise)
 
@@ -62,9 +62,11 @@ app.use(async (c, next) => {
 	if (pagePaths && path in pagePaths) {
 		let id: DurableObjectId = c.env.PAGES.idFromName(path)
 		let client = c.env.PAGES.get(id)
+
+		// @ts-expect-error
 		let page = await client.getPage(path, noCache)
-	
-		if (page) return c.render('', { page })	
+
+		if (page) return c.render('', { page })
 	}
 
 	await next()
