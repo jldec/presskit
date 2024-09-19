@@ -12,7 +12,9 @@ let pagePathsMemo: null | Record<string, boolean> = null
 // returns undefined for non-dirpaths
 export async function getDir(path: string, env: Env, noCache: boolean = false) {
 	let dirs = dirsMemo || (await getDirs(env, noCache))
-	return dirs[path]
+	let dir = dirs[path]
+	console.log('getDir', path, dir?.length || 0)
+	return dir
 }
 
 export async function getPagePaths(env: Env, noCache: boolean = false) {
@@ -27,6 +29,7 @@ export async function getPagePaths(env: Env, noCache: boolean = false) {
 // TODO: use this info to validate all requests in page handler
 // TODO: cache dir trees in KV
 export async function getDirs(env: Env, noCache: boolean = false) {
+	console.log('getDirs dirsMemo:', !!dirsMemo, 'noCache:', noCache)
 	if (dirsMemo && !noCache) return dirsMemo
 	let dirs: Record<string, string[]> = {}
 	let pagePaths: Record<string, boolean> = { '/': true }
@@ -56,6 +59,7 @@ export async function getDirs(env: Env, noCache: boolean = false) {
 
 	dirsMemo = dirs
 	pagePathsMemo = pagePaths
+	console.log('getDirs', Object.keys(dirs ?? {}).length)
 	return dirs
 
 	// Populate dirs hash for *.md - all other paths are ignored.

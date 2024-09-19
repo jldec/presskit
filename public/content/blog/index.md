@@ -5,4 +5,6 @@ splash:
 title: Writings
 ---
 
+[Home](/)
+
 # Writings

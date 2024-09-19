@@ -3,6 +3,7 @@ import { serveStatic } from 'hono/cloudflare-workers'
 import { extname } from '@std/path'
 import { routePartykitRequest } from 'partyserver'
 import { getMarkdown } from './markdown/get-markdown'
+import { getPagePaths } from './markdown/get-dirs'
 import { getImage } from './images'
 import { renderJsx } from './components/html-page'
 import { api } from './api'
@@ -30,11 +31,21 @@ app.get('/img/:image{.+$}', async (c) => {
 // serve markdown content, fall through if not found
 // only serves extensionless route including root '/'
 app.use(async (c, next) => {
+	const noCache = c.req.header('Cache-Control') === 'no-cache'
 	const path = c.req.path // includes leading /
-	if (extname(path) !== '' || path.startsWith('/parties')) return await next()
-	const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
-	const page = await getMarkdown(path, c.env, waitUntil)
-	if (page) return c.render('', { page })
+	if (extname(path) !== '' || path.startsWith('/parties') || path.startsWith('/content')) {
+		return await next()
+	}
+	//	const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
+	//	const page = await getMarkdown(path, c.env, waitUntil)
+	let pagePaths = await getPagePaths(c.env, noCache)
+	if (pagePaths && path in pagePaths) {
+		let id: DurableObjectId = c.env.PAGES.idFromName(path)
+		let client = c.env.PAGES.get(id)
+		let page = await client.getPage(path, noCache)
+	
+		if (page) return c.render('', { page })	
+	}
 
 	await next()
 })
@@ -55,8 +66,9 @@ app.notFound((c) => {
 	c.status(404)
 	return c.render(
 		<>
-			<h2>Sorry, can't find that.</h2>
+			<h1>Sorry, can't find that.</h1>
 			<p>{c.req.url}</p>
+			<p><a href="/">Home</a></p>
 		</>,
 		{}
 	)

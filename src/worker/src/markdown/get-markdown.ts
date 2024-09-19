@@ -1,7 +1,7 @@
 import type { Page, Env, WaitUntil } from '../types'
 import { parseFrontmatter } from './parse-frontmatter'
 import { parseMarkdown } from './parse-markdown'
-import { getDir } from './get-dirs'
+import { getDir, getDirs } from './get-dirs'
 
 // memoize to speed up homeContent().attrs for Nav
 let homePage: Page | null = null
@@ -13,15 +13,17 @@ function fileUrlPrefix(env: Env) {
 	return `https://raw.githubusercontent.com/${env.GH_REPO}/main/public/content`
 }
 
-function filePath(path: string, env: Env): string {
-	if (path.endsWith('/')) {
-		path += 'index'
+async function filePath(path: string, env: Env, noCache: boolean): Promise<string> {
+	let dirs = await getDirs(env, noCache)
+	console.log('filePath', path, Object.keys(dirs ?? {}).length)
+	if (path in dirs) {
+		path += (path === '/' ? '' : '/') + 'index'
 	}
 	return `${fileUrlPrefix(env)}${path}.md`
 }
 
-async function getTextFile(path: string, env: Env): Promise<string> {
-	const response = await fetch(filePath(path, env))
+async function getTextFile(path: string, env: Env, noCache: boolean): Promise<string> {
+	const response = await fetch(await filePath(path, env, noCache))
 	if (!response.ok) throw new Error(`${response.status} error fetching ${path}`)
 	return await response.text()
 }
@@ -39,16 +41,16 @@ export async function getMarkdown(
 			const cachedContent = await env.PAGE_CACHE.get(path)
 			if (cachedContent !== null) return JSON.parse(cachedContent) as Page
 		}
-		const text = await getTextFile(path, env)
+		const text = await getTextFile(path, env, noCache)
 		const parsedFrontmatter = parseFrontmatter(text)
 		const content = {
 			path,
 			attrs: parsedFrontmatter.attrs,
 			md: parsedFrontmatter.body,
 			html: parsedFrontmatter.attrs.error
-				? errorHtml(parsedFrontmatter.attrs.error, filePath(path, env))
+				? errorHtml(parsedFrontmatter.attrs.error, await filePath(path, env, false))
 				: parseMarkdown(parsedFrontmatter.body, { hashPrefix: env.IMAGE_KEY }),
-			dir: await getDir(path, env)
+			dir: await getDir(path, env, false)
 		}
 		waitUntil(env.PAGE_CACHE.put(path, JSON.stringify(content)))
 		if (path === '/') {
