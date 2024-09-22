@@ -19,7 +19,7 @@ export type WaitUntil = (promise: Promise<any>) => void
 export class Hono extends HonoBase<{ Bindings: Env }> {}
 export type Context = ContextBase<{ Bindings: Env }>
 
-export type Page = {
+export type PageData = {
 	path: string
 	attrs: Frontmatter
 	md: string

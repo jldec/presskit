@@ -1,10 +1,10 @@
-import type { Page, Env, WaitUntil } from '../types'
+import type { PageData, Env, WaitUntil } from '../types'
 import { parseFrontmatter } from './parse-frontmatter'
 import { parseMarkdown } from './parse-markdown'
 import { getDir, getDirs } from './get-dirs'
 
 // memoize to speed up homeContent().attrs for Nav
-let homePage: Page | null = null
+let homePage: PageData | null = null
 
 function fileUrlPrefix(env: Env) {
 	if (env.ENVIRONMENT === 'dev') {
@@ -33,13 +33,13 @@ export async function getMarkdown(
 	env: Env,
 	waitUntil: WaitUntil,
 	noCache: boolean = false,
-): Promise<Page | null> {
+): Promise<PageData | null> {
 	try {
 		if (!noCache) {
 			if (path === '/' && env.ENVIRONMENT !== 'dev' && homePage) return homePage
 
 			const cachedContent = await env.PAGE_CACHE.get(path)
-			if (cachedContent !== null) return JSON.parse(cachedContent) as Page
+			if (cachedContent !== null) return JSON.parse(cachedContent) as PageData
 		}
 		const text = await getTextFile(path, env, noCache)
 		const parsedFrontmatter = parseFrontmatter(text)

@@ -1,7 +1,7 @@
 name = "presskit-worker"
 compatibility_date = "2024-07-12"
 main = "src/index.tsx"
-compatibility_flags = [ "nodejs_compat_v2" ]
+compatibility_flags = ["nodejs_compat_v2"]
 
 # secrets - pnpm wrangler secret put <GH_PAT etc>
 # ENVIRONMENT: prod
@@ -34,14 +34,23 @@ binding = "TREE_CACHE"
 id = "b79c4cd1b3fd43fda786a45225650df2"
 preview_id = "daafea7aa1c748f39e1951085224ea4c"
 
-[[durable_objects.bindings]]
-name = "Chat"
-class_name = "Chat"
-
-[[durable_objects.bindings]]
-name = "PAGES"
-class_name = "PagesDO"
+[durable_objects]
+bindings = [
+  { name = "CHATS", class_name = "Party" },
+  { name = "PAGES", class_name = "Page" },
+]
 
 [[migrations]]
-tag = "v1" # Should be unique for each entry
-new_classes = ["Chat", "PagesDO"]
+tag = "v1"
+new_classes = ["Chat"]
+
+[[migrations]]
+tag = "v2"
+new_classes = ["PagePrep"]
+
+[[migrations]]
+tag = "v3"
+renamed_classes = [
+  { from = "Chat", to = "Party" },
+  { from = "PagePrep", to = "Page" },
+]

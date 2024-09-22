@@ -6,12 +6,12 @@
 
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { componentMap } from './component-map'
-import { Page } from '../types'
+import { PageData } from '../types'
 import { Debug as Dbg } from './debug'
 
 declare module 'hono' {
 	interface ContextRenderer {
-		(children: string | Promise<string>, props: { page?: Page; status?: number }): Response
+		(children: string | Promise<string>, props: { page?: PageData; status?: number }): Response
 	}
 }
 
