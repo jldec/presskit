@@ -16,7 +16,7 @@ function App() {
 	const [messages, setMessages] = useState<ChatMessage[]>([])
 
 	const socket = usePartySocket({
-		party: 'chat',
+		party: 'c-h-a-t-s',
 		room: 'general',
 		onMessage: (evt) => {
 			const message = JSON.parse(evt.data) as Message
