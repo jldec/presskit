@@ -5,7 +5,6 @@ export type { StatusCode } from 'hono/utils/http-status'
 
 export type Env = {
 	PAGE_CACHE: KVNamespace
-	TREE_CACHE: KVNamespace
 	IMAGES: R2Bucket
 	AI: any
 	GH_PAT: string

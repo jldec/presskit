@@ -5,6 +5,7 @@ import { getMarkdown } from './get-markdown'
 
 // TODO - make this configurable
 const treeUrl = 'https://api.github.com/repos/jldec/presskit/git/trees/HEAD?recursive=1'
+const treeKey = 'tree:jldec/presskit'
 
 let dirsMemo: null | Record<string, string[]> = null
 let pagePathsMemo: null | Record<string, boolean> = null
@@ -47,7 +48,7 @@ function sortFn(sortBy: string) {
 		const v2 = b.attrs && b.attrs[sortBy]
 		// @ts-expect-error
 		const result = v1 === v2 ? 0 : v1 > v2 ? 1 : -1
-		console.log('sort', v1, v2, result)
+		// console.log('sort', v1, v2, result)
 		return result
 	}
 }
@@ -65,18 +66,30 @@ export async function getPagePaths(env: Env, waitUntil: WaitUntil, noCache: bool
 // TODO: cache dir trees in KV
 export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
 	console.log('getDirs dirsMemo:', !!dirsMemo, 'noCache:', noCache)
-	if (dirsMemo && !noCache) return dirsMemo
 	let dirs: Record<string, string[]> = {}
 	let pagePaths: Record<string, boolean> = { '/': true }
+
+	if (!noCache) {
+		if (dirsMemo) return dirsMemo
+
+		const cachedContent = await env.PAGE_CACHE.get(treeKey)
+		if (cachedContent !== null) {
+			dirsMemo = JSON.parse(cachedContent) as Record<string, string[]>
+			pagePathsMemo = extractPagePaths(dirsMemo)
+			console.log('getDirs from KV', Object.keys(dirsMemo).length)
+			return dirsMemo
+		}
+	}
 
 	// local dev uses content directory in worker site public assets manifest
 	if (env.ENVIRONMENT === 'dev') {
 		Object.keys(JSON.parse(manifest)).forEach((path) => {
 			extractDirEntry(path.slice('content'.length)) // strip path prefix
 		})
+		console.log('getDirs from manifest', Object.keys(dirs).length)
 	} else {
 		// https://docs.github.com/en/rest/git/trees (in prod)
-		let resp = await fetch(treeUrl, {
+		const resp = await fetch(treeUrl, {
 			headers: {
 				Accept: 'application/vnd.github+json',
 				Authorization: `Bearer ${env.GH_PAT}`,
@@ -89,12 +102,13 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 			rawtree.forEach(({ path }) => {
 				extractDirEntry(path.slice('public/content'.length)) // strip path prefix
 			})
+			console.log('getDirs from github', Object.keys(dirs).length)
 		}
 	}
 
 	dirsMemo = dirs
 	pagePathsMemo = pagePaths
-	console.log('getDirs', Object.keys(dirs ?? {}).length)
+	waitUntil(env.PAGE_CACHE.put(treeKey, JSON.stringify(dirs)))
 	return dirs
 
 	// Populate dirs hash for *.md - all other paths are ignored.
@@ -116,5 +130,15 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 				pagePaths[`${dirpath === '/' ? '' : dirpath}/${page}`] = true
 			}
 		}
+	}
+
+	function extractPagePaths(dirs: Record<string, string[]>) {
+		Object.keys(dirs).map((dirpath) => {
+			pagePaths[dirpath] = true
+			dirs[dirpath].forEach((page) => {
+				pagePaths[`${dirpath === '/' ? '' : dirpath}/${page}`] = true
+			})
+		})
+		return pagePaths
 	}
 }
