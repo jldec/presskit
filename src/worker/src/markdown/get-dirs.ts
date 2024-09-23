@@ -32,7 +32,12 @@ export async function getDirPageData(
 	if (sortBy) {
 		dirPageData.sort(sortFn(sortBy)).reverse()
 	}
-	console.log('getDir', dirPath, dirPages?.length || 0, dirPageData.map((dpd) => dpd.path))
+	console.log(
+		'getDir',
+		dirPath,
+		dirPages?.length || 0,
+		dirPageData.map((dpd) => dpd.path)
+	)
 	return dirPageData
 }
 
