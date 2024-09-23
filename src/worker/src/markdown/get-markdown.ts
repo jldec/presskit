@@ -20,7 +20,7 @@ async function filePath(
 	noCache: boolean
 ): Promise<string> {
 	let dirs = await getDirs(env, waitUntil, noCache)
-	console.log('filePath', path, Object.keys(dirs ?? {}).length)
+	// console.log('filePath', path, Object.keys(dirs ?? {}).length)
 	if (path in dirs) {
 		path += (path === '/' ? '' : '/') + 'index'
 	}

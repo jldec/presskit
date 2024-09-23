@@ -3,6 +3,7 @@ import { serveStatic } from 'hono/cloudflare-workers'
 import { extname } from '@std/path'
 import { routePartykitRequest } from 'partyserver'
 import { getPagePaths } from './markdown/get-dirs'
+import { getMarkdown } from './markdown/get-markdown'
 import { getImage } from './images'
 import { renderJsx } from './components/html-page'
 import { api } from './api'
@@ -36,12 +37,14 @@ app.use(async (c, next) => {
 		return await next()
 	}
 	const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
-	//	const page = await getMarkdown(path, c.env, waitUntil)
+
 	let pagePaths = await getPagePaths(c.env, waitUntil, noCache)
 	if (pagePaths && path in pagePaths) {
-		let id: DurableObjectId = c.env.PAGES.idFromName(path)
-		let client = c.env.PAGES.get(id)
-		let page = await client.getPage(path, noCache)
+		const page = await getMarkdown(path, c.env, waitUntil)
+
+		// const id: DurableObjectId = c.env.PAGES.idFromName(path)
+		// const client = c.env.PAGES.get(id)
+		// const page = await client.getPage(path, noCache)
 		if (page) return c.render('', { page })
 	}
 
