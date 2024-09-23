@@ -51,9 +51,6 @@ app.use(async (c, next) => {
 	await next()
 })
 
-// serve static from the root
-app.get(serveStatic({ root: './', manifest }))
-
 // listen for websocket (partySocket) requests
 app.use(async (c, next) => {
 	if (c.req.path.startsWith('/parties')) {
@@ -62,6 +59,15 @@ app.use(async (c, next) => {
 	}
 	await next()
 })
+
+// set cache-control for static responses
+app.use(async (c, next) => {
+	await next()
+	c.header('Cache-Control', 'public, max-age=600')
+})
+
+// serve static from the root
+app.get(serveStatic({ root: './', manifest }))
 
 app.notFound((c) => {
 	c.status(404)
