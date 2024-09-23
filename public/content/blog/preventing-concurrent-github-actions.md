@@ -13,7 +13,7 @@ What happens when you trigger a [GitHub Actions](github-actions-101) workflow wh
 
 I recently encountered this with a [workflow](https://github.com/jldec/cloudflare-pages-test/blob/main/.github/workflows/generate.yaml) for publishing a static website. This workflow generates HTML files which are pushed to another git repo for publishing by [GitHub Pages](https://pages.github.com/).
 
-![Screenshot of Github Actions log showing failed git push](images/fail-generate.png)
+![Screenshot of Github Actions log showing failed git push](/images/fail-generate.png)
 
 When two workflows try to push to a checked-out repo at the same time, one will fail because it is missing the last commit from the other.
 
@@ -24,7 +24,7 @@ A number of 3rd party [solutions](https://github.com/softprops/turnstyle) exist,
 > Finally, on April 19, 2021,  
 [this](https://github.blog/changelog/2021-04-19-github-actions-limit-workflow-run-or-job-concurrency/) appeared in the GitHub Blog.
 
-![Screenshot of GitHub Blog from April 19, 2021 announcing the new concurrency key in GitHub Actions](images/github-actions-concurrency-announcement.png)
+![Screenshot of GitHub Blog from April 19, 2021 announcing the new concurrency key in GitHub Actions](/images/github-actions-concurrency-announcement.png)
 
 In the case of using actions to generate a GitHub Pages website, [the feature works](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#concurrency) exactly as required.
 
@@ -35,7 +35,7 @@ In the case of using actions to generate a GitHub Pages website, [the feature wo
 And all you need is [2 lines of yaml](https://github.com/jldec/cloudflare-pages-test/blob/main/.github/workflows/generate.yaml#L5-L6).
 This is from the workflow which generates [jldec.uk](first-steps-using-cloudflare-pages).
 
-[![Screenshot of yaml for GitHub Action with concurrency group](images/github-actions-concurrency-yaml.png)](https://github.com/jldec/cloudflare-pages-test/blob/main/.github/workflows/generate.yaml#L5-L6)
+[![Screenshot of yaml for GitHub Action with concurrency group](/images/github-actions-concurrency-yaml.png)](https://github.com/jldec/cloudflare-pages-test/blob/main/.github/workflows/generate.yaml#L5-L6)
 
 The `group` can be any string - workflows in the same group are effectively serialized.
 

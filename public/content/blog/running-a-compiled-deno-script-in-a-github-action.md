@@ -25,7 +25,7 @@ I cross-compiled [scan.js](https://github.com/jldec/deno-hello/blob/main/scan.js
 
 Using the releases feature of GitHub is a convenient way to publish compiled artifacts. In this case I used the manual upload feature in GitHub, but this step could be automated as well.
 
-![Releases with compiled artifacts in Repo deno-hello](images/deno-scan-releases.png)
+![Releases with compiled artifacts in Repo deno-hello](/images/deno-scan-releases.png)
 
 Here is the deno compile [command](https://github.com/jldec/deno-hello/blob/main/compile.sh#L1). The binary for Linux is called `scan-linux-x86`.
 
@@ -67,13 +67,13 @@ Both commands are defined as scripts in [package.json](https://github.com/jldec/
 
 When the `scan-linux-x86` command finds no broken links in the static site, it exits with 0, allowing the GitHub Action [workflow](https://github.com/jldec/cloudflare-pages-test/runs/2112253519?check_suite_focus=true#step:4:72) to continue.
 
-![scan success in GitHub Action log output](images/scan-success.png)
+![scan success in GitHub Action log output](/images/scan-success.png)
 
 If there are broken links the workflow will [fail](https://github.com/jldec/cloudflare-pages-test/runs/2106962300?check_suite_focus=true), and I will hear about it in my inbox :)
 
-![scan failure in GitHub Action log output](images/scan-failure.png)
+![scan failure in GitHub Action log output](/images/scan-failure.png)
 
-> [![Deno logo](images/deno-logo.png ".no-border")](https://deno.land/)
+> [![Deno logo](/images/deno-logo.png ".no-border")](https://deno.land/)
 
 _To leave a comment  
 please visit [dev.to/jldec](https://dev.to/jldec/running-a-compiled-deno-script-in-a-github-action-4ljn)_

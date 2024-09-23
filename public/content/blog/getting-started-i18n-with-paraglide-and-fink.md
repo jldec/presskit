@@ -33,7 +33,7 @@ git init && git add -A && git commit -m init
 pnpm dev
 ```
 
-![SvelteKit Demo app screenshot](images/sveltekit-demo.webp)
+![SvelteKit Demo app screenshot](/images/sveltekit-demo.webp)
 
 ## Add paraglide-js
 I followed the inlang [docs](https://inlang.com/m/gerre34r/library-inlang-paraglideJs#getting-started) to run paraglide `init`.
@@ -121,7 +121,7 @@ Once this was installed, I used 'Inlang: extract message' in the command palette
 
 Once things are configured properly, the extension will show IntelliSense and translated text for each `m.<key>()`.
 
-![Screenshot of VS Code extension showing translated text](images/translations-in-editor.webp)
+![Screenshot of VS Code extension showing translated text](/images/translations-in-editor.webp)
 
 I also had to add an import for the `m` namespace, using a `$msgs` alias which I created in `svelte.config.js`.
 
@@ -144,7 +144,7 @@ You can specify the repo in the URL or using the input field at [https://fink.in
 
 I found the English messages as extracted, and added `de` German translations using Fink.
 
-![Fink screenshot with English messages and German translations](images/fink-deutsch.webp)
+![Fink screenshot with English messages and German translations](/images/fink-deutsch.webp)
 
 Fink then pushed a [commit](https://github.com/jldec/paraglide/commit/98b1b618a4d0badb56bde98bd9a6ec9acd03706a) to the repo in GitHub.
 
@@ -201,7 +201,7 @@ The value of the store is used as the key to the re-render the Header in `+layou
 
 And the result looks like this:
 
-![Screenshot of SvelteKit demo with translated header](images/translated-demo-header.webp)
+![Screenshot of SvelteKit demo with translated header](/images/translated-demo-header.webp)
 
 The repo `https://github.com/jldec/paraglide` is public, so anyone can try it.
 

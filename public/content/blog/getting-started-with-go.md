@@ -19,7 +19,7 @@ This article describes my experience as a new user of Go, building my first Go l
 
 The [Tour of Go](https://tour.golang.org/basics/1) is a great way to get familiar with the language syntax. I started with 'hello world' at [golang.org](https://golang.org/doc/tutorial/getting-started#install), and found myself going back to the tour for different topics.
 
-[![Screenshot of the Go Tour showing code and navigation](images/go-tour.png ".no-border")](https://tour.golang.org/basics/1)
+[![Screenshot of the Go Tour showing code and navigation](/images/go-tour.png ".no-border")](https://tour.golang.org/basics/1)
 
 The macOS [installer](https://golang.org/doc/manage-install) copies everything into `/usr/local/go`, so I opted to download the latest release from https://golang.org/dl/ into a versioned [$GOROOT](https://golang.org/doc/install/source#environment) under my home directory. Here's what I have in my '.bash_profile':
 
@@ -35,7 +35,7 @@ The [VS Code Go](https://github.com/golang/vscode-go/) extension has improved a 
 
 Hovering over types like `Builder` shows source docs, and links to [pkg.go.dev](https://go.dev).
 
-![VS Code screenshot showing hover over strings.Builder](images/go-vs-code.png)
+![VS Code screenshot showing hover over strings.Builder](/images/go-vs-code.png)
 
 ## Porting from Rust to Go
 
@@ -215,7 +215,7 @@ I was a little surprised that there was no way to indicate the module version in
 
 The shortscale package is published at https://pkg.go.dev/github.com/jldec/shortscale-go
 
-[![Module page for shortscale-go on go.dev](images/shortscale-go-go-dev.png)](https://pkg.go.dev/github.com/jldec/shortscale-go)
+[![Module page for shortscale-go on go.dev](/images/shortscale-go-go-dev.png)](https://pkg.go.dev/github.com/jldec/shortscale-go)
 
 It turns out that fetching any versioned module with `go get`, automatically adds that module to the registry at [go.dev](https://go.dev/about). This feels a little strange at first, but the more I use it, the more I think it's a clever solution.
 

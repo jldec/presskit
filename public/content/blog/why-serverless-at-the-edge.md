@@ -16,7 +16,7 @@ Several speakers went on to make a strong case for technologies like WASM and WA
 
 This one by Cloudflare's own [@nodebotanist](https://twitter.com/nodebotanist), was the most profound.  
 
-![@nodebotanist quote: "The future of serverless lies in doing things in different ways. Creating new serverless architectures from the ground up and allowing users to try different strategies is a key part of any movement's maturity."](images/kas-quote-2.jpg)
+![@nodebotanist quote: "The future of serverless lies in doing things in different ways. Creating new serverless architectures from the ground up and allowing users to try different strategies is a key part of any movement's maturity."](/images/kas-quote-2.jpg)
 
 > But what makes Serverless at the edge useful in ways that more-centralized services are not?
 

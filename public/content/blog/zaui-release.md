@@ -28,7 +28,7 @@ Zaui was instrumental in shipping our [drag-and-drop chiplet emulation UI](https
 
 If you don't already have a `content` directory you will see the [zaui guide](https://zaui.zeroasic.com/guide) -- rendered by zaui, of course.
 
-![zaui screenshot](images/zaui.png)
+![zaui screenshot](/images/zaui.png)
 
 ### This library provides
 

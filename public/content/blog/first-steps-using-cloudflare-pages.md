@@ -20,38 +20,38 @@ This is a walkthrough of setting up [jldec.eu](https://jldec.eu), a copy of [jld
 
 If you have access to Cloudflare Pages, you will see this button when you login to Cloudflare.
 
-![Cloudflare Pages Beta button on dashboard](images/cf-pages-beta.png)
+![Cloudflare Pages Beta button on dashboard](/images/cf-pages-beta.png)
 
 The Pages button opens your Pages projects -- of which there are none at first -- and a button to `Create a project`.
 
-![Pages - Create a project](images/cf-pages-create-a-project.png)
+![Pages - Create a project](/images/cf-pages-create-a-project.png)
 
  This opens the GitHub form for granting repo access to the 'Cloudflare Pages' GitHub app. (_Look for it later in your [GitHub Settings](https://github.com/settings/installations) to add more repos, or to revoke access._)
 
-![Authorize Cloudflare Pages app on GitHub](images/cf-pages-github-app.png)
+![Authorize Cloudflare Pages app on GitHub](/images/cf-pages-github-app.png)
 
 Back on Cloudflare, you can choose the repo for your new Cloudflare Pages project.  
 [cloudflare-pages-test](https://github.com/jldec/cloudflare-pages-test) is a copy of my markdown source repo from [jldec.me](https://jldec.me).
 
-![Select repo for the Cloudflare Pages project](images/cf-pages-select-repo.png)
+![Select repo for the Cloudflare Pages project](/images/cf-pages-select-repo.png)
 
 In the configuration form, I provided branch name, build command, and output directory.  
 The project name defaults to the repo name.
 
-![Configure the build command and output directory](images/cf-pages-configure-build.png)
+![Configure the build command and output directory](/images/cf-pages-configure-build.png)
 
 Submitting the form, triggers the first build and shows the log.
 
-![First build and deploy showing log](images/cf-pages-build-log.png)
+![First build and deploy showing log](/images/cf-pages-build-log.png)
 
 The project page also has a section for configuring custom domains. I used my own cloudflare-hosted domain [jldec.eu](https://jldec.eu). The [docs](https://developers.cloudflare.com/pages/getting-started#add-a-custom-cname-record) can be a little confusing here. My CNAME points to `cloudflare-pages-test.pages.dev` not `custom.pages.dev`.
 
-![Cloudflare Pages custom domain](images/cf-pages-custom-domain.png)
+![Cloudflare Pages custom domain](/images/cf-pages-custom-domain.png)
 
 You can visit the deployed site at [jldec.eu](https://jldec.eu). 🇪🇺  
 Subsequent commits to this GitHub [repo](https://github.com/jldec/cloudflare-pages-test) will trigger a fresh build and re-deploy.
 
-![More deployments](images/cf-pages-deployments.png)
+![More deployments](/images/cf-pages-deployments.png)
 
 ## GitHub Pages
 
@@ -61,11 +61,11 @@ First I created a new jldec.uk [repo](https://github.com/jldec/jldec.uk/) to hos
 
 I pushed the first generated website to this repo manually, using the output of a local build. The empty `.nojekyll` file is important to avoid a Jekyll build on GitHub.
 
-![GitHub Pages repo](images/gh-pages-repo.png)
+![GitHub Pages repo](/images/gh-pages-repo.png)
 
 Next I configured GitHub Pages in the repo settings ([...looks familiar 😃](https://github.blog/2016-08-17-simpler-github-pages-publishing/))
 
-![GitHub Pages settings](images/gh-pages-settings.png)
+![GitHub Pages settings](/images/gh-pages-settings.png)
 
 You can visit the deployed site at [jldec.uk](https://jldec.uk). 🇬🇧  
 
@@ -108,11 +108,11 @@ jobs:
 ```
 Now every push triggers a new build and re-deploy.
 
-![GitHub Pages builds using GitHub Actions](images/gh-pages-builds.png)
+![GitHub Pages builds using GitHub Actions](/images/gh-pages-builds.png)
 
 Preserving the HTML site in git is useful for all kinds of reasons. E.g. here is part of a diff from a recent [commit](https://github.com/jldec/jldec.uk/commit/0efb3e73ea2de797f9201b69803c70299be05a28).
 
-![GitHub Pages diff](images/gh-pages-diff.png)
+![GitHub Pages diff](/images/gh-pages-diff.png)
 
 ## Conclusions
 

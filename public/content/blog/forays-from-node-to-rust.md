@@ -28,14 +28,14 @@ To get started:
 
 Those steps also take care of 'cargo', the Rust build tool.
 
-![Image showing cargo commands](images/cargo.png)  
+![Image showing cargo commands](/images/cargo.png)  
 _https://www.rust-lang.org/learn/get-started_
 
 ## VS Code
 
 I followed the [recommendations](https://jason-williams.co.uk/debugging-rust-in-vscode) of Jason Williams to install [Rust Analyzer](https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer) for VS Code instead of the default Rust extension. You'll also need [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) for debugging.
 
-![VS Code showing Rust program](images/vs-code-rust.png)  
+![VS Code showing Rust program](/images/vs-code-rust.png)  
 I particularly like the ability to run doctests directly in the VS Code terminal.
 
 ## Rust String and str

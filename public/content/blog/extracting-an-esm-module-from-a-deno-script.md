@@ -34,7 +34,7 @@ export default async function scanurl(rootURL, noRecurse, quiet, parse5, fetch, 
 
 You can try running the module from inside your own browser at https://deno-hello.jldec.me/.
 
-[![Screenshot of https://deno-hello.jldec.me](images/deno-hello.jldec.me.png)](https://deno-hello.jldec.me/)
+[![Screenshot of https://deno-hello.jldec.me](/images/deno-hello.jldec.me.png)](https://deno-hello.jldec.me/)
 
 The page shows how to import the module from an inline `<script type="module">`.
 

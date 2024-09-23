@@ -41,4 +41,4 @@ This should make it easier to navigate to the next page in the guide, and to the
 
 You can try it out at the top of this page...
 
-![Screenshot of blogpost with Next button](images/next-button.webp)
+![Screenshot of blogpost with Next button](/images/next-button.webp)

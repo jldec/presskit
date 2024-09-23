@@ -6,10 +6,6 @@ import type MarkdownIt from 'markdown-it'
 import { hash } from './hash'
 
 export interface Options {
-  /**
-   * rewrite `<img>` src tags.
-   * @default '/img/'
-   */
   "imagePrefix"?: string
   "hashPrefix"?: string
 }
@@ -19,7 +15,7 @@ export const imagePlugin = (md: MarkdownIt, { imagePrefix, hashPrefix }: Options
   md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx]
     let url = token.attrGet('src')
-    if (url) {
+    if (url && url.startsWith('https://')) {
       token.attrSet('src', rewriteUrl(url, imagePrefix ?? '/img/', hashPrefix ?? ''))
     }
     return imageRule(tokens, idx, options, env, self)
@@ -28,6 +24,6 @@ export const imagePlugin = (md: MarkdownIt, { imagePrefix, hashPrefix }: Options
 
 // does not preserve extension if og has one (same as github user-attachments)
 // hashPrefix should be secret to properly validate incoming img requests
-export function rewriteUrl(url: string, imagePrefix: string, hashPrefix: string) {
+function rewriteUrl(url: string, imagePrefix: string, hashPrefix: string) {
 	return `${imagePrefix}${hash(hashPrefix + url)}?og=${encodeURIComponent(url)}`
 }

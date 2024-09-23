@@ -30,7 +30,7 @@ Once installed, 'deno --version' shows the installed version and 'deno upgrade' 
 
 I recommend installing the Deno [VS Code extension](https://github.com/denoland/vscode_deno#readme) for IDE support and debugging. The [manual](https://deno.land/manual/getting_started/debugging_your_code#vscode) suggested a [launch config](https://github.com/jldec/deno-hello/blob/main/.vscode/launch.json), which works for me, _most_ of the time.
 
-![VS Code Deno extension Debug](images/deno-debug-dark.png)
+![VS Code Deno extension Debug](/images/deno-debug-dark.png)
 
 ## hello.js
 
@@ -208,7 +208,7 @@ $ ./scan https://jldec.fun
 🎉 no broken links found.
 ```
 
-> [![Deno logo](images/deno-logo.png ".no-border")](https://deno.land/)
+> [![Deno logo](/images/deno-logo.png ".no-border")](https://deno.land/)
 
 _To leave a comment  
 please visit [dev.to/jldec](https://dev.to/jldec/getting-started-with-deno-2ie7)_

@@ -14,11 +14,11 @@ Specifically, the [documentation](https://docs.github.com/en/actions/learn-githu
 
 In retrospect, instead of the docs, I would recommend getting started by looking at the yaml for the [Simple workflow](https://github.com/actions/starter-workflows/blob/main/ci/blank.yml). The button appears in the __Actions__ tab on any new repo.
 
-![Screenshot of GitHub Actions tab on new repo, showing sample workflow](images/actions-start-here.png)
+![Screenshot of GitHub Actions tab on new repo, showing sample workflow](/images/actions-start-here.png)
 
 The button will open the workflow yaml in an editor (it won't be committed to your repo yet).
 
-![Screenshot of Simple workflow yaml code](images/simple-workflow.png)
+![Screenshot of Simple workflow yaml code](/images/simple-workflow.png)
 
 ## Not so mysterious after all 😀
 
@@ -55,7 +55,7 @@ The 2nd run: contains 2 commands in a multi-line (indented) block using "|". Thi
 
 If you push the workflow above to a new repo on GitHub, the result should look like this:
 
-![Screenshot of workflow run showing simple-job output](images/action1.png)
+![Screenshot of workflow run showing simple-job output](/images/action1.png)
 
 ### A few more things to know about [yaml](https://en.wikipedia.org/wiki/YAML)
 

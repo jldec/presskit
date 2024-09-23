@@ -211,7 +211,7 @@ def powers_of_1000(n: int):
 
 Playing aound in a Jupyter notebook, I was able to eliminate the extra function (and the list which it returns), simply by reversing the order of building the shortscale output.
 
-![Screenshot of a Jupyter notebook in VS Code exploring shortscale](images/jupyter-notebook-vs-code.png)
+![Screenshot of a Jupyter notebook in VS Code exploring shortscale](/images/jupyter-notebook-vs-code.png)
 
 Using a Jupyter environment in VS Code is a clear win. The [result](https://github.com/jldec/shortscale-py/pull/3) was simpler and faster.
 
@@ -221,7 +221,7 @@ There is nice support for Python testing and debugging in VS Code.
 
 The [function](https://github.com/jldec/shortscale-py/blob/main/shortscale/tests/test_shortscale.py) to run unit tests took just 3 lines. 
 
-![Screenshot of VS Code Test integration for pytest](images/python-test-vscode.png)
+![Screenshot of VS Code Test integration for pytest](/images/python-test-vscode.png)
 
 ## Benchmarks
 
@@ -290,7 +290,7 @@ shortscale.shortscale(0xffff0000)
 shortscale.bench_shortscale()
 ```
 
-![Screenshot of browser at https://pyodide.org/en/stable/console.html running shortscale](images/pyodide-shortscale.png)
+![Screenshot of browser at https://pyodide.org/en/stable/console.html running shortscale](/images/pyodide-shortscale.png)
 
 It looks like Python in WASM in the browser is only 2 to 3 times slower than native CPython. Amazing!
 
@@ -300,7 +300,7 @@ GitHub shows the output of Jupyter notebook (.ipynb) files in your browser
 
 https://github.com/jldec/shortscale-py/blob/main/shortscale.ipynb
 
-![Screenshot of https://github.com/jldec/shortscale-py/blob/main/shortscale.ipynb](images/shortscale-notebook-github.png)
+![Screenshot of https://github.com/jldec/shortscale-py/blob/main/shortscale.ipynb](/images/shortscale-notebook-github.png)
 
 ## Google Colaboratory
 
@@ -308,7 +308,7 @@ You can also open the [notebook](https://github.com/jldec/shortscale-py/blob/mai
 
 https://colab.research.google.com/github/jldec/shortscale-py/blob/main/shortscale.ipynb
 
-![Screenshot of Google Colaboratory running at https://colab.research.google.com/github/jldec/shortscale-py/blob/main/shortscale.ipynb](images/shortscale-on-google-colaboratory.png)
+![Screenshot of Google Colaboratory running at https://colab.research.google.com/github/jldec/shortscale-py/blob/main/shortscale.ipynb](/images/shortscale-on-google-colaboratory.png)
 
 >> Keep on learning  
 >> 🚀

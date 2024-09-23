@@ -28,17 +28,17 @@ Starting from the [issue](https://github.com/gitpod-io/website/issues/1139), I o
 
 That [url](https://gitpod.io/#https://github.com/gitpod-io/website/issues/1139) opened the workspace in my browser.
 
-![Screenshot of full VS Code window in Gitpod workspace](images/gitpod-workspace.png)
+![Screenshot of full VS Code window in Gitpod workspace](/images/gitpod-workspace.png)
 
 Running `git branch -vv` in a workspace terminal showed that git was already set to a new branch, conveniently named with my username and the description and id of the GitHub issue.
 
-![Screenshot of VS Code terminal in Gitpod workspace showing new git branch](images/gitpod-issue-branch.png)
+![Screenshot of VS Code terminal in Gitpod workspace showing new git branch](/images/gitpod-issue-branch.png)
 
 The workspace started up with npm modules already installed by a [prebuild](https://www.gitpod.io/docs/prebuilds).
 
 The repo was also [configured](https://www.gitpod.io/docs/config-gitpod-file) to start a dev server listening on port 3000 in the workspace container. The open ports can be seen in the Remote Explorer sidebar on the left.
 
-![Screenshot of VS Code Remote Explorer sidebar in Gitpod workspace showing open ports](images/gitpod-ports.png)
+![Screenshot of VS Code Remote Explorer sidebar in Gitpod workspace showing open ports](/images/gitpod-ports.png)
 
 I used the `Open Browser` icon to open the website in another browser window, and watched my changes taking effect each time I modified the code. 
 

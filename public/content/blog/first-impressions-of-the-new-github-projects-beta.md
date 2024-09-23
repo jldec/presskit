@@ -44,7 +44,7 @@ The [announcement](https://github.blog/changelog/2021-06-23-whats-new-with-githu
 
 [Project tables](https://docs.github.com/en/issues/trying-out-the-new-projects-experience/about-projects) are spreadsheet-like views where each row is a real or draft issue. 
 
-[![Screenshot of GitHub project table](images/gh-project-table.png)](https://github.com/orgs/github/projects/4247/views/7)
+[![Screenshot of GitHub project table](/images/gh-project-table.png)](https://github.com/orgs/github/projects/4247/views/7)
 
 Rows (issues) can be grouped by field value. This includes custom fields whose values are maintained in the project instead of on issues in a repo. Maintaining custom field data inside projects is key to their power.
 
@@ -56,11 +56,11 @@ Since Beta Projects also support kanban views, I expect them to replace the exis
 
 Auto-creating issues from [task lists](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-task-lists#about-issue-task-lists) makes it easier to break down "epic" issues into smaller sub-issues. The task list item is checked off when the issue is resolved, and the child-issue links to the parent-issue with the task list.  
 
-[![Screenshot of GitHub issue with a task list](images/gh-task-list.png)](https://github.com/gitpod-io/gitpod/issues/3065)
+[![Screenshot of GitHub issue with a task list](/images/gh-task-list.png)](https://github.com/gitpod-io/gitpod/issues/3065)
 
 Similarly, [draft issues](https://docs.github.com/en/issues/trying-out-the-new-projects-experience/creating-a-project#adding-items-to-your-project) which are simply rows entered as text in a project table, can also be [converted](https://docs.github.com/en/issues/trying-out-the-new-projects-experience/creating-a-project#converting-draft-issues-to-issues) into issues. 
 
-[![Screenshot of converting draft issue to issue in GitHub project table](images/gh-project-table-convert-to-issue.png)](https://github.com/orgs/github/projects/4247/views/7)
+[![Screenshot of converting draft issue to issue in GitHub project table](/images/gh-project-table-convert-to-issue.png)](https://github.com/orgs/github/projects/4247/views/7)
 
 > This makes task lists and project tables two convenient ways to brainstorm ideas, and break them down into smaller issues.
 
