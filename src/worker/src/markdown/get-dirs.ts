@@ -1,6 +1,7 @@
-import { Env } from '../types'
+import { Env, WaitUntil } from '../types'
 // @ts-expect-error
 import manifest from '__STATIC_CONTENT_MANIFEST'
+import { getMarkdown } from './get-markdown'
 
 // TODO - make this configurable
 const treeUrl = 'https://api.github.com/repos/jldec/presskit/git/trees/HEAD?recursive=1'
@@ -8,27 +9,40 @@ const treeUrl = 'https://api.github.com/repos/jldec/presskit/git/trees/HEAD?recu
 let dirsMemo: null | Record<string, string[]> = null
 let pagePathsMemo: null | Record<string, boolean> = null
 
-// fetch [children] under a dirpath
+// fetch DirPageData for [children] under a dirpath
 // returns undefined for non-dirpaths
-export async function getDir(path: string, env: Env, noCache: boolean = false) {
-	let dirs = dirsMemo || (await getDirs(env, noCache))
-	let dir = dirs[path]
-	console.log('getDir', path, dir?.length || 0)
-	return dir
+export async function getDirPageData(
+	dirPath: string,
+	env: Env,
+	waitUntil: WaitUntil,
+	noCache: boolean = false
+) {
+	const dirs = dirsMemo || (await getDirs(env, waitUntil, noCache))
+	const dirPages = dirs[dirPath]
+	if (!dirPages) return undefined
+
+	const dirPagesPromises = dirPages?.map(async (pageName) => {
+		const pagePath = dirPath + (dirPath === '/' ? '' : '/') + pageName
+		const dirPage = await getMarkdown(pagePath, env, waitUntil, noCache)
+		return { path: pagePath, attrs: dirPage?.attrs }
+	})
+	const dirPageData = await Promise.all(dirPagesPromises || [])
+	console.log('getDir', dirPath, dirPages?.length || 0, dirPages)
+	return dirPageData
 }
 
-export async function getPagePaths(env: Env, noCache: boolean = false) {
+export async function getPagePaths(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
 	if (pagePathsMemo) return pagePathsMemo
 	// Assume getDirs will also populate pagePathsMemo
-	await getDirs(env, noCache)
+	await getDirs(env, waitUntil, noCache)
 	return pagePathsMemo
 }
 
 // Fetch dirs = hash of dirpaths -> [children]
-// TODO: also collect pages which are are non-dirs
+// also collects pagesPaths which includes non-dirs
 // TODO: use this info to validate all requests in page handler
 // TODO: cache dir trees in KV
-export async function getDirs(env: Env, noCache: boolean = false) {
+export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
 	console.log('getDirs dirsMemo:', !!dirsMemo, 'noCache:', noCache)
 	if (dirsMemo && !noCache) return dirsMemo
 	let dirs: Record<string, string[]> = {}

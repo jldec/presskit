@@ -1,4 +1,4 @@
-import { Hono } from './types'
+import { Hono, WaitUntil } from './types'
 import { getDirs, getPagePaths } from './markdown/get-dirs'
 
 // @ts-expect-error
@@ -74,9 +74,11 @@ api.delete('/images', async (c) => {
 })
 
 api.get('/dirs', async (c) => {
-	return fjson(await getDirs(c.env))
+	const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
+	return fjson(await getDirs(c.env, waitUntil))
 })
 
 api.get('/pagepaths', async (c) => {
-	return fjson(await getPagePaths(c.env))
+	const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
+	return fjson(await getPagePaths(c.env, waitUntil))
 })

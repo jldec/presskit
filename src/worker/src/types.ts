@@ -1,4 +1,6 @@
 import { Hono as HonoBase, Context as ContextBase } from 'hono'
+import type { Page } from './page'
+import type { Party } from './party'
 export type { StatusCode } from 'hono/utils/http-status'
 
 export type Env = {
@@ -11,7 +13,8 @@ export type Env = {
 	IMAGE_KEY: string
 	ENVIRONMENT: string
 	APP_URL: string
-	PAGES: DurableObjectNamespace
+	CHATS: DurableObjectNamespace<Party>
+	PAGES: DurableObjectNamespace<Page>
 }
 
 export type WaitUntil = (promise: Promise<any>) => void
@@ -19,12 +22,17 @@ export type WaitUntil = (promise: Promise<any>) => void
 export class Hono extends HonoBase<{ Bindings: Env }> {}
 export type Context = ContextBase<{ Bindings: Env }>
 
+export type DirPageData = {
+	path: string
+	attrs?: Frontmatter
+}
+
 export type PageData = {
 	path: string
 	attrs: Frontmatter
 	md: string
 	html: string
-	dir?: string[]
+	dir?: DirPageData[]
 }
 
 export interface Frontmatter {

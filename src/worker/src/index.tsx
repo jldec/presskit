@@ -1,4 +1,4 @@
-import { Hono } from './types'
+import { Hono, WaitUntil } from './types'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { extname } from '@std/path'
 import { routePartykitRequest } from 'partyserver'
@@ -35,16 +35,13 @@ app.use(async (c, next) => {
 	if (extname(path) !== '' || path.startsWith('/parties') || path.startsWith('/content')) {
 		return await next()
 	}
-	//	const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
+	const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
 	//	const page = await getMarkdown(path, c.env, waitUntil)
-	let pagePaths = await getPagePaths(c.env, noCache)
+	let pagePaths = await getPagePaths(c.env, waitUntil, noCache)
 	if (pagePaths && path in pagePaths) {
 		let id: DurableObjectId = c.env.PAGES.idFromName(path)
 		let client = c.env.PAGES.get(id)
-
-		// @ts-expect-error
 		let page = await client.getPage(path, noCache)
-
 		if (page) return c.render('', { page })
 	}
 

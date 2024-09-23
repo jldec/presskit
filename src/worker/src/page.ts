@@ -8,6 +8,7 @@ export class Page extends DurableObject {
 
 	constructor(ctx: DurableObjectState, env: Env) {
 		super(ctx, env)
+		console.log('Page', this.ctx.id.name)
 	}
 
 	// fetch page content on first access
