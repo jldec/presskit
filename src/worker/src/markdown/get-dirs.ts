@@ -1,4 +1,4 @@
-import { Env, WaitUntil } from '../types'
+import { Env, WaitUntil, DirPageData } from '../types'
 // @ts-expect-error
 import manifest from '__STATIC_CONTENT_MANIFEST'
 import { getMarkdown } from './get-markdown'
@@ -15,20 +15,36 @@ export async function getDirPageData(
 	dirPath: string,
 	env: Env,
 	waitUntil: WaitUntil,
-	noCache: boolean = false
+	noCache: boolean = false,
+	sortBy?: string
 ) {
 	const dirs = dirsMemo || (await getDirs(env, waitUntil, noCache))
 	const dirPages = dirs[dirPath]
 	if (!dirPages) return undefined
 
+	// TODO: throttle and detect cycles
 	const dirPagesPromises = dirPages?.map(async (pageName) => {
 		const pagePath = dirPath + (dirPath === '/' ? '' : '/') + pageName
 		const dirPage = await getMarkdown(pagePath, env, waitUntil, noCache)
 		return { path: pagePath, attrs: dirPage?.attrs }
 	})
 	const dirPageData = await Promise.all(dirPagesPromises || [])
-	console.log('getDir', dirPath, dirPages?.length || 0, dirPages)
+	if (sortBy) {
+		dirPageData.sort(sortFn(sortBy)).reverse()
+	}
+	console.log('getDir', dirPath, dirPages?.length || 0, dirPageData.map((dpd) => dpd.path))
 	return dirPageData
+}
+
+function sortFn(sortBy: string) {
+	return function (a: DirPageData, b: DirPageData) {
+		const v1 = a.attrs && a.attrs[sortBy]
+		const v2 = b.attrs && b.attrs[sortBy]
+		// @ts-expect-error
+		const result = v1 === v2 ? 0 : v1 > v2 ? 1 : -1
+		console.log('sort', v1, v2, result)
+		return result
+	}
 }
 
 export async function getPagePaths(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {

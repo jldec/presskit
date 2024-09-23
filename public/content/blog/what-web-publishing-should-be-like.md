@@ -2,7 +2,7 @@
 title: What publishing on the Web should be like
 splash:
   image: images/pink-flower.webp
-date: 2024-06-25
+date: 
 excerpt: |
   1. go to your domain, click new or edit
   2. type your thoughts

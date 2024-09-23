@@ -48,6 +48,8 @@ export interface Frontmatter {
 	footer?: Footer
 	twitter?: string // e.g. @jldec - for meta tags
 	error?: unknown
+	sortby?: string
+	[key: string]: unknown
 }
 
 export interface Navlink {

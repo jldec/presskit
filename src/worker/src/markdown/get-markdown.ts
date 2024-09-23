@@ -1,4 +1,4 @@
-import type { PageData, Env, WaitUntil } from '../types'
+import type { PageData, DirPageData, Env, WaitUntil } from '../types'
 import { parseFrontmatter } from './parse-frontmatter'
 import { parseMarkdown } from './parse-markdown'
 import { getDirPageData, getDirs } from './get-dirs'
@@ -13,7 +13,12 @@ function fileUrlPrefix(env: Env) {
 	return `https://raw.githubusercontent.com/${env.GH_REPO}/main/public/content`
 }
 
-async function filePath(path: string, env: Env, waitUntil: WaitUntil, noCache: boolean): Promise<string> {
+async function filePath(
+	path: string,
+	env: Env,
+	waitUntil: WaitUntil,
+	noCache: boolean
+): Promise<string> {
 	let dirs = await getDirs(env, waitUntil, noCache)
 	console.log('filePath', path, Object.keys(dirs ?? {}).length)
 	if (path in dirs) {
@@ -22,7 +27,12 @@ async function filePath(path: string, env: Env, waitUntil: WaitUntil, noCache: b
 	return `${fileUrlPrefix(env)}${path}.md`
 }
 
-async function getTextFile(path: string, env: Env, waitUntil: WaitUntil, noCache: boolean): Promise<string> {
+async function getTextFile(
+	path: string,
+	env: Env,
+	waitUntil: WaitUntil,
+	noCache: boolean
+): Promise<string> {
 	const response = await fetch(await filePath(path, env, waitUntil, noCache))
 	if (!response.ok) throw new Error(`${response.status} error fetching ${path}`)
 	return await response.text()
@@ -32,7 +42,7 @@ export async function getMarkdown(
 	path: string,
 	env: Env,
 	waitUntil: WaitUntil,
-	noCache: boolean = false,
+	noCache: boolean = false
 ): Promise<PageData | null> {
 	try {
 		if (!noCache) {
@@ -43,6 +53,7 @@ export async function getMarkdown(
 		}
 		const text = await getTextFile(path, env, waitUntil, noCache)
 		const parsedFrontmatter = parseFrontmatter(text)
+		const dirPageData = await getDirPageData(path, env, waitUntil, false, parsedFrontmatter.attrs.sortby)
 		const content = {
 			path,
 			attrs: parsedFrontmatter.attrs,
@@ -50,7 +61,7 @@ export async function getMarkdown(
 			html: parsedFrontmatter.attrs.error
 				? errorHtml(parsedFrontmatter.attrs.error, await filePath(path, env, waitUntil, false))
 				: parseMarkdown(parsedFrontmatter.body, { hashPrefix: env.IMAGE_KEY }),
-			dir: await getDirPageData(path, env, waitUntil, false)
+			dir: dirPageData
 		}
 		waitUntil(env.PAGE_CACHE.put(path, JSON.stringify(content)))
 		if (path === '/') {
@@ -63,7 +74,7 @@ export async function getMarkdown(
 	}
 }
 
-export async function getRootConfig(env: Env, waitUntil: WaitUntil)  {
+export async function getRootConfig(env: Env, waitUntil: WaitUntil) {
 	return (await getMarkdown('/', env, waitUntil))?.attrs
 }
 
