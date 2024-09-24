@@ -13,7 +13,7 @@ MIT license
   --font-size-pre: 15px;
   --text-color: #111;
   --text-color-alt: #666;
-  --text-color-subtle: #aaa;
+  --text-color-subtle: #aaa7;
   --background-color: #fff;
   --background-color-alt: #f0f0f0;
 
@@ -63,7 +63,7 @@ body {
   width: 100%;
   margin: 0;
   padding: var(--line-height) 2ch;
-  max-width: calc(min(80ch, round(down, 100%, 1ch)));
+  max-width: calc(min(83ch, round(down, 100%, 1ch)));
   line-height: var(--line-height);
   overflow-x: hidden;
 }

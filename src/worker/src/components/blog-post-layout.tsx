@@ -5,7 +5,7 @@ export const BlogPostLayout: FC = ({ children, page, dirPage }) => {
 	// console.log('BlogPostLayout', dirPage)
 	return (
 		<>
-			<a href="/">Home</a> | <a href="/blog">Blog</a>
+			<a href="/">Home</a> | <a href="/blog">Writings</a>
 			{dirPage?.nextPath ? (
 				<>
 					{' '}

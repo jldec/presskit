@@ -50,7 +50,7 @@ export interface Frontmatter {
 	twitter?: string // e.g. @jldec - for meta tags
 	error?: unknown
 	sortby?: string
-	date?: Date
+	date?: Date | string
 	[key: string]: unknown
 }
 
