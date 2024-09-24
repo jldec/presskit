@@ -4,6 +4,7 @@ author: Jürgen Leschner
 splash:
   image: images/the-web-is-for-everyone.webp
 date: 2024-01-05
+layout: BlogPostLayout
 excerpt: |
   _"It is not enough for everyone to be able to access the Web...
   It is also essential that people are able to contribute to the Web.

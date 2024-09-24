@@ -3,6 +3,7 @@ title: Getting started with Goroutines and channels
 splash:
   image: images/grape-hyacinth.jpg
 date: 2021-04-25
+layout: BlogPostLayout
 excerpt: Part 3 in my learning Go series, focusing on concurrency with Goroutines and channels.
 ---
 

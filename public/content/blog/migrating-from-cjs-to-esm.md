@@ -3,6 +3,7 @@ title: Migrating from CommonJS to ESM
 splash:
   image: images/calm.jpg
 date: 2021-01-23
+layout: BlogPostLayout
 excerpt: How to migrate from CommonJS to EcmaScript Modules.
 ---
 

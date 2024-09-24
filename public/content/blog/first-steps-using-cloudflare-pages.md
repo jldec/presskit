@@ -3,6 +3,7 @@ title: First steps using Cloudflare Pages
 splash:
   image: images/small-clouds.jpg
 date: 2021-01-31
+layout: BlogPostLayout
 excerpt: This is a walkthrough of my first Cloudflare Pages (Beta) site, and a comparison with GitHub Pages.
 ---
 

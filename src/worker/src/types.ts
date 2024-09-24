@@ -24,6 +24,8 @@ export type Context = ContextBase<{ Bindings: Env }>
 export type DirPageData = {
 	path: string
 	attrs?: Frontmatter
+	nextPath?: string
+	nextTitle?: string
 }
 
 export type PageData = {

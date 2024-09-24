@@ -3,6 +3,7 @@ title: Calling Rust from a Cloudflare Worker
 splash:
   image: images/moonbird.jpg
 date: 2021-02-14
+layout: BlogPostLayout
 excerpt: How to build a Worker which calls a WebAssembly library written in Rust.
 ---
 

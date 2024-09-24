@@ -3,6 +3,7 @@ title: First impressions of the new GitHub Projects Beta
 splash:
   image: images/red-autumn-leaves.jpg
 date: 2021-10-31
+layout: BlogPostLayout
 excerpt: |
   Project tables are spreadsheet-like views where each row is a real or a draft issue. Beta Projects also support kanban views. Task lists and draft issues can be converted into real issues.
 ---

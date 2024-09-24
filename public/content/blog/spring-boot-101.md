@@ -3,6 +3,7 @@ title: Spring Boot 101
 splash:
   image: images/boot1.jpg
 date: 2017-06-28
+layout: BlogPostLayout
 excerpt: Spring Beans are magic - but what's behind them and why are they called beans?
 ---
 

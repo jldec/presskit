@@ -6,17 +6,20 @@
 
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { componentMap } from './component-map'
-import { PageData } from '../types'
+import { PageData, DirPageData } from '../types'
 import { Debug as Dbg } from './debug'
 
 declare module 'hono' {
 	interface ContextRenderer {
-		(children: string | Promise<string>, props: { page?: PageData; status?: number }): Response
+		(
+			children: string | Promise<string>,
+			props: { page?: PageData; dirPage?: DirPageData; status?: number }
+		): Response
 	}
 }
 
 export function renderJsx() {
-	return jsxRenderer(({ children, page }) => {
+	return jsxRenderer(({ children, page, dirPage }) => {
 		return (
 			<html lang="en" data-theme="dark">
 				<head>
@@ -27,7 +30,11 @@ export function renderJsx() {
 					<script src="/js/htmx.js"></script>
 				</head>
 				<body>
-					{(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({ children, page })}
+					{(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
+						children,
+						page,
+						dirPage
+					})}
 					<Dbg page={page} />
 				</body>
 			</html>

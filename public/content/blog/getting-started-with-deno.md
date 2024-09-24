@@ -3,6 +3,7 @@ title: Getting Started with Deno
 splash:
   image: images/clouds-trees.jpg
 date: 2021-02-28
+layout: BlogPostLayout
 excerpt: |
   The [Deno](https://deno.land/) executable is built in Rust. While this may seem like an implementation detail, you could also describe Deno as a tool to embed JavaScript inside Rust programs.
 ---

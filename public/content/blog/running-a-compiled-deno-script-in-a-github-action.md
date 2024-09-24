@@ -3,6 +3,7 @@ title: Running a compiled Deno script in a GitHub Action
 splash:
   image: images/first-blossoms-2021.jpg
 date: 2021-03-14
+layout: BlogPostLayout
 excerpt: |
   In this post I enhance a GitHub Action to invoke the compiled scan.js Deno script which scans for broken links in generated HTML pages.
 ---

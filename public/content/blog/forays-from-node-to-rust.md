@@ -3,6 +3,7 @@ title: Forays from Node to Rust
 splash:
   image: images/fog.jpg
 date: 2021-01-10
+layout: BlogPostLayout
 excerpt: This article covers the experience of buiding my first Rust crate.
 ---
 

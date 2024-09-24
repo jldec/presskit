@@ -3,6 +3,7 @@ title: GitHub Actions 101
 splash:
   image: images/snowy-boathouse.jpg
 date: 2020-11-27
+layout: BlogPostLayout
 excerpt: Not so mysterious after all 😀
 ---
 

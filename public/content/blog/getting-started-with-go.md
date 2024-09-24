@@ -3,6 +3,7 @@ title: Getting started with Go
 splash:
   image: images/church-blossoms.jpg
 date: 2021-04-03
+layout: BlogPostLayout
 excerpt: |
   The [Go](https://go.dev/) programming language has become an important tool for developers, particularly around platforms like Kubernetes and Docker.
 ---

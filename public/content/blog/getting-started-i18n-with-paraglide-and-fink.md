@@ -4,6 +4,7 @@ author: Jürgen Leschner
 splash:
   image: images/airport.webp
 date: 2024-01-08
+layout: BlogPostLayout
 excerpt: |
   First steps enabling i18n on a SvelteKit project.
 ---

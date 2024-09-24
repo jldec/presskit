@@ -4,6 +4,7 @@ author: Jürgen Leschner
 splash:
   image: images/daisy.jpg
 date: 2023-12-10
+layout: BlogPostLayout
 excerpt: |
   We are pleased to announce the open source release of [zaui](https://github.com/zeroasiccorp/zaui), our npm-installable SvelteKit toolchain for building websites from markdown.
 ---

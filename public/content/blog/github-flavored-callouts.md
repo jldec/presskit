@@ -1,6 +1,7 @@
 ---
 title: GitHub Flavored Callouts
 date: 2023-12-17
+layout: BlogPostLayout
 author: jldec
 splash:
   image: images/takeoff.webp

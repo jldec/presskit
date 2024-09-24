@@ -45,7 +45,12 @@ app.use(async (c, next) => {
 		// const id: DurableObjectId = c.env.PAGES.idFromName(path)
 		// const client = c.env.PAGES.get(id)
 		// const page = await client.getPage(path, noCache)
-		if (page) return c.render('', { page })
+		if (page) {
+			const dirPage = path.startsWith('/blog/')
+				? (await getMarkdown('/blog', c.env, waitUntil))?.dir?.find((p) => p.path === path)
+				: undefined
+			return c.render('', { page, dirPage })
+		}
 	}
 
 	await next()

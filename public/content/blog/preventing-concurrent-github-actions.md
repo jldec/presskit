@@ -4,6 +4,7 @@ title: Preventing concurrent GitHub Actions
 splash:
   image: images/rose.jpg
 date: 2021-06-13
+layout: BlogPostLayout
 excerpt: Learn how the new concurrency group feature for GitHub Actions prevents concurrent workflows.
 ---
 

@@ -18,13 +18,13 @@ export async function getDirPageData(
 	waitUntil: WaitUntil,
 	noCache: boolean = false,
 	sortBy?: string
-) {
+): Promise<DirPageData[] | undefined> {
 	const dirs = dirsMemo || (await getDirs(env, waitUntil, noCache))
 	const dirPages = dirs[dirPath]
 	if (!dirPages) return undefined
 
 	// TODO: throttle and detect cycles
-	const dirPagesPromises = dirPages?.map(async (pageName) => {
+	const dirPagesPromises = dirPages?.map(async (pageName): Promise<DirPageData> => {
 		const pagePath = dirPath + (dirPath === '/' ? '' : '/') + pageName
 		const dirPage = await getMarkdown(pagePath, env, waitUntil, noCache)
 		return { path: pagePath, attrs: dirPage?.attrs }
@@ -32,6 +32,12 @@ export async function getDirPageData(
 	const dirPageData = await Promise.all(dirPagesPromises || [])
 	if (sortBy) {
 		dirPageData.sort(sortFn(sortBy)).reverse()
+	}
+	for (let i = 0; i < dirPageData.length; i++) {
+		if (i < dirPageData.length - 1) {
+			dirPageData[i].nextPath = dirPageData[i + 1].path
+			dirPageData[i].nextTitle = dirPageData[i + 1].attrs?.title
+		}
 	}
 	console.log(
 		'getDir',

@@ -6,7 +6,7 @@ MIT license
 
 :root {
   --font-family: monospace;
-  --line-height: 1.20rem;
+  --line-height: 1.40rem;
   --line-height-pre: 1.50rem;
   --border-thickness: 2px;
   --font-size: 16px;
@@ -63,7 +63,7 @@ body {
   width: 100%;
   margin: 0;
   padding: var(--line-height) 2ch;
-  max-width: calc(min(85ch, round(down, 100%, 1ch)));
+  max-width: calc(min(80ch, round(down, 100%, 1ch)));
   line-height: var(--line-height);
   overflow-x: hidden;
 }
@@ -86,7 +86,6 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 2rem;
   line-height: calc(2 * var(--line-height));
-  margin-top: calc(var(--line-height));
   text-transform: uppercase;
 }
 h2 {
@@ -114,7 +113,7 @@ hr:after {
 }
 
 a {
-  text-decoration-thickness: var(--border-thickness);
+  text-decoration-thickness: calc(var(--border-thickness)/2);
 }
 li a {
   text-decoration-thickness: calc(var(--border-thickness)/2);
@@ -204,7 +203,8 @@ img, video {
   width: 100%;
   object-fit: contain;
   overflow: hidden;
-  margin: calc(var(--line-height) * 2) 0
+  margin: calc(var(--line-height) * 2) 0;
+  border: 1px solid #777;
 }
 img {
   font-style: italic;
@@ -238,13 +238,14 @@ details :last-child {
 pre {
   white-space: pre;
   overflow-x: auto;
-  margin: var(--line-height) 0;
+  margin: var(--line-height) -0.25rem;
   overflow-y: hidden;
-  background: var(--background-color-alt);
+  background: #333;
+  color: #44ef44;
 
   line-height: var(--line-height-pre);
   font-size: var(--font-size-pre);
-  padding: 0.25rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
 }
 figure pre {
   margin: 0;
@@ -255,7 +256,7 @@ pre, code {
 }
 
 code {
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-normal);
 }
 
 figure {

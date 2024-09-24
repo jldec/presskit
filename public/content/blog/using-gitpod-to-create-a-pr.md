@@ -3,6 +3,7 @@ title: Using Gitpod to create a PR
 splash:
   image: images/fields-of-clouds.jpg
 date: 2021-10-24
+layout: BlogPostLayout
 excerpt: |
   Gitpod hosts workspaces for developers. Each workspace is a Linux container running in the cloud, with a fully functional development environment, and an instance of VS Code which you can open in your browser.
 ---

@@ -4,6 +4,7 @@ title: Getting started with Python Packaging
 splash:
   image: images/rockford-office.jpg
 date: 2023-02-22
+layout: BlogPostLayout
 excerpt: From zero to publishing a Python module on pypi.org.
 ---
 

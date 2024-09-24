@@ -3,6 +3,7 @@ title: Getting started with Go pointers
 splash:
   image: images/ladybug.jpg
 date: 2021-04-18
+layout: BlogPostLayout
 excerpt: Part 2 of my experience as a new user of Go.
 ---
 

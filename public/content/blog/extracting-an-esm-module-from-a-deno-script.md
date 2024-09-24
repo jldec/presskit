@@ -3,6 +3,7 @@ title: Extracting an ESM module from a Deno script
 splash:
   image: images/persewide.jpg
 date: 2021-03-21
+layout: BlogPostLayout
 excerpt: |
   How to extract an ESM module so that it can also be used with Node.js or in the browser.
 
