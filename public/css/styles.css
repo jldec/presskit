@@ -79,14 +79,14 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-weight-bold);
-  margin: calc(var(--line-height) * 2) 0 var(--line-height);
+  margin: calc(var(--line-height) * 2.5) 0 calc(var(--line-height) * 2) 0;
   line-height: var(--line-height);
 }
 
 h1 {
   font-size: 2rem;
   line-height: calc(2 * var(--line-height));
-  margin-bottom: calc(var(--line-height) * 2);
+  margin-top: calc(var(--line-height));
   text-transform: uppercase;
 }
 h2 {
@@ -115,6 +115,9 @@ hr:after {
 
 a {
   text-decoration-thickness: var(--border-thickness);
+}
+li a {
+  text-decoration-thickness: calc(var(--border-thickness)/2);
 }
 
 a:hover {
@@ -201,6 +204,7 @@ img, video {
   width: 100%;
   object-fit: contain;
   overflow: hidden;
+  margin: calc(var(--line-height) * 2) 0
 }
 img {
   font-style: italic;
@@ -303,6 +307,11 @@ li::marker {
   line-height: 0;
 }
 */
+
+li {
+  margin: 0;
+  padding: 0;
+}
 
 ::-webkit-scrollbar {
     height: var(--line-height);
