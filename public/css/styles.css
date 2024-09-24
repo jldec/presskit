@@ -13,7 +13,7 @@ MIT license
   --font-size-pre: 15px;
   --text-color: #111;
   --text-color-alt: #666;
-  --text-color-subtle: #aaa7;
+  --text-color-subtle: #aaaa;
   --background-color: #fff;
   --background-color-alt: #f0f0f0;
 
@@ -86,6 +86,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 2rem;
   line-height: calc(2 * var(--line-height));
+  margin-top: 0;
   text-transform: uppercase;
 }
 h2 {
@@ -481,4 +482,7 @@ summary {
 }
 .subtle {
   color: var(--text-color-subtle);
+}
+.push-down {
+  margin-bottom: 0;
 }

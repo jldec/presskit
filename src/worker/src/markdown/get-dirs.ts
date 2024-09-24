@@ -10,6 +10,11 @@ const treeKey = 'tree:jldec/presskit'
 let dirsMemo: null | Record<string, string[]> = null
 let pagePathsMemo: null | Record<string, boolean> = null
 
+export function zapDirCache() {
+	dirsMemo = null
+	pagePathsMemo = null
+}
+
 // fetch DirPageData for [children] under a dirpath
 // returns undefined for non-dirpaths
 export async function getDirPageData(
@@ -30,14 +35,15 @@ export async function getDirPageData(
 		return { path: pagePath, attrs: dirPage?.attrs }
 	})
 	const dirPageData = await Promise.all(dirPagesPromises || [])
+	if (sortBy) {
+		dirPageData.sort(sortFn(sortBy)).reverse()
+	}
+	// sort before populating nextPath/nextTitle
 	for (let i = 0; i < dirPageData.length; i++) {
 		if (i < dirPageData.length - 1) {
 			dirPageData[i].nextPath = dirPageData[i + 1].path
 			dirPageData[i].nextTitle = dirPageData[i + 1].attrs?.title
 		}
-	}
-	if (sortBy) {
-		dirPageData.sort(sortFn(sortBy)).reverse()
 	}
 	console.log(
 		'getDir',
