@@ -39,8 +39,6 @@ These tools and services are targeting developers today, but I think we should b
 
 _from: https://2019.fullstackfest.com/podcast/ (~26:00)_
 
-{% embed %}
 <iframe src="https://player.pippa.io/full-stack-cast/episodes/sara-vieira-gatekeeping-airports-and-making-the-web-for-ever?theme=white&cover=1&latest=1" frameBorder="0" width="100%" height="110px" allow="autoplay"></iframe>
-{% /embed %}
 
 > 🌎

@@ -1,8 +1,11 @@
-import markdownit from 'markdown-it'
-import { Options, imagePlugin } from './image-plugin'
+import markdownit from "markdown-it"
+import { Options, imagePlugin } from "./image-plugin"
 
 export function parseMarkdown(s: string, options: Options = {}) {
-	const md = markdownit({ linkify: true }).use(imagePlugin, options)
+  const md = markdownit({
+    linkify: true,
+    html: true,
+  }).use(imagePlugin, options)
 
-	return md.render(s)
+  return md.render(s)
 }
