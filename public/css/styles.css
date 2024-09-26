@@ -63,7 +63,7 @@ body {
   width: 100%;
   margin: 0;
   padding: var(--line-height) 2ch;
-  max-width: calc(min(83ch, round(down, 100%, 1ch)));
+  max-width: calc(min(80ch, round(down, 100%, 1ch)));
   line-height: var(--line-height);
   overflow-x: hidden;
 }
@@ -118,10 +118,15 @@ a {
 }
 li a {
   text-decoration-thickness: calc(var(--border-thickness)/2);
+  text-decoration-color: var(--text-color-subtle);
 }
 
 a:hover {
   text-decoration-style:double;
+}
+li a:hover {
+  text-decoration-color: var(--text-color);
+  text-decoration-style:solid;
 }
 
 a:link, a:visited {
@@ -193,11 +198,13 @@ th {
   text-align: right;
 }
 
+/*
 p {
   word-break: break-word;
   word-wrap: break-word;
   hyphens: auto;
 }
+*/
 
 img, video {
   display: block;
