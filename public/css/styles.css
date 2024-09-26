@@ -113,11 +113,14 @@ hr:after {
   height: 0;
 }
 
+li.nav {
+  margin-top: var(--line-height);
+}
+
 a {
   text-decoration-thickness: calc(var(--border-thickness)/2);
 }
 li a {
-  line-height: 200%;
   text-decoration-thickness: calc(var(--border-thickness)/2);
   text-decoration-color: var(--text-color-subtle);
 }
@@ -326,6 +329,10 @@ ul {
 li {
   margin: 0;
   padding: 0;
+}
+
+ul li::marker {
+  color: var(--text-color-subtle);
 }
 
 ::-webkit-scrollbar {

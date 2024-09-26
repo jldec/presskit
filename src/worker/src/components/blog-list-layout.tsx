@@ -18,7 +18,7 @@ export const BlogListLayout: FC = ({ children, page }) => {
           //     ? ` ${date.getFullYear()}.${("0" + (date.getMonth() + 1)).slice(-2)}.${("0" + date.getDate()).slice(-2)}`
           //     : ""
           return (
-            <li>
+            <li class='nav'>
               <a href={dirPage.path}>{text}</a>
               {/* <span class="subtle">{dateStr}</span> */}
             </li>
