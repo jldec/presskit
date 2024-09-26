@@ -118,10 +118,10 @@ li.nav {
 }
 
 a {
-  text-decoration-thickness: calc(var(--border-thickness)/2);
+  text-decoration-thickness: calc(var(--border-thickness)/1.5);
 }
 li a {
-  text-decoration-thickness: calc(var(--border-thickness)/2);
+  text-decoration-thickness: calc(var(--border-thickness)/1.5);
   text-decoration-color: var(--text-color-subtle);
 }
 

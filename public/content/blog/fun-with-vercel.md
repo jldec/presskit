@@ -10,7 +10,7 @@ excerpt: |
 
 # Fun with Vercel
 
-Last week I wrote about [](first-steps-using-cloudflare-pages).
+Last week I wrote about [First steps using Cloudflare Pages](first-steps-using-cloudflare-pages).
 
 [Vercel](https://vercel.com/home) is another leader in the trend toward static hosting, serverless, and [edge compute](why-serverless-at-the-edge).
 
