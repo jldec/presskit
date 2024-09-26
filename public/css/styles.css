@@ -117,6 +117,7 @@ a {
   text-decoration-thickness: calc(var(--border-thickness)/2);
 }
 li a {
+  line-height: 200%;
   text-decoration-thickness: calc(var(--border-thickness)/2);
   text-decoration-color: var(--text-color-subtle);
 }
@@ -316,6 +317,11 @@ li::marker {
   line-height: 0;
 }
 */
+
+ul {
+  list-style-type: square;
+  padding: 0 0 0 2ch;
+}
 
 li {
   margin: 0;
