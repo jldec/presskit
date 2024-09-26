@@ -3,6 +3,10 @@ compatibility_date = "2024-07-12"
 main = "src/index.tsx"
 compatibility_flags = ["nodejs_compat_v2"]
 
+# https://developers.cloudflare.com/workers/observability/logs/workers-logs/
+[observability]
+enabled = true
+
 # secrets - pnpm wrangler secret put <GH_PAT etc>
 # ENVIRONMENT: prod
 # APP_URL: https://presskit.jldec.me/
