@@ -1,5 +1,6 @@
 ---
 title: Building a static site with cloudflare workers
+date: 2024-09-27
 ---
 # Building a static site with cloudflare workers
 
