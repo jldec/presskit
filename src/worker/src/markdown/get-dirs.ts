@@ -114,7 +114,7 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 		if (resp.ok) {
 			const rawtree = ((await resp.json()) as { tree: { path: string }[] })?.tree
 			rawtree.forEach(({ path }) => {
-				extractDirEntry(path.slice('public/content'.length)) // strip path prefix
+				extractDirEntry(path.slice('src/dev/content'.length)) // strip path prefix
 			})
 			console.log('getDirs from github', Object.keys(dirs).length)
 		}
