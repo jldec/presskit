@@ -31,8 +31,8 @@ preview_bucket_name = 'presskit-img-v0-preview'
 # pnpm wrangler kv namespace create PAGE_CACHE
 # pnpm wrangler kv namespace create PAGE_CACHE --preview
 binding = "PAGE_CACHE"
-id = "65c4126075304a93baaacea9187ff8a9"
-preview_id = "b52a7190959c4127b32cd717b9aa8936"
+id = "956d187f071b4b1b8c39e7f66dec6f53"
+preview_id = "839c3eabff6340ceb10f7c4a4ebabda6"
 
 [durable_objects]
 bindings = [
