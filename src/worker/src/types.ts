@@ -14,6 +14,7 @@ export type Env = {
 	APP_URL: string
 	CHATS: DurableObjectNamespace<Party>
 	PAGES: DurableObjectNamespace<Page>
+	SOURCE_PREFIX: string
 }
 
 export type WaitUntil = (promise: Promise<any>) => void

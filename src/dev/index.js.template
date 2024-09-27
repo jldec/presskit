@@ -1,0 +1,7 @@
+const manifest = <MANIFEST>
+
+export default {
+	async fetch() {
+		return Response.json(manifest)
+	}
+}

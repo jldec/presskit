@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "dependencies": {
+    "fast-glob": "^3.3.2",
+    "wrangler": "^3.78.10"
+  },
+  "scripts": {
+    "build": "node build-manifest.js",
+    "dev": "wrangler dev",
+    "ship": "wrangler deploy"
+  }
+}

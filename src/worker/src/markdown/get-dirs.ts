@@ -95,9 +95,11 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 
 	// local dev uses content directory in worker site public assets manifest
 	if (env.ENVIRONMENT === 'dev') {
-		Object.keys(JSON.parse(manifest)).forEach((path) => {
-			extractDirEntry(path.slice('content'.length)) // strip path prefix
-		})
+		const resp = await fetch('http://localhost:8765/')
+		if (resp.ok) {
+			const manifest = await resp.json() as string[]
+			manifest.forEach(extractDirEntry)
+		}
 		console.log('getDirs from manifest', Object.keys(dirs).length)
 	} else {
 		// https://docs.github.com/en/rest/git/trees (in prod)

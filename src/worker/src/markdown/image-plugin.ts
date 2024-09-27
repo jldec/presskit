@@ -8,15 +8,19 @@ import { hash } from './hash'
 export interface Options {
   "imagePrefix"?: string
   "hashPrefix"?: string
+  "sourcePrefix"?: string
 }
 
-export const imagePlugin = (md: MarkdownIt, { imagePrefix, hashPrefix }: Options = {}) => {
+export const imagePlugin = (md: MarkdownIt, { imagePrefix, hashPrefix, sourcePrefix }: Options = {}) => {
   const imageRule = md.renderer.rules.image!
   md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx]
     let url = token.attrGet('src')
-    if (url && url.startsWith('https://')) {
+    if (url && url.match(/^http:\/\/|^https:\/\//i)) {
       token.attrSet('src', rewriteUrl(url, imagePrefix ?? '/img/', hashPrefix ?? ''))
+    }
+    else if (url && url.match(/^\/images\//)) {
+      token.attrSet('src', rewriteUrl(url, imagePrefix ?? '/img/', hashPrefix ?? '', sourcePrefix))
     }
     return imageRule(tokens, idx, options, env, self)
   }
@@ -24,6 +28,10 @@ export const imagePlugin = (md: MarkdownIt, { imagePrefix, hashPrefix }: Options
 
 // does not preserve extension if og has one (same as github user-attachments)
 // hashPrefix should be secret to properly validate incoming img requests
-function rewriteUrl(url: string, imagePrefix: string, hashPrefix: string) {
+// prefix og urls like `/images/...` to `http://localhost;8765/images/`
+function rewriteUrl(url: string, imagePrefix: string, hashPrefix: string, sourcePrefix?: string) {
+  if (sourcePrefix) {
+    url = sourcePrefix + url
+  }
 	return `${imagePrefix}${hash(hashPrefix + url)}?og=${encodeURIComponent(url)}`
 }
