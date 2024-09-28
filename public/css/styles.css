@@ -92,7 +92,7 @@ h6 {
 h1 {
 	font-size: 2rem;
 	line-height: calc(2 * var(--line-height));
-	margin-top: 0;
+	margin-top: calc(var(--line-height) * 0);
 	text-transform: uppercase;
 }
 h2 {
@@ -528,4 +528,5 @@ summary {
 }
 .push-down {
 	margin-bottom: 0;
+	margin-top: calc(var(--line-height) * 2);
 }
