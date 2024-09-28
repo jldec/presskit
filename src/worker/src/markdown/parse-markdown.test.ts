@@ -18,6 +18,6 @@ const expectedResult = `<h1>markdown header</h1>
 
 test("parseMarkdown", {}, () => {
   let actual = parseMarkdown(markdown, { sourcePrefix: "http://localhost:1234" })
-	console.log(actual)
+	// console.log(actual)
   expect(actual).toEqual(expectedResult)
 })

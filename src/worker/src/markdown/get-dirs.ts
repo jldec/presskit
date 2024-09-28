@@ -45,12 +45,12 @@ export async function getDirPageData(
 			dirPageData[i].nextTitle = dirPageData[i + 1].attrs?.title
 		}
 	}
-	console.log(
-		'getDir',
-		dirPath,
-		dirPages?.length || 0,
-		dirPageData.map((dpd) => dpd.path)
-	)
+	// console.log(
+	// 	'getDir',
+	// 	dirPath,
+	// 	dirPages?.length || 0,
+	// 	dirPageData.map((dpd) => dpd.path)
+	// )
 	return dirPageData
 }
 
@@ -77,7 +77,7 @@ export async function getPagePaths(env: Env, waitUntil: WaitUntil, noCache: bool
 // TODO: use this info to validate all requests in page handler
 // TODO: cache dir trees in KV
 export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
-	console.log('getDirs dirsMemo:', !!dirsMemo, 'noCache:', noCache)
+	// console.log('getDirs dirsMemo:', !!dirsMemo, 'noCache:', noCache)
 	let dirs: Record<string, string[]> = {}
 	let pagePaths: Record<string, boolean> = { '/': true }
 
@@ -88,7 +88,7 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 		if (cachedContent !== null) {
 			dirsMemo = JSON.parse(cachedContent) as Record<string, string[]>
 			pagePathsMemo = extractPagePaths(dirsMemo)
-			console.log('getDirs from KV', Object.keys(dirsMemo).length)
+			// console.log('getDirs from KV', Object.keys(dirsMemo).length)
 			return dirsMemo
 		}
 	}
@@ -100,7 +100,7 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 			const manifest = await resp.json() as string[]
 			manifest.forEach(extractDirEntry)
 		}
-		console.log('getDirs from manifest', Object.keys(dirs).length)
+		// console.log('getDirs from manifest', Object.keys(dirs).length)
 	} else {
 		// https://docs.github.com/en/rest/git/trees (in prod)
 		const resp = await fetch(treeUrl, {

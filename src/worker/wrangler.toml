@@ -13,7 +13,7 @@ enabled = true
 # GH_PAT: Expires on Mon, Dec 16 2024
 # GH_REPO: jldec/presskit
 # IMAGE_KEY: no expiration
-# SOURCE_PREFIX = "https://raw.githubusercontent.com/jdlec/presskit/main/src/dev/content"
+# SOURCE_PREFIX = "https://raw.githubusercontent.com/jldec/presskit/main/src/dev/content"
 
 [site]
 bucket = "../../public"

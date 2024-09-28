@@ -27,7 +27,7 @@ export async function getImage(image: string, c: Context) {
 		return c.notFound()
 	}
 	const resp = await fetch(og)
-	console.log('fetch img', og, resp.status)
+	// console.log('fetch img', og, resp.status)
 	if (!resp.ok || !resp.body) return c.notFound()
 
 	const [body, body2] = resp.body.tee()

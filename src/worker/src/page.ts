@@ -15,7 +15,7 @@ export class Page extends DurableObject {
 	async getPage(path: string, noCache = false) {
 		if (!this.page || noCache) {
 			this.page = await getMarkdown(path, this.env as Env, this.waitUntil, noCache)
-			console.log('getPage', this.page?.path, this.page?.dir?.length || 'no-dir', noCache)
+			// console.log('getPage', this.page?.path, this.page?.dir?.length || 'no-dir', noCache)
 		}
 		return this.page
 	}
