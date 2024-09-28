@@ -5,10 +5,9 @@ date: 2024-09-27
 ---
 # Building a static site with cloudflare workers
 
-Yesterday Cloudflare announced some [new features](https://blog.cloudflare.com/builder-day-2024-announcements/) including [this one](https://blog.cloudflare.com/builder-day-2024-announcements/#static-asset-hosting) for serving static files.
+Cloudflare recently announced some [new features](https://blog.cloudflare.com/builder-day-2024-announcements/) including [this one](https://blog.cloudflare.com/builder-day-2024-announcements/#static-asset-hosting) for serving static files.
 
-Here's how you can deploy a static site from scratch.
-The result is hosted at [minimal-static-site.jldec.workers.dev](https://minimal-static-site.jldec.workers.dev)
+Here's how you can deploy a static site from scratch. Find the site at [minimal-static-site.jldec.workers.dev](https://minimal-static-site.jldec.workers.dev), source in [github](https://github.com/jldec/minimal-static-site).
 
 [![minimal-static-site.jldec.workers.dev](/images/minimal-static-site.jldec.workers.dev.webp)](https://minimal-static-site.jldec.workers.dev)
 

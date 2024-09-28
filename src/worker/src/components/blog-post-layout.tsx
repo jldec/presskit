@@ -20,8 +20,9 @@ export const BlogPostLayout: FC = ({ children, page, dirPage }) => {
       <a href="/">Home</a> | <a href="/blog">Writings</a>
       {dirPage?.nextPath ? (
         <>
-          {" >> "}
-          <a href={dirPage.nextPath}>{dirPage.nextTitle || dirPage.nextPath}</a>
+          {" | "}
+          <span class="subtle">next: </span>
+          <a class="subtle" href={dirPage.nextPath}>{dirPage.nextTitle || dirPage.nextPath}</a>
         </>
       ) : (
         ""
