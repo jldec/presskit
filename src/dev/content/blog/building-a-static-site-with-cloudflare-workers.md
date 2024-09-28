@@ -5,34 +5,31 @@ date: 2024-09-27
 ---
 # Building a static site with cloudflare workers
 
-Yesterday Cloudflare announced a slew of [new features](https://blog.cloudflare.com/builder-day-2024-announcements/) for the workers platform, including static asset hosting.
+Yesterday Cloudflare announced some [new features](https://blog.cloudflare.com/builder-day-2024-announcements/) including [this one](https://blog.cloudflare.com/builder-day-2024-announcements/#static-asset-hosting) for serving static files.
 
-This makes it much easier to serve static files from the same endpoit as the request handlers in your workers code.
+Here's how you can deploy a static site from scratch.
+The result is hosted at [minimal-static-site.jldec.workers.dev](https://minimal-static-site.jldec.workers.dev)
 
-The following is all you need to build a static site, from scratch.
-These instructions assume that tou have node and pnpm.
+[![minimal-static-site.jldec.workers.dev](/images/minimal-static-site.jldec.workers.dev.webp)](https://minimal-static-site.jldec.workers.dev)
 
-### create an empty directory
+### 1. Create an empty directory and install wrangler
+These instructions assume that you already have [node](https://nodejs.org/) and [pnpm](https://pnpm.io/).
 ```sh
 mkdir minimal-static-site
 cd minimal-static-site
-```
-
-### install wrangler
-```sh
 pnpm install wrangler
 ```
 
-### create wrangler.toml
+### 2. Create wrangler.toml
 ```toml
 #:schema node_modules/wrangler/config-schema.json
 name = "minimal-static-site"
-compatibility_date = "2024-09-27"
+compatibility_date = "2024-09-25"
 assets = { directory = "./content" }
 ```
-Note the name of the content directory for assets.
+Note the new `assets` config, pointing to a content directory.
 
-### create content/index.html
+### 3. Provide your content/index.html
 
 ```html
 <!DOCTYPE html>
@@ -62,18 +59,10 @@ Note the name of the content directory for assets.
 </html>
 ```
 
-
-
-
-
-
+### 4. Ship it 🚢
 
 ```txt
-$ pnpm ship
-
-> @ ship /Users/jldec/cloudflare/minimal-static-site
-> wrangler deploy
-
+$ pnpm wrangler deploy
 
  ⛅️ wrangler 3.78.10
 --------------------

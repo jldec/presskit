@@ -66,7 +66,7 @@ function sortFn(sortBy: string) {
 }
 
 export async function getPagePaths(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
-	if (pagePathsMemo) return pagePathsMemo
+	if (pagePathsMemo && !noCache) return pagePathsMemo
 	// Assume getDirs will also populate pagePathsMemo
 	await getDirs(env, waitUntil, noCache)
 	return pagePathsMemo

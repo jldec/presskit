@@ -30,14 +30,15 @@ async function getTextFile(path: string, env: Env, waitUntil: WaitUntil, noCache
 }
 
 export async function getMarkdown(path: string, env: Env, waitUntil: WaitUntil, noCache: boolean = false): Promise<PageData | null> {
+  const isHome = path === "/"
   try {
     if (!noCache) {
-      if (path === "/" && env.ENVIRONMENT !== "dev" && homePage) return homePage
+      if (isHome && env.ENVIRONMENT !== "dev" && homePage) return homePage
 
       const cachedContent = await env.PAGE_CACHE.get(path)
       if (cachedContent !== null) return JSON.parse(cachedContent) as PageData
     }
-    const text = await getTextFile(path, env, waitUntil, noCache)
+    const text = await getTextFile(path, env, waitUntil, isHome && noCache)
     const parsedFrontmatter = parseFrontmatter(text)
     const dirPageData = await getDirPageData(path, env, waitUntil, false, parsedFrontmatter.attrs.sortby)
     const content = {

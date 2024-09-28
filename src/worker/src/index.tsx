@@ -40,7 +40,7 @@ app.use(async (c, next) => {
 
 	let pagePaths = await getPagePaths(c.env, waitUntil, noCache)
 	if (pagePaths && path in pagePaths) {
-		const page = await getMarkdown(path, c.env, waitUntil)
+		const page = await getMarkdown(path, c.env, waitUntil, noCache)
 
 		// const id: DurableObjectId = c.env.PAGES.idFromName(path)
 		// const client = c.env.PAGES.get(id)
