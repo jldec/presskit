@@ -22,8 +22,7 @@ _It is not enough for everyone to be able to access the Web... It is also essent
 And [@pngwn](https://twitter.com/evilpingwin), who also [presented](https://www.youtube.com/live/eswNQiq4T2w?si=UmYiT4OevZ55ag9D&t=2629) last night, is doing his part to help. [Gradio](https://www.gradio.app/) makes it easy for AI researchers to share interactive demos of their work on the Web.
 
 _From [https://www.gradio.app/guides/quickstart](https://www.gradio.app/guides/quickstart)_
-[![Gradio demo](https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/gradio-guides/lcm-screenshot-3.gif)](https://www.gradio.app/guides/quickstart).
-
+[![Gradio demo](https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/gradio-guides/lcm-screenshot-3.gif)](https://www.gradio.app/guides/quickstart)
 
 ## Posting on the Web yourself
 You should not need to hire a developer to post your own writing or photos or videos on the Web.

@@ -16,7 +16,6 @@ function fileUrlPrefix(env: Env) {
 
 async function filePath(path: string, env: Env, waitUntil: WaitUntil, noCache: boolean): Promise<string> {
   let dirs = await getDirs(env, waitUntil, noCache)
-  // console.log('filePath', path, Object.keys(dirs ?? {}).length)
   if (path in dirs) {
     path += (path === "/" ? "" : "/") + "index"
   }
@@ -24,8 +23,10 @@ async function filePath(path: string, env: Env, waitUntil: WaitUntil, noCache: b
 }
 
 async function getTextFile(path: string, env: Env, waitUntil: WaitUntil, noCache: boolean): Promise<string> {
-  const response = await fetch(await filePath(path, env, waitUntil, noCache))
+  const url = await filePath(path, env, waitUntil, noCache)
+  const response = await fetch(url)
   if (!response.ok) throw new Error(`${response.status} error fetching ${path}`)
+  console.log('getMarkdown', url, response.status)
   return await response.text()
 }
 
