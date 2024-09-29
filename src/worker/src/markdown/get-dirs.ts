@@ -60,11 +60,9 @@ function sortFn(sortBy: string) {
 	}
 }
 
-export async function getPagePaths(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
-	if (!noCache) {
-		if (pagePathsMemo) return pagePathsMemo
-	}
-	const dirs = await getDirs(env, waitUntil, noCache)
+export async function getPagePaths(env: Env, waitUntil: WaitUntil) {
+	if (pagePathsMemo) return pagePathsMemo
+	const dirs = await getDirs(env, waitUntil)
 	const pagePaths: Record<string, boolean> = { '/': true }
 	for (const dirpath of Object.keys(dirs)) {
 		pagePaths[dirpath] = true
