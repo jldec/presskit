@@ -5,11 +5,17 @@ date: 2024-09-27
 ---
 # Building a static site with cloudflare workers
 
-Cloudflare recently announced some [new features](https://blog.cloudflare.com/builder-day-2024-announcements/) including [this one](https://blog.cloudflare.com/builder-day-2024-announcements/#static-asset-hosting) for serving static files.
+Cloudflare recently announced [static assets](https://blog.cloudflare.com/builder-day-2024-announcements/#static-asset-hosting) for workers.
 
-Here's how you can deploy a static site from scratch. Find the site at [minimal-static-site.jldec.workers.dev](https://minimal-static-site.jldec.workers.dev), source in [github](https://github.com/jldec/minimal-static-site).
+You can now deploy static files with a worker, instead of shipping worker code in your Cloudflare Pages project.
 
-[![minimal-static-site.jldec.workers.dev](/images/minimal-static-site.jldec.workers.dev.webp)](https://minimal-static-site.jldec.workers.dev)
+This makes it easier to build things like multi-user chat with websockets and [durable objects](https://developers.cloudflare.com/durable-objects/) which are [not deployable](https://developers.cloudflare.com/workers/static-assets/compatibility-matrix/) directly with Pages.
+
+## DIY
+
+Here are the steps to deploy a static site from scratch. You can follow along or find the code in [github](https://github.com/jldec/minimal-static-site).
+
+Less patient users can run `npm create cloudflare -- --experimental` and choose a static asset template as described in [the docs](https://developers.cloudflare.com/workers/static-assets/get-started/#1-create-a-new-worker-project-using-the-cli).
 
 ### 1. Create an empty directory and install wrangler
 These instructions assume that you already have [node](https://nodejs.org/) and [pnpm](https://pnpm.io/).
@@ -20,16 +26,16 @@ pnpm install wrangler
 ```
 
 ### 2. Create wrangler.toml
+You can choose your own worker name and content directory for assets.
 ```toml
 #:schema node_modules/wrangler/config-schema.json
 name = "minimal-static-site"
 compatibility_date = "2024-09-25"
 assets = { directory = "./content" }
 ```
-Note the new `assets` config, pointing to a content directory.
+The worker will serve all files in the assets directory on [routes](https://developers.cloudflare.com/workers/static-assets/routing/) starting at the worker root.
 
-### 3. Provide your content/index.html
-
+### 3. Create index.html in your content directory
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -79,3 +85,6 @@ Deployed minimal-static-site triggers (5.77 sec)
   https://minimal-static-site.jldec.workers.dev
 Current Version ID: d0ecd041-b9a3-4e89-b168-baa394567839
 ```
+
+#### The result is live at [minimal-static-site.jldec.workers.dev](https://minimal-static-site.jldec.workers.dev)
+[![minimal-static-site.jldec.workers.dev](/images/minimal-static-site.jldec.workers.dev.webp)](https://minimal-static-site.jldec.workers.dev)

@@ -2,7 +2,7 @@
 title: Presskit
 ---
 
-[Chat](/chat) | [Writings](/blog) | [Progress](/progress) | [Admin](/admin)
+[Chat](/chat) | [Writings](/blog)
 
 # Presskit
 Fast and simple collaborative Web publishing.

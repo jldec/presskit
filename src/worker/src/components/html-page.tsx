@@ -27,7 +27,7 @@ export function renderJsx() {
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
 					<title>{page?.attrs.title ?? 'Presskit'}</title>
 					<link href="/css/styles.css" rel="stylesheet" />
-					<script src="/js/htmx.js"></script>
+					<script src="/js/htmx.min.js"></script>
 				</head>
 				<body>
 					{(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({

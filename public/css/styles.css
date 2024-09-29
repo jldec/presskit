@@ -92,11 +92,10 @@ h6 {
 h1 {
 	font-size: 2rem;
 	line-height: calc(2 * var(--line-height));
-	margin-top: calc(var(--line-height) * 0);
+	margin-top: calc(var(--line-height) * 0.25);
 	text-transform: uppercase;
 }
 h2 {
-	font-size: 1rem;
 	text-transform: uppercase;
 }
 
@@ -273,6 +272,9 @@ code {
 }
 
 code {
+	font-weight: var(--font-weight-normal);
+}
+p code {
 	font-weight: var(--font-weight-medium);
 }
 
@@ -529,4 +531,10 @@ summary {
 .push-down {
 	margin-bottom: 0;
 	margin-top: calc(var(--line-height) * 2);
+}
+blockquote {
+	margin-left: 0;
+	padding-left: 2ch;
+	border-left: var(--border-thickness) solid var(--text-color-subtle);
+	font-weight: var(--font-weight-medium);
 }

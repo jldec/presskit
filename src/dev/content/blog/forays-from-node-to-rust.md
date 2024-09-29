@@ -29,8 +29,7 @@ To get started:
 
 Those steps also take care of 'cargo', the Rust build tool.
 
-![Image showing cargo commands](/images/cargo.png)  
-_https://www.rust-lang.org/learn/get-started_
+![Image showing cargo commands](/images/cargo.png) https://www.rust-lang.org/learn/get-started
 
 ## VS Code
 
