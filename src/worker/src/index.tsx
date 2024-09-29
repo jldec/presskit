@@ -38,7 +38,7 @@ app.use(async (c, next) => {
 	}
 	const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
 
-	let pagePaths = await getPagePaths(c.env, waitUntil, noCache)
+	let pagePaths = await getPagePaths(c.env, waitUntil, false)
 	if (pagePaths && path in pagePaths) {
 		const page = await getMarkdown(path, c.env, waitUntil, noCache)
 

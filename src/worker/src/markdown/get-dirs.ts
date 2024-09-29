@@ -17,22 +17,22 @@ export function zapDirCache() {
 
 // fetch DirPageData for [children] under a dirpath
 // returns undefined for non-dirpaths
+// never called with noCache
 // NOTE: this may trigger recursively because is runs getMarkdown for children
 export async function getDirPageData(
 	dirPath: string,
 	env: Env,
 	waitUntil: WaitUntil,
-	noCache: boolean = false,
 	sortBy?: string
 ): Promise<DirPageData[] | undefined> {
-	const dirs = dirsMemo || (await getDirs(env, waitUntil, noCache))
+	const dirs = dirsMemo || (await getDirs(env, waitUntil))
 	const dirPages = dirs[dirPath]
 	if (!dirPages) return undefined
 
 	// TODO: throttle and detect cycles
 	const dirPagesPromises = dirPages?.map(async (pageName): Promise<DirPageData> => {
 		const pagePath = dirPath + (dirPath === '/' ? '' : '/') + pageName
-		const dirPage = await getMarkdown(pagePath, env, waitUntil, noCache)
+		const dirPage = await getMarkdown(pagePath, env, waitUntil)
 		return { path: pagePath, attrs: dirPage?.attrs }
 	})
 	const dirPageData = await Promise.all(dirPagesPromises || [])
@@ -46,6 +46,7 @@ export async function getDirPageData(
 			dirPageData[i].nextTitle = dirPageData[i + 1].attrs?.title
 		}
 	}
+	console.log('getDirPageData', dirPath)
 	return dirPageData
 }
 
@@ -97,6 +98,7 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 			const manifest = await resp.json() as string[]
 			manifest.forEach(extractDirEntry)
 		}
+		console.log('getDirs from local dev', resp.status)
 	} else {
 		// https://docs.github.com/en/rest/git/trees (in prod)
 		const resp = await fetch(treeUrl, {
@@ -113,11 +115,12 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 				extractDirEntry(path.slice('src/dev/content'.length)) // strip path prefix
 			}
 		}
+		console.log('getDirs from github', resp.status)
 	}
 
 	dirsMemo = dirs
+	pagePathsMemo = null // invalidate when dirs change
 	waitUntil(env.PAGE_CACHE.put(treeCacheKey, JSON.stringify(dirs)))
-	console.log('getDirs')
 	return dirs
 
 	// Populate dirs hash for *.md - all other paths are ignored.

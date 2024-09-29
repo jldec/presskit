@@ -220,7 +220,6 @@ video {
 	overflow: hidden;
 	margin: calc(var(--line-height) * 2) 0;
 	border: 1px solid #777;
-	border-radius: 1ch;
 }
 img {
 	font-style: italic;
@@ -258,7 +257,6 @@ pre {
 	overflow-y: hidden;
 	background: var(--background-color-pre);
 	color: var(--text-color-pre);
-	border-radius: 1ch;
 
 	line-height: var(--line-height-pre);
 	font-size: var(--font-size-pre);

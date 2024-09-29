@@ -41,7 +41,7 @@ export async function getMarkdown(path: string, env: Env, waitUntil: WaitUntil, 
     }
     const text = await getTextFile(path, env, waitUntil, isHome && noCache)
     const parsedFrontmatter = parseFrontmatter(text)
-    const dirPageData = await getDirPageData(path, env, waitUntil, false, parsedFrontmatter.attrs.sortby)
+    const dirPageData = await getDirPageData(path, env, waitUntil, parsedFrontmatter.attrs.sortby)
     const content = {
       path,
       attrs: parsedFrontmatter.attrs,
