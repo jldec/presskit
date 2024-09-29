@@ -15,7 +15,7 @@ This makes it easier to build things like multi-user chat with websockets and [d
 
 Here are the steps to deploy a static site from scratch. You can follow along or find the code in [github](https://github.com/jldec/minimal-static-site).
 
-Less patient users can run `npm create cloudflare -- --experimental` and choose a static asset template as described in [the docs](https://developers.cloudflare.com/workers/static-assets/get-started/#1-create-a-new-worker-project-using-the-cli).
+Less patient users can run `pnpm create cloudflare --experimental` and choose a static asset template as described in [the docs](https://developers.cloudflare.com/workers/static-assets/get-started/#1-create-a-new-worker-project-using-the-cli).
 
 ### 1. Create an empty directory and install wrangler
 These instructions assume that you already have [node](https://nodejs.org/) and [pnpm](https://pnpm.io/).
