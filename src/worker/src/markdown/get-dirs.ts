@@ -5,7 +5,7 @@ import { getMarkdown } from './get-markdown'
 
 // TODO - make this configurable
 const treeUrl = 'https://api.github.com/repos/jldec/presskit/git/trees/HEAD?recursive=1'
-const treeKey = 'tree:jldec/presskit'
+const treeCacheKey = 'tree:jldec/presskit'
 
 let dirsMemo: null | Record<string, string[]> = null
 let pagePathsMemo: null | Record<string, boolean> = null
@@ -17,6 +17,7 @@ export function zapDirCache() {
 
 // fetch DirPageData for [children] under a dirpath
 // returns undefined for non-dirpaths
+// NOTE: this may trigger recursively because is runs getMarkdown for children
 export async function getDirPageData(
 	dirPath: string,
 	env: Env,
@@ -45,12 +46,6 @@ export async function getDirPageData(
 			dirPageData[i].nextTitle = dirPageData[i + 1].attrs?.title
 		}
 	}
-	// console.log(
-	// 	'getDir',
-	// 	dirPath,
-	// 	dirPages?.length || 0,
-	// 	dirPageData.map((dpd) => dpd.path)
-	// )
 	return dirPageData
 }
 
@@ -60,35 +55,37 @@ function sortFn(sortBy: string) {
 		const v2 = b.attrs && b.attrs[sortBy]
 		// @ts-expect-error
 		const result = v1 === v2 ? 0 : v1 > v2 ? 1 : -1
-		// console.log('sort', v1, v2, result)
 		return result
 	}
 }
 
 export async function getPagePaths(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
-	if (pagePathsMemo && !noCache) return pagePathsMemo
-	// Assume getDirs will also populate pagePathsMemo
-	await getDirs(env, waitUntil, noCache)
-	return pagePathsMemo
+	if (!noCache) {
+		if (pagePathsMemo) return pagePathsMemo
+	}
+	const dirs = await getDirs(env, waitUntil, noCache)
+	const pagePaths: Record<string, boolean> = { '/': true }
+	for (const dirpath of Object.keys(dirs)) {
+		pagePaths[dirpath] = true
+		for (const page of dirs[dirpath]) {
+			pagePaths[`${dirpath === '/' ? '' : dirpath}/${page}`] = true
+		}
+	}
+	pagePathsMemo = pagePaths
+	console.log('getPagePaths')
+	return pagePaths
 }
 
 // Fetch dirs = hash of dirpaths -> [children]
-// also collects pagesPaths which includes non-dirs
-// TODO: use this info to validate all requests in page handler
-// TODO: cache dir trees in KV
 export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
-	// console.log('getDirs dirsMemo:', !!dirsMemo, 'noCache:', noCache)
 	let dirs: Record<string, string[]> = {}
-	let pagePaths: Record<string, boolean> = { '/': true }
 
 	if (!noCache) {
 		if (dirsMemo) return dirsMemo
 
-		const cachedContent = await env.PAGE_CACHE.get(treeKey)
+		const cachedContent = await env.PAGE_CACHE.get(treeCacheKey)
 		if (cachedContent !== null) {
 			dirsMemo = JSON.parse(cachedContent) as Record<string, string[]>
-			pagePathsMemo = extractPagePaths(dirsMemo)
-			// console.log('getDirs from KV', Object.keys(dirsMemo).length)
 			return dirsMemo
 		}
 	}
@@ -100,7 +97,6 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 			const manifest = await resp.json() as string[]
 			manifest.forEach(extractDirEntry)
 		}
-		// console.log('getDirs from manifest', Object.keys(dirs).length)
 	} else {
 		// https://docs.github.com/en/rest/git/trees (in prod)
 		const resp = await fetch(treeUrl, {
@@ -113,16 +109,15 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 		})
 		if (resp.ok) {
 			const rawtree = ((await resp.json()) as { tree: { path: string }[] })?.tree
-			rawtree.forEach(({ path }) => {
+			for (const { path } of rawtree) {
 				extractDirEntry(path.slice('src/dev/content'.length)) // strip path prefix
-			})
-			console.log('getDirs from github', Object.keys(dirs).length)
+			}
 		}
 	}
 
 	dirsMemo = dirs
-	pagePathsMemo = pagePaths
-	waitUntil(env.PAGE_CACHE.put(treeKey, JSON.stringify(dirs)))
+	waitUntil(env.PAGE_CACHE.put(treeCacheKey, JSON.stringify(dirs)))
+	console.log('getDirs')
 	return dirs
 
 	// Populate dirs hash for *.md - all other paths are ignored.
@@ -141,18 +136,7 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
 				const page = match[2]
 				dirs[dirpath] ??= []
 				dirs[dirpath].push(page)
-				pagePaths[`${dirpath === '/' ? '' : dirpath}/${page}`] = true
 			}
 		}
-	}
-
-	function extractPagePaths(dirs: Record<string, string[]>) {
-		Object.keys(dirs).map((dirpath) => {
-			pagePaths[dirpath] = true
-			dirs[dirpath].forEach((page) => {
-				pagePaths[`${dirpath === '/' ? '' : dirpath}/${page}`] = true
-			})
-		})
-		return pagePaths
 	}
 }

@@ -9,7 +9,7 @@ Cloudflare recently announced [static assets](https://blog.cloudflare.com/builde
 
 You can now deploy static files with a worker, instead of shipping worker code in your Cloudflare Pages project.
 
-This makes it easier to build things like multi-user chat with websockets and [durable objects](https://developers.cloudflare.com/durable-objects/) which are [not deployable](https://developers.cloudflare.com/workers/static-assets/compatibility-matrix/) directly with Pages.
+This makes it easier to build things like multi-user chat with websockets using [durable objects](https://developers.cloudflare.com/durable-objects/) which are [not deployable](https://developers.cloudflare.com/workers/static-assets/compatibility-matrix/) via Cloudflare Pages.
 
 ## DIY
 
