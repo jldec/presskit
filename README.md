@@ -11,4 +11,5 @@ Every human-machine interaction is an AI interaction.
 - [ ] Installable, professional themes
 
 > [!Warning]
-> This is a work in progress, and the roadmap is likely to change
+> This is a work in progress. The roadmap will evolve.
+
