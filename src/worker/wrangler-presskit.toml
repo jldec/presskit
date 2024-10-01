@@ -7,11 +7,17 @@ main = "src/index.tsx"
 [observability]
 enabled = true
 
-# secrets - pnpm wrangler -c wrangler-presskit.toml secret put <GH_PAT etc>
-# ENVIRONMENT: prod
-# GH_PAT: Expires on Mon, Dec 16 2024
-# IMAGE_KEY: no expiration
-# SOURCE_PREFIX = "https://raw.githubusercontent.com/jldec/presskit/main/src/dev/content"
+# see .dev.env for local vars and secrets
+# export GH_PAT=<GitHub-token>
+# export IMAGE_KEY=<image-hash-key>
+# export ENVIRONMENT=dev
+# export SOURCE_PREFIX=http://localhost:8765
+# export SOURCE_TREE_URL=http://localhost:8765
+
+[vars]
+ENVIRONMENT = "prod"
+SOURCE_PREFIX = "https://raw.githubusercontent.com/jldec/presskit/main/src/dev/content"
+SOURCE_TREE_URL = "https://api.github.com/repos/jldec/presskit/git/trees/main:src/dev/content"
 
 [ai]
 binding = "AI"
