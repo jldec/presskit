@@ -18,5 +18,4 @@ Every human-machine interaction is an AI interaction.
 - [ ] Whiteboard + notes retained for every page
 - [ ] Installable, professional themes
 
-> [!Warning]
-> This is a work in progress, and the roadmap is likely to change
+> This is a work in progress. The roadmap will evolve.
