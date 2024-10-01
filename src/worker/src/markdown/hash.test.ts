@@ -19,6 +19,6 @@ describe('hash', () => {
 
   it('should generate a FNV 1a hash', async () => {
     const hash1 = hash(url)
-    expect(hash1).toBe("1xzq9lwjinar8")
+    expect(hash1).toBe('1xzq9lwjinar8')
   })
 })

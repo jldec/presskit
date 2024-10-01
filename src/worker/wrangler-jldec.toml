@@ -1,0 +1,43 @@
+name = "jldec-worker"
+compatibility_date = "2024-09-25"
+assets = { directory = "../../public" }
+main = "src/index.tsx"
+
+# https://developers.cloudflare.com/workers/observability/logs/workers-logs/
+[observability]
+enabled = true
+
+# see .dev.env for local vars and secrets
+# export GH_PAT=<GitHub-token>
+# export IMAGE_KEY=<image-hash-key>
+# export ENVIRONMENT=dev
+# export SOURCE_PREFIX=http://localhost:8765
+# export SOURCE_TREE_URL=http://localhost:8765
+
+[vars]
+ENVIRONMENT = "prod"
+SOURCE_PREFIX = "https://raw.githubusercontent.com/jldec/jldec-me/main/content"
+SOURCE_TREE_URL = "https://api.github.com/repos/jldec/jldec-me/git/trees/main:content"
+
+[ai]
+binding = "AI"
+
+[[r2_buckets]]
+# pnpm wrangler -c wrangler-jldec.toml r2 bucket create jldec-img-v0
+binding = "IMAGES"
+bucket_name = "jldec-img-v0"
+preview_bucket_name = "presskit-img-v0-preview"
+
+[[kv_namespaces]]
+# pnpm wrangler -c wrangler-jldec.toml kv namespace create PAGE_CACHE
+# pnpm wrangler -c wrangler-jldec.toml kv namespace create PAGE_CACHE --preview
+binding = "PAGE_CACHE"
+id = "fb2c61987df84068b2d8c36847e8c8a6"
+preview_id = "c1648c1fc9a5495780739119cbb7c7f5"
+
+[durable_objects]
+bindings = [{ name = "CHATS", class_name = "Party" }]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["Party"]

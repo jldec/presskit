@@ -1,5 +1,5 @@
-import { expect, test } from "vitest"
-import { parseMarkdown } from "./parse-markdown"
+import { expect, test } from 'vitest'
+import { parseMarkdown } from './parse-markdown'
 
 const markdown = `# markdown header
 paragraph 1
@@ -16,8 +16,8 @@ const expectedResult = `<h1>markdown header</h1>
 <img src="/img/19hzstclvpapa?og=http%3A%2F%2Flocalhost%3A1234%2Fimages%2Fimage2.png" alt="alt text"></p>
 `
 
-test("parseMarkdown", {}, () => {
-  let actual = parseMarkdown(markdown, { sourcePrefix: "http://localhost:1234" })
-	// console.log(actual)
+test('parseMarkdown', {}, () => {
+  let actual = parseMarkdown(markdown, { sourcePrefix: 'http://localhost:1234' })
+  // console.log(actual)
   expect(actual).toEqual(expectedResult)
 })

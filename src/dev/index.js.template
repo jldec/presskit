@@ -1,7 +1,10 @@
 const manifest = <MANIFEST>
+const dir = <CONTENT_DIR>
+
+console.log('dev PRESSKIT_CONTENT_DIR', dir)
 
 export default {
-	async fetch() {
-		return Response.json(manifest)
-	}
+  async fetch() {
+    return Response.json(manifest)
+  }
 }

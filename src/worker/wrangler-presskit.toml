@@ -1,44 +1,36 @@
 name = "presskit-worker"
-compatibility_date = "2024-07-12"
+compatibility_date = "2024-09-25"
+assets = { directory = "../../public" }
 main = "src/index.tsx"
-compatibility_flags = ["nodejs_compat_v2"]
 
 # https://developers.cloudflare.com/workers/observability/logs/workers-logs/
 [observability]
 enabled = true
 
-# secrets - pnpm wrangler secret put <GH_PAT etc>
+# secrets - pnpm wrangler -c wrangler-presskit.toml secret put <GH_PAT etc>
 # ENVIRONMENT: prod
-# APP_URL: https://presskit.jldec.me/
 # GH_PAT: Expires on Mon, Dec 16 2024
-# GH_REPO: jldec/presskit
 # IMAGE_KEY: no expiration
 # SOURCE_PREFIX = "https://raw.githubusercontent.com/jldec/presskit/main/src/dev/content"
-
-[site]
-bucket = "../../public"
 
 [ai]
 binding = "AI"
 
 [[r2_buckets]]
-# pnpm wrangler r2 bucket create presskit-img-v0
+# pnpm wrangler -c wrangler-presskit.toml r2 bucket create presskit-img-v0
 binding = 'IMAGES'
 bucket_name = 'presskit-img-v0'
 preview_bucket_name = 'presskit-img-v0-preview'
 
 [[kv_namespaces]]
-# pnpm wrangler kv namespace create PAGE_CACHE
-# pnpm wrangler kv namespace create PAGE_CACHE --preview
+# pnpm wrangler -c wrangler-presskit.toml kv namespace create PAGE_CACHE
+# pnpm wrangler -c wrangler-presskit.toml kv namespace create PAGE_CACHE --preview
 binding = "PAGE_CACHE"
 id = "956d187f071b4b1b8c39e7f66dec6f53"
 preview_id = "839c3eabff6340ceb10f7c4a4ebabda6"
 
 [durable_objects]
-bindings = [
-  { name = "CHATS", class_name = "Party" },
-  { name = "PAGES", class_name = "Page" },
-]
+bindings = [{ name = "CHATS", class_name = "Party" }]
 
 [[migrations]]
 tag = "v1"
@@ -54,3 +46,7 @@ renamed_classes = [
   { from = "Chat", to = "Party" },
   { from = "PagePrep", to = "Page" },
 ]
+
+[[migrations]]
+tag = "v4"
+deleted_classes = ["Page"]

@@ -1,11 +1,13 @@
 {
   "name": "presskit-worker",
   "scripts": {
-    "dev": "wrangler dev src/index.tsx",
-    "dev:remote": "wrangler dev src/index.tsx --remote",
-    "ship": "wrangler deploy --minify src/index.tsx",
-    "test": "vitest",
-    "tail": "wrangler tail"
+    "dev-presskit":  "wrangler -c wrangler-presskit.toml dev src/index.tsx",
+    "ship-presskit": "wrangler -c wrangler-presskit.toml deploy --minify src/index.tsx",
+    "tail-presskit": "wrangler -c wrangler-presskit.toml tail",
+    "dev-jldec":  "wrangler -c wrangler-jldec.toml dev src/index.tsx",
+    "ship-jldec": "wrangler -c wrangler-jldec.toml deploy --minify src/index.tsx",
+    "tail-jldec": "wrangler -c wrangler-jldec.toml tail",
+    "test": "vitest"
   },
   "dependencies": {
     "@std/front-matter": "npm:@jsr/std__front-matter@1.0.5",
@@ -22,11 +24,5 @@
     "htmx.org": "^2.0.1",
     "vitest": "^2.1.1",
     "wrangler": "^3.78.12"
-  },
-  "prettier": {
-    "useTabs": false,
-    "semi": false,
-    "printWidth": 140,
-    "trailingComma": "es5"
   }
 }

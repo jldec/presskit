@@ -1,18 +1,18 @@
 {
-	"name": "presskit-worker",
-	"scripts": {
-		"dev": "esbuild ./index.tsx --watch --bundle --format=esm --platform=browser --outfile=../../public/js/partychat.js",
-		"build": "esbuild ./index.tsx --bundle --format=esm --platform=browser --outfile=../../public/js/partychat.js"
-	},
-	"dependencies": {
-		"nanoid": "^5.0.7",
-		"partysocket": "^1.0.2",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1"
-	},
-	"devDependencies": {
-		"@types/react": "^18.3.8",
-		"@types/react-dom": "^18.3.0",
-		"esbuild": "^0.24.0"
-	}
+  "name": "presskit-worker",
+  "scripts": {
+    "dev": "esbuild ./index.tsx --watch --bundle --format=esm --platform=browser --outfile=../../public/js/partychat.js",
+    "build": "esbuild ./index.tsx --bundle --format=esm --platform=browser --outfile=../../public/js/partychat.js"
+  },
+  "dependencies": {
+    "nanoid": "^5.0.7",
+    "partysocket": "^1.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.8",
+    "@types/react-dom": "^18.3.0",
+    "esbuild": "^0.24.0"
+  }
 }

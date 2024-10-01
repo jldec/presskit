@@ -18,5 +18,5 @@ export const linkPlugin = (md: MarkdownIt) => {
 
 function rewriteUrl(url: string) {
   // console.log('linkPlugin')
-	return url
+  return url
 }

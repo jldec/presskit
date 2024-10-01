@@ -218,8 +218,8 @@ video {
 	width: 100%;
 	object-fit: contain;
 	overflow: hidden;
-	margin: calc(var(--line-height) * 2) 0;
-	border: 1px solid #777;
+	margin: calc(var(--line-height)) 0;
+	border: 1px solid #999;
 }
 img {
 	font-style: italic;
@@ -391,7 +391,7 @@ input {
 	color: var(--text-color-alt);
 }
 
-button {
+button, .button {
 	border: var(--border-thickness) solid var(--text-color);
 	background: var(--background-color);
 	color: var(--text-color);
@@ -401,11 +401,14 @@ button {
 	cursor: pointer;
 }
 
-button:hover {
+button:hover, .button:hover {
 	background: var(--background-color-alt);
 }
-button:active {
+button:active, .button:active {
 	transform: translate(2px, 2px);
+}
+a.button {
+	text-decoration: none;
 }
 
 label {
@@ -528,6 +531,9 @@ summary {
 .subtle, a.subtle {
 	color: var(--text-color-subtle);
 }
+a.subtle:hover {
+	color: var(--text-color);
+}
 .push-down {
 	margin-bottom: 0;
 	margin-top: calc(var(--line-height) * 2);
@@ -537,4 +543,13 @@ blockquote {
 	padding-left: 2ch;
 	border-left: var(--border-thickness) solid var(--text-color-subtle);
 	font-weight: var(--font-weight-medium);
+}
+
+.resume h4 {
+	margin: 0;
+	font-weight: var(--font-weight-normal);
+}
+
+.resume h4 + ul {
+	margin-top: 0;
 }

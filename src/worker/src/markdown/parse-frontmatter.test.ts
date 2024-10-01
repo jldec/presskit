@@ -16,33 +16,33 @@ ${frontMatter}
 ${body}`
 
 const attrs = {
-	foo: 'bar',
-	baz: 1,
-	array: [1, 2, 3],
-	nested: {
-		inner: 'yo'
-	}
+  foo: 'bar',
+  baz: 1,
+  array: [1, 2, 3],
+  nested: {
+    inner: 'yo'
+  }
 }
 
 const expectedResult = {
-	frontMatter,
-	body,
-	attrs
+  frontMatter,
+  body,
+  attrs
 }
 
 test('parseFrontmatter', {}, () => {
-	expect(parseFrontmatter(content)).toEqual(expectedResult)
+  expect(parseFrontmatter(content)).toEqual(expectedResult)
 })
 
 const noFrontmatter = `# no frontmatter here
 yo`
 
 const expectedResultNoFrontMatter = {
-	frontMatter: '',
-	body: noFrontmatter,
-	attrs: {}
+  frontMatter: '',
+  body: noFrontmatter,
+  attrs: {}
 }
 
 test('parseFrontmatter undefined when no frontMatter', {}, () => {
-	expect(parseFrontmatter(noFrontmatter)).toEqual(expectedResultNoFrontMatter)
+  expect(parseFrontmatter(noFrontmatter)).toEqual(expectedResultNoFrontMatter)
 })

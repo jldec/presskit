@@ -1,11 +1,11 @@
-import { raw } from "hono/html"
-import { type FC } from "hono/jsx"
-import { type DirPageData } from "../types"
+import { raw } from 'hono/html'
+import { type FC } from 'hono/jsx'
+import { type DirPageData } from '../types'
 
 export const BlogListLayout: FC = ({ children, page }) => {
   return (
     <>
-      {raw(page?.html ?? "")}
+      {raw(page?.html ?? '')}
       <ul>
         {page?.dir?.map((dirPage: DirPageData) => {
           const text = dirPage.attrs?.title ?? dirPage.path
@@ -18,7 +18,7 @@ export const BlogListLayout: FC = ({ children, page }) => {
           //     ? ` ${date.getFullYear()}.${("0" + (date.getMonth() + 1)).slice(-2)}.${("0" + date.getDate()).slice(-2)}`
           //     : ""
           return (
-            <li class='nav'>
+            <li class="nav">
               <a href={dirPage.path}>{text}</a>
               {/* <span class="subtle">{dateStr}</span> */}
             </li>
