@@ -23,14 +23,14 @@ SOURCE_TREE_URL = "https://api.github.com/repos/jldec/presskit/git/trees/main:sr
 binding = "AI"
 
 [[r2_buckets]]
-# pnpm wrangler -c wrangler-presskit.toml r2 bucket create presskit-img-v0
+# pnpm wrangler r2 bucket create presskit-img-v0
 binding = 'IMAGES'
 bucket_name = 'presskit-img-v0'
 preview_bucket_name = 'presskit-img-v0-preview'
 
 [[kv_namespaces]]
-# pnpm wrangler -c wrangler-presskit.toml kv namespace create PAGE_CACHE
-# pnpm wrangler -c wrangler-presskit.toml kv namespace create PAGE_CACHE --preview
+# pnpm wrangler kv namespace create PAGE_CACHE
+# pnpm wrangler kv namespace create PAGE_CACHE --preview
 binding = "PAGE_CACHE"
 id = "956d187f071b4b1b8c39e7f66dec6f53"
 preview_id = "839c3eabff6340ceb10f7c4a4ebabda6"

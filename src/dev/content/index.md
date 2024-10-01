@@ -1,5 +1,10 @@
 ---
 title: Presskit
+siteurl: https://presskit.jldec.me
+description: Fast and simple collaborative Web publishing.
+twitter: '@presskitjs'
+splash:
+  image: /images/red-flowser.webp
 ---
 
 # Presskit ⚡️

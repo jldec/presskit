@@ -1,4 +1,4 @@
-import { Env, WaitUntil, DirPageData } from '../types'
+import { Env, WaitUntil, DirData } from '../types'
 import { getMarkdown } from './get-markdown'
 
 // TODO - make this configurable
@@ -13,43 +13,43 @@ export function zapDirCache() {
   pagePathsMemo = null
 }
 
-// fetch DirPageData for [children] under a dirpath
+// fetch DirData for [children] under a dirpath
 // returns undefined for non-dirpaths
 // never called with noCache
 // NOTE: this may trigger recursively because is runs getMarkdown for children
-export async function getDirPageData(
+export async function getDirData(
   dirPath: string,
   env: Env,
   waitUntil: WaitUntil,
   sortBy?: string
-): Promise<DirPageData[] | undefined> {
+): Promise<DirData[] | undefined> {
   const dirs = dirsMemo || (await getDirs(env, waitUntil))
-  const dirPages = dirs[dirPath]
-  if (!dirPages) return undefined
+  const dir = dirs[dirPath]
+  if (!dir) return undefined
 
   // TODO: throttle and detect cycles
-  const dirPagesPromises = dirPages?.map(async (pageName): Promise<DirPageData> => {
+  const dirPromises = dir?.map(async (pageName): Promise<DirData> => {
     const pagePath = dirPath + (dirPath === '/' ? '' : '/') + pageName
     const dirPage = await getMarkdown(pagePath, env, waitUntil)
     return { path: pagePath, attrs: dirPage?.attrs }
   })
-  const dirPageData = await Promise.all(dirPagesPromises || [])
+  const dirData = await Promise.all(dirPromises || [])
   if (sortBy) {
-    dirPageData.sort(sortFn(sortBy)).reverse()
+    dirData.sort(sortFn(sortBy)).reverse()
   }
   // sort before populating nextPath/nextTitle
-  for (let i = 0; i < dirPageData.length; i++) {
-    if (i < dirPageData.length - 1) {
-      dirPageData[i].nextPath = dirPageData[i + 1].path
-      dirPageData[i].nextTitle = dirPageData[i + 1].attrs?.title
+  for (let i = 0; i < dirData.length; i++) {
+    if (i < dirData.length - 1) {
+      dirData[i].nextPath = dirData[i + 1].path
+      dirData[i].nextTitle = dirData[i + 1].attrs?.title
     }
   }
-  console.log('getDirPageData', dirPath)
-  return dirPageData
+  console.log('getDirData', dirPath)
+  return dirData
 }
 
 function sortFn(sortBy: string) {
-  return function (a: DirPageData, b: DirPageData) {
+  return function (a: DirData, b: DirData) {
     const v1 = a.attrs && a.attrs[sortBy]
     const v2 = b.attrs && b.attrs[sortBy]
     // @ts-expect-error

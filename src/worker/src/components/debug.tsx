@@ -3,7 +3,7 @@ import { useRequestContext } from 'hono/jsx-renderer'
 
 export const Debug: FC = ({ page }) => {
   const c = useRequestContext()
-  if (false && c.env.ENVIRONMENT === 'dev' && page)
+  if (c.env.ENVIRONMENT === 'dev' && page)
     return (
       <details>
         <summary class="subtle">debug</summary>

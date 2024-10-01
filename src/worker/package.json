@@ -1,9 +1,9 @@
 {
   "name": "presskit-worker",
   "scripts": {
-    "dev-presskit":  "wrangler -c wrangler-presskit.toml dev src/index.tsx",
-    "ship-presskit": "wrangler -c wrangler-presskit.toml deploy --minify src/index.tsx",
-    "tail-presskit": "wrangler -c wrangler-presskit.toml tail",
+    "dev":  "wrangler dev src/index.tsx",
+    "ship": "wrangler deploy --minify src/index.tsx",
+    "tail": "wrangler tail",
     "dev-jldec":  "wrangler -c wrangler-jldec.toml dev src/index.tsx",
     "ship-jldec": "wrangler -c wrangler-jldec.toml deploy --minify src/index.tsx",
     "tail-jldec": "wrangler -c wrangler-jldec.toml tail",

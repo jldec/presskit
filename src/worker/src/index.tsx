@@ -39,10 +39,11 @@ app.use(async (c, next) => {
     // const client = c.env.PAGES.get(id)
     // const page = await client.getPage(path, noCache)
     if (page) {
-      const dirPage = path.startsWith('/blog/')
+      const site = (await getMarkdown('/', c.env, waitUntil))?.attrs
+      const dirEntry = path.startsWith('/blog/')
         ? (await getMarkdown('/blog', c.env, waitUntil))?.dir?.find((p) => p.path === path)
         : undefined
-      return c.render('', { page, dirPage })
+      return c.render('', { page, site, dirEntry })
     }
   }
 

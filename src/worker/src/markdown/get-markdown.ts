@@ -1,7 +1,7 @@
-import type { PageData, DirPageData, Env, WaitUntil } from '../types'
+import type { PageData, DirData, Env, WaitUntil } from '../types'
 import { parseFrontmatter } from './parse-frontmatter'
 import { parseMarkdown } from './parse-markdown'
-import { getDirPageData, getDirs } from './get-dirs'
+import { getDirData, getDirs } from './get-dirs'
 
 // memoize to speed up homeContent().attrs for Nav
 let homePage: PageData | null = null
@@ -48,7 +48,7 @@ export async function getMarkdown(
     }
     const text = await getTextFile(path, env, waitUntil, isHome && noCache)
     const parsedFrontmatter = parseFrontmatter(text)
-    const dirPageData = await getDirPageData(path, env, waitUntil, parsedFrontmatter.attrs.sortby)
+    const dirData = await getDirData(path, env, waitUntil, parsedFrontmatter.attrs.sortby)
     const content = {
       path,
       attrs: parsedFrontmatter.attrs,
@@ -59,7 +59,7 @@ export async function getMarkdown(
             hashPrefix: env.IMAGE_KEY,
             sourcePrefix: env.SOURCE_PREFIX
           }),
-      dir: dirPageData
+      dir: dirData
     }
     waitUntil(env.PAGE_CACHE.put(path, JSON.stringify(content)))
     if (path === '/') {

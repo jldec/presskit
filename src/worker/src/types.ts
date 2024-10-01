@@ -1,5 +1,4 @@
 import { Hono as HonoBase, Context as ContextBase } from 'hono'
-import type { Page } from './page'
 import type { Party } from './party'
 export type { StatusCode } from 'hono/utils/http-status'
 
@@ -11,7 +10,6 @@ export type Env = {
   IMAGE_KEY: string
   ENVIRONMENT: string
   CHATS: DurableObjectNamespace<Party>
-  PAGES: DurableObjectNamespace<Page>
   SOURCE_PREFIX: string
   SOURCE_TREE_URL: string
 }
@@ -21,7 +19,8 @@ export type WaitUntil = (promise: Promise<any>) => void
 export class Hono extends HonoBase<{ Bindings: Env }> {}
 export type Context = ContextBase<{ Bindings: Env }>
 
-export type DirPageData = {
+// TODO: DirData should be part of PageData
+export type DirData = {
   path: string
   attrs?: Frontmatter
   nextPath?: string
@@ -33,13 +32,14 @@ export type PageData = {
   attrs: Frontmatter
   md: string
   html: string
-  dir?: DirPageData[]
+  dir?: DirData[]
 }
 
 export interface Frontmatter {
   layout?: string
   title?: string
-  appurl?: string // e.g. https://jldec.me
+  description?: string
+  siteurl?: string // e.g. https://jldec.me
   icon?: Icon | string
   sidebars?: Array<Sidebar>
   navlinks?: Array<Navlink> // main menu
@@ -47,10 +47,11 @@ export interface Frontmatter {
   actionlinks?: Array<Navlink> // contact sales, etc.
   features?: Array<Navlink>
   footer?: Footer
-  twitter?: string // e.g. @jldec - for meta tags
+  twitter?: string // e.g. jldec - for meta tags
   error?: unknown
   sortby?: string
   date?: Date | string
+  splash?: Splash
   [key: string]: unknown
 }
 
@@ -93,4 +94,10 @@ export interface Hero {
 
 export interface Footer {
   text: string
+}
+
+export interface Splash {
+  image?: string;
+  title?: string;
+  subtitle?: string;
 }

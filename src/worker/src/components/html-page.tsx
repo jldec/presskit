@@ -6,26 +6,67 @@
 
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { componentMap } from './component-map'
-import { PageData, DirPageData } from '../types'
+import { PageData, DirData, Frontmatter, Splash } from '../types'
 import { Debug as Dbg } from './debug'
 
 declare module 'hono' {
   interface ContextRenderer {
     (
       children: string | Promise<string>,
-      props: { page?: PageData; dirPage?: DirPageData; status?: number }
+      props: {
+        page?: PageData
+        site?: Frontmatter
+        dirEntry?: DirData
+        status?: number
+      }
     ): Response
   }
 }
 
 export function renderJsx() {
-  return jsxRenderer(({ children, page, dirPage }) => {
+  return jsxRenderer(({ children, page, site, dirEntry }) => {
+
+    const path = page?.path
+    const siteurl = site?.siteurl
+    const title = page?.attrs.title ?? site?.title
+    const description = page?.attrs.description
+    const image = siteurl && page?.attrs.splash?.image ? siteurl + page.attrs.splash.image : ''
+    const twitter = site?.twitter
+
     return (
       <html lang="en" data-theme="dark">
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <title>{page?.attrs.title ?? 'Presskit'}</title>
+          {siteurl ? (
+            <>
+              <link rel="canonical" href={siteurl} />
+              <meta property="og:url" content={siteurl + (path ?? '/')} />
+            </>
+          ) : null}
+          {title ? (
+            <>
+              <title>{title}</title>
+              <meta property="og:title" content={title} />
+            </>
+          ) : null}
+          {description ? (
+            <>
+              <meta property="og:description" content={description} />
+            </>
+          ) : null}
+          {image ? (
+            <>
+              <meta property="og:image" content={image} />
+              <meta name="twitter:card" content="summary_large_image" />
+            </>
+          ) : null}
+          {twitter ? (
+            <>
+              <meta name="twitter:site" content={twitter} />
+              <meta name="twitter:creator" content={twitter} />
+            </>
+          ) : null}
           <link href="/css/styles.css" rel="stylesheet" />
           <script src="/js/htmx.min.js"></script>
         </head>
@@ -33,7 +74,7 @@ export function renderJsx() {
           {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
             children,
             page,
-            dirPage
+            dirPage: dirEntry
           })}
           <Dbg page={page} />
         </body>
