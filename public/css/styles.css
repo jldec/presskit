@@ -71,7 +71,7 @@ body {
 
 @media screen and (max-width: 480px) {
   body {
-    padding: 0 1ch calc(var(--line-height) * 4) 1ch;
+    padding: calc(var(--line-height) / 2) 1ch calc(var(--line-height) * 2) 1ch;
   }
 }
 
@@ -546,12 +546,21 @@ blockquote {
   border-left: var(--border-thickness) solid var(--text-color-subtle);
   font-weight: var(--font-weight-medium);
 }
-
 .resume h4 {
   margin: 0;
   font-weight: var(--font-weight-normal);
 }
-
 .resume h4 + ul {
   margin-top: 0;
+}
+.nowrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-color-subtle);
+}
+.splash {
+  margin: 0;
+  max-height: calc(var(--line-height) * 13);
+  object-fit: cover;
 }

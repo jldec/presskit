@@ -1,8 +1,7 @@
 import { Env, WaitUntil, DirData } from '../types'
 import { getMarkdown } from './get-markdown'
+import { getManifest } from '../manifest'
 
-// TODO - make this configurable
-const treeUrl = 'https://api.github.com/repos/jldec/presskit/git/trees/HEAD?recursive=1'
 const treeCacheKey = 'tree:jldec/presskit'
 
 let dirsMemo: null | Record<string, string[]> = null
@@ -74,57 +73,18 @@ export async function getPagePaths(env: Env, waitUntil: WaitUntil, noCache: bool
 }
 
 // Fetch dirs = hash of dirpaths -> [children]
+// Populate dirs hash for *.md - all other paths are ignored.
+// e.g. path/foo.md becomes path -> foo
+//      path/dir/index.md becomes path -> dir
+// TODO: fix path sep to support windows, use path functions instead of regexp
+// TODO: handle dirs called <foo>.md
 export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
   let dirs: Record<string, string[]> = {}
 
-  if (!noCache) {
-    if (dirsMemo) return dirsMemo
+  if (!noCache && dirsMemo) return dirsMemo
 
-    const cachedContent = await env.PAGE_CACHE.get(treeCacheKey)
-    if (cachedContent !== null) {
-      dirsMemo = JSON.parse(cachedContent) as Record<string, string[]>
-      return dirsMemo
-    }
-  }
-
-  // local dev uses content directory in worker site public assets manifest
-  if (env.ENVIRONMENT === 'dev') {
-    const resp = await fetch(env.SOURCE_TREE_URL)
-    if (resp.ok) {
-      const manifest = (await resp.json()) as string[]
-      manifest.forEach(extractDirEntry)
-    }
-    console.log('getDirs from local dev', resp.status)
-  } else {
-    // https://docs.github.com/en/rest/git/trees (in prod)
-    const resp = await fetch(env.SOURCE_TREE_URL + '?recursive=1', {
-      headers: {
-        Accept: 'application/vnd.github+json',
-        Authorization: `Bearer ${env.GH_PAT}`,
-        'X-GitHub-Api-Version': '2022-11-28',
-        'User-Agent': 'presskit-worker'
-      }
-    })
-    if (resp.ok) {
-      const rawtree = ((await resp.json()) as { tree: { path: string }[] })?.tree
-      for (const { path } of rawtree) {
-        extractDirEntry('/' + path)
-      }
-    }
-    console.log('getDirs from github', resp.status)
-  }
-
-  dirsMemo = dirs
-  pagePathsMemo = null // invalidate when dirs change
-  waitUntil(env.PAGE_CACHE.put(treeCacheKey, JSON.stringify(dirs)))
-  return dirs
-
-  // Populate dirs hash for *.md - all other paths are ignored.
-  // e.g. path/foo.md becomes path -> foo
-  //      path/dir/index.md becomes path -> dir
-  // TODO: fix path sep to support windows, use path functions instead of regexp
-  // TODO: handle dirs called <foo>.md
-  function extractDirEntry(path: string) {
+  const manifest = await getManifest(env, waitUntil, noCache)
+  manifest.forEach((path) => {
     let match = path.match(/^(\/.*\/|\/)([^\/]+)\.md$/i)
     if (match) {
       if (match[2].toLowerCase() === 'index') {
@@ -137,5 +97,9 @@ export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean =
         dirs[dirpath].push(page)
       }
     }
-  }
+  })
+
+  dirsMemo = dirs
+  pagePathsMemo = null // invalidate when dirs change
+  return dirs
 }

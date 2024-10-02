@@ -2,10 +2,12 @@ import { Hono, WaitUntil } from './types'
 import { extname } from '@std/path'
 import { routePartykitRequest } from 'partyserver'
 import { getPagePaths } from './markdown/get-dirs'
+import { getManifest } from './manifest'
 import { getMarkdown } from './markdown/get-markdown'
 import { getImage } from './images'
 import { renderJsx } from './components/html-page'
 import { api } from './api'
+import { getStatic } from './static'
 
 export { Party } from './party'
 
@@ -14,30 +16,32 @@ app.use(renderJsx())
 
 app.route('/api', api)
 
-// serve images
+// serve rewritten markdown image links (deprecated)
 app.get('/img/:image{.+$}', async (c) => {
   const image = c.req.param('image')
   return await getImage(image, c)
 })
 
-// serve markdown content, fall through if not found
-// only serves extensionless route including root '/'
+// serve rendered markdown pages and same-origin static content from manifest
+// fall through if not found
 app.use(async (c, next) => {
   const noCache = c.req.header('Cache-Control') === 'no-cache'
   const path = c.req.path // includes leading /
   const isHome = path === '/'
-  if (extname(path) !== '' || path.startsWith('/parties') || path.startsWith('/content')) {
+  if (c.req.method !== 'GET' || path.startsWith('/parties')) {
     return await next()
   }
   const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
 
-  let pagePaths = await getPagePaths(c.env, waitUntil, noCache && isHome)
-  if (pagePaths && path in pagePaths) {
-    const page = await getMarkdown(path, c.env, waitUntil, noCache)
+  let manifest = await getManifest(c.env, waitUntil, noCache && isHome)
+  if (manifest.includes(path)) {
+    const resp = await getStatic(path, c, noCache)
+    if (resp) return resp
+  }
 
-    // const id: DurableObjectId = c.env.PAGES.idFromName(path)
-    // const client = c.env.PAGES.get(id)
-    // const page = await client.getPage(path, noCache)
+  let pagePaths = await getPagePaths(c.env, waitUntil, noCache && isHome)
+  if (path in pagePaths) {
+    const page = await getMarkdown(path, c.env, waitUntil, noCache)
     if (page) {
       const site = (await getMarkdown('/', c.env, waitUntil))?.attrs
       const dirEntry = path.startsWith('/blog/')

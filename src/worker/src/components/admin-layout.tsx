@@ -4,6 +4,9 @@ import { type FC } from 'hono/jsx'
 export const AdminLayout: FC = ({ page }) => (
   <>
     {raw(page?.html ?? '')}
+    <button hx-get="/api/manifest" hx-target=".json">
+      manifest
+    </button>{' '}
     <button hx-get="/api/dirs" hx-target=".json">
       dirs
     </button>{' '}
@@ -17,10 +20,16 @@ export const AdminLayout: FC = ({ page }) => (
       env
     </button>{' '}
     <button hx-get="/api/cache" hx-target=".json">
-      cache
+      page cache
     </button>{' '}
     <button hx-delete="/api/cache" hx-target=".json">
-      delete cache
+      delete page cache
+    </button>{' '}
+    <button hx-get="/api/static-cache" hx-target=".json">
+      static cache
+    </button>{' '}
+    <button hx-delete="/api/static-cache" hx-target=".json">
+      delete static cache
     </button>{' '}
     <button hx-get="/api/images" hx-target=".json">
       images

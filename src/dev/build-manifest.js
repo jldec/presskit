@@ -18,7 +18,7 @@ if (!template) {
 }
 
 // https://github.com/mrmlnc/fast-glob#readme
-let globPath = path.join(prefix, '/**/*.md')
+let globPath = path.join(prefix, '/**/*.*')
 files = (await fg.glob(globPath)).map((file) => file.slice(prefix.length))
 let list = JSON.stringify(files, null, 2)
 let dir = JSON.stringify(prefix)

@@ -72,11 +72,6 @@ export async function getMarkdown(
   }
 }
 
-export async function getRootConfig(env: Env, waitUntil: WaitUntil) {
-  return (await getMarkdown('/', env, waitUntil))?.attrs
-}
-
-// TODO link to editor
 function errorHtml(error: unknown, path: string) {
   return `<pre>${escapeHtml(path)}\n${escapeHtml('' + error)}</pre>`
 }

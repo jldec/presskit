@@ -4,6 +4,7 @@ export type { StatusCode } from 'hono/utils/http-status'
 
 export type Env = {
   PAGE_CACHE: KVNamespace
+  STATIC_CACHE: KVNamespace
   IMAGES: R2Bucket
   AI: any
   GH_PAT: string
@@ -51,6 +52,8 @@ export interface Frontmatter {
   error?: unknown
   sortby?: string
   date?: Date | string
+  image?: string
+  splashimage?: string
   splash?: Splash
   [key: string]: unknown
 }

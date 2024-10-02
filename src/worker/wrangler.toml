@@ -35,6 +35,13 @@ binding = "PAGE_CACHE"
 id = "956d187f071b4b1b8c39e7f66dec6f53"
 preview_id = "839c3eabff6340ceb10f7c4a4ebabda6"
 
+[[kv_namespaces]]
+# pnpm wrangler kv namespace create STATIC_CACHE
+# pnpm wrangler kv namespace create STATIC_CACHE --preview
+binding = "STATIC_CACHE"
+id = "d8be0bcc47684c2899d45d2d6a808482"
+preview_id = "66dcef1314bb4265b9c960e6647a30bd"
+
 [durable_objects]
 bindings = [{ name = "CHATS", class_name = "Party" }]
 

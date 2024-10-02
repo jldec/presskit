@@ -17,18 +17,19 @@ export const BlogPostLayout: FC = ({ children, page, dirPage }) => {
   const credits = [formatDate(page.attrs?.date)].filter(Boolean).join(' - ')
   return (
     <>
-      <a href="/">Home</a> | <a href="/blog">Writings</a>
-      {dirPage?.nextPath ? (
-        <>
-          {' | '}
-          <span class="subtle">next: </span>
-          <a class="subtle" href={dirPage.nextPath}>
-            {dirPage.nextTitle || dirPage.nextPath}
-          </a>
-        </>
-      ) : (
-        ''
-      )}
+      <p class="nowrap">
+        <a href="/">Home</a> | <a href="/blog">Writings</a>
+        {dirPage?.nextPath ? (
+          <>
+            <span class="subtle">{' >> '}</span>
+            <a class="subtle" href={dirPage.nextPath}>
+              {dirPage.nextTitle || dirPage.nextPath}
+            </a>
+          </>
+        ) : (
+          ''
+        )}
+      </p>
       <p class="subtle push-down">{credits}</p>
       {raw(page?.html ?? '')}
       {children}

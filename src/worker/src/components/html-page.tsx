@@ -25,12 +25,14 @@ declare module 'hono' {
 
 export function renderJsx() {
   return jsxRenderer(({ children, page, site, dirEntry }) => {
-
     const path = page?.path
     const siteurl = site?.siteurl
+    const url = (siteurl ?? '') + (path ?? '/')
+    const splashimage = page?.attrs.splash?.image ?? page?.attrs.splashimage
+    const image = page?.attrs.image ?? splashimage
+    const siteimage = siteurl && image ? '' + new URL(image, url) : ''
     const title = page?.attrs.title ?? site?.title
     const description = page?.attrs.description
-    const image = siteurl && page?.attrs.splash?.image ? siteurl + page.attrs.splash.image : ''
     const twitter = site?.twitter
 
     return (
@@ -38,16 +40,16 @@ export function renderJsx() {
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          {siteurl ? (
-            <>
-              <link rel="canonical" href={siteurl} />
-              <meta property="og:url" content={siteurl + (path ?? '/')} />
-            </>
-          ) : null}
           {title ? (
             <>
               <title>{title}</title>
               <meta property="og:title" content={title} />
+            </>
+          ) : null}
+          {siteurl ? (
+            <>
+              <link rel="canonical" href={url} />
+              <meta property="og:url" content={url} />
             </>
           ) : null}
           {description ? (
@@ -55,9 +57,9 @@ export function renderJsx() {
               <meta property="og:description" content={description} />
             </>
           ) : null}
-          {image ? (
+          {siteimage ? (
             <>
-              <meta property="og:image" content={image} />
+              <meta property="og:image" content={siteimage} />
               <meta name="twitter:card" content="summary_large_image" />
             </>
           ) : null}
@@ -71,6 +73,9 @@ export function renderJsx() {
           <script src="/js/htmx.min.js"></script>
         </head>
         <body>
+          {splashimage ? (
+            <img src={splashimage} alt="splash image" class="splash" />
+          ) : null}
           {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
             children,
             page,

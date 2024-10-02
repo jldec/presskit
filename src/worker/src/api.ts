@@ -1,5 +1,6 @@
 import { Hono, WaitUntil } from './types'
 import { getDirs, getPagePaths, zapDirCache } from './markdown/get-dirs'
+import { getManifest, zapManifestCache } from './manifest'
 
 // instance to be mounted at /api
 export const api = new Hono()
@@ -43,7 +44,22 @@ api.delete('/cache', async (c) => {
   const keys = list.keys.map((o) => o.name)
   const deleted = await Promise.all(keys.map((key) => c.env.PAGE_CACHE.delete(key)))
   zapDirCache()
-  return fjson({ pageCache: deleted, dirCache: 'zapped' })
+  return fjson({ pageCache: deleted, caches: 'zapped' })
+})
+
+// page cache
+api.get('/static-cache', async (c) => {
+  const list = await c.env.STATIC_CACHE.list()
+  const keys = list.keys.map((o) => o.name)
+  return fjson(list)
+})
+
+api.delete('/static-cache', async (c) => {
+  const list = await c.env.STATIC_CACHE.list()
+  const keys = list.keys.map((o) => o.name)
+  const deleted = await Promise.all(keys.map((key) => c.env.STATIC_CACHE.delete(key)))
+  zapManifestCache()
+  return fjson({ pageCache: deleted, caches: 'zapped' })
 })
 
 // images in R2
@@ -64,6 +80,11 @@ api.delete('/images', async (c) => {
   let keys = (await c.env.IMAGES.list()).objects.map((object) => object.key)
   await c.env.IMAGES.delete(keys)
   return fjson(keys)
+})
+
+api.get('/manifest', async (c) => {
+  const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
+  return fjson(await getManifest(c.env, waitUntil))
 })
 
 api.get('/dirs', async (c) => {
