@@ -70,9 +70,6 @@ body {
 }
 
 @media screen and (max-width: 480px) {
-	:root {
-		font-size: 14px;
-	}
 	body {
 		padding: var(--line-height) 1ch;
 	}
