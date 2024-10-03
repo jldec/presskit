@@ -73,6 +73,9 @@ body {
   body {
     padding: calc(var(--line-height) / 2) 1ch calc(var(--line-height) * 2) 1ch;
   }
+  li.nav a {
+    padding: calc(var(--line-height) / 5) 0;
+  }
 }
 
 h1,
@@ -116,7 +119,6 @@ hr:after {
 }
 
 li.nav a {
-  padding: calc(var(--line-height) / 5) 0;
   display: block;
   text-decoration-color: var(--text-color-subtle);
 }
@@ -562,6 +564,8 @@ blockquote {
 }
 .splash {
   margin: 0;
-  max-height: calc(var(--line-height) * 8);
+  border: none;
+  
+  height: calc(var(--line-height) * 8);
   object-fit: cover;
 }
