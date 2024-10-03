@@ -7,7 +7,7 @@ layout: BlogPostLayout
 
 # Read-write Static Assets bindings for Cloudflare Workers
 
-When Cloudflare announced their new [static assets](https://developers.cloudflare.com/workers/static-assets/) feature for workers last week, I was happy to see support for [assets bindings](https://developers.cloudflare.com/workers/static-assets/binding/#binding)
+When Cloudflare announced their new [static assets](https://jldec.me/blog/building-a-static-site-with-cloudflare-workers) feature for workers last week, I was happy to see support for [assets bindings](https://developers.cloudflare.com/workers/static-assets/binding/#binding)
 
 Bindings provide API access to other services from your worker. You can even call other workers. I recommend reading both blog posts by [Kenton Varda](https://x.com/kentonvarda) about [bindings](https://blog.cloudflare.com/workers-environment-live-object-bindings/) and [RPC](https://blog.cloudflare.com/javascript-native-rpc/).
 
