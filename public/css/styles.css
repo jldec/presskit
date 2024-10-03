@@ -215,7 +215,7 @@ p {
 img,
 video {
   display: block;
-  width: 100%;
+  max-width: 100%;
   object-fit: contain;
   overflow: hidden;
   margin: calc(var(--line-height)) 0;
@@ -567,6 +567,7 @@ blockquote {
 .splash {
   margin: 0;
   border: none;
+  width: 100%;
   height: calc(var(--line-height) * 8);
   object-fit: cover;
 }
