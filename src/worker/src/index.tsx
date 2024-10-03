@@ -33,13 +33,14 @@ app.use(async (c, next) => {
   }
   const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
 
+  // This should be the only place we force reloading the tree from source
   let manifest = await getManifest(c.env, waitUntil, noCache && isHome)
   if (manifest.includes(path)) {
     const resp = await getStatic(path, c, noCache)
     if (resp) return resp
   }
 
-  let pagePaths = await getPagePaths(c.env, waitUntil, noCache && isHome)
+  let pagePaths = await getPagePaths(c.env, waitUntil)
   if (path in pagePaths) {
     const page = await getMarkdown(path, c.env, waitUntil, noCache)
     if (page) {
@@ -69,6 +70,20 @@ app.notFound((c) => {
     <>
       <h1>Sorry, can't find that.</h1>
       <p>{c.req.url}</p>
+      <p>
+        <a href="/">Home</a>
+      </p>
+    </>,
+    {}
+  )
+})
+
+app.onError((err, c) => {
+  c.status(404)
+  return c.render(
+    <>
+      <h1>Oops 😬</h1>
+      <pre>{err.stack ?? err.message}</pre>
       <p>
         <a href="/">Home</a>
       </p>

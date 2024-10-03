@@ -8,7 +8,7 @@ export function zapManifestCache() {
   manifestMemo = null
 }
 
-// Fetch array of file paths from source
+// Fetch array of rooted file paths from source
 export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
   let manifest: string[] = []
 
@@ -42,7 +42,7 @@ export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boole
     if (resp.ok) {
       const rawtree = ((await resp.json()) as { tree: { path: string }[] })?.tree
       for (const { path } of rawtree) {
-        manifest.push(path)
+        manifest.push('/' + path)
       }
     }
     console.log('getManifest from github', resp.status)

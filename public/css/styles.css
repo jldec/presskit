@@ -252,6 +252,7 @@ pre {
   white-space: pre;
   overflow-x: auto;
   margin: var(--line-height) -0.25rem;
+  min-height: calc(var(--line-height-pre)*2);
   overflow-y: hidden;
   background: var(--background-color-pre);
   color: var(--text-color-pre);
@@ -561,6 +562,6 @@ blockquote {
 }
 .splash {
   margin: 0;
-  max-height: calc(var(--line-height) * 13);
+  max-height: calc(var(--line-height) * 8);
   object-fit: cover;
 }

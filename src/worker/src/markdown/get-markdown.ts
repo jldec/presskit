@@ -9,10 +9,9 @@ let homePage: PageData | null = null
 async function filePath(
   path: string,
   env: Env,
-  waitUntil: WaitUntil,
-  noCache: boolean
+  waitUntil: WaitUntil
 ): Promise<string> {
-  let dirs = await getDirs(env, waitUntil, noCache)
+  let dirs = await getDirs(env, waitUntil)
   if (path in dirs) {
     path += (path === '/' ? '' : '/') + 'index'
   }
@@ -22,12 +21,11 @@ async function filePath(
 async function getTextFile(
   path: string,
   env: Env,
-  waitUntil: WaitUntil,
-  noCache: boolean
+  waitUntil: WaitUntil
 ): Promise<string> {
-  const url = await filePath(path, env, waitUntil, noCache)
+  const url = await filePath(path, env, waitUntil)
   const response = await fetch(url)
-  if (!response.ok) throw new Error(`${response.status} error fetching ${path}`)
+  if (!response.ok) throw new Error(`${response.status} error fetching ${path} from ${url}`)
   console.log('getMarkdown', url, response.status)
   return await response.text()
 }
@@ -39,37 +37,33 @@ export async function getMarkdown(
   noCache: boolean = false
 ): Promise<PageData | null> {
   const isHome = path === '/'
-  try {
-    if (!noCache) {
-      if (isHome && env.ENVIRONMENT !== 'dev' && homePage) return homePage
 
-      const cachedContent = await env.PAGE_CACHE.get(path)
-      if (cachedContent !== null) return JSON.parse(cachedContent) as PageData
-    }
-    const text = await getTextFile(path, env, waitUntil, isHome && noCache)
-    const parsedFrontmatter = parseFrontmatter(text)
-    const dirData = await getDirData(path, env, waitUntil, parsedFrontmatter.attrs.sortby)
-    const content = {
-      path,
-      attrs: parsedFrontmatter.attrs,
-      md: parsedFrontmatter.body,
-      html: parsedFrontmatter.attrs.error
-        ? errorHtml(parsedFrontmatter.attrs.error, await filePath(path, env, waitUntil, false))
-        : parseMarkdown(parsedFrontmatter.body, {
-            hashPrefix: env.IMAGE_KEY,
-            sourcePrefix: env.SOURCE_PREFIX
-          }),
-      dir: dirData
-    }
-    waitUntil(env.PAGE_CACHE.put(path, JSON.stringify(content)))
-    if (path === '/') {
-      homePage = content
-    }
-    return content
-  } catch (error) {
-    console.error(error)
-    return null
+  if (!noCache) {
+    if (isHome && homePage) return homePage
+    const cachedContent = await env.PAGE_CACHE.get(path)
+    if (cachedContent !== null) return JSON.parse(cachedContent) as PageData
   }
+
+  const text = await getTextFile(path, env, waitUntil)
+  const parsedFrontmatter = parseFrontmatter(text)
+  const dirData = await getDirData(path, env, waitUntil, parsedFrontmatter.attrs.sortby)
+  const content = {
+    path,
+    attrs: parsedFrontmatter.attrs,
+    md: parsedFrontmatter.body,
+    html: parsedFrontmatter.attrs.error
+      ? errorHtml(parsedFrontmatter.attrs.error, await filePath(path, env, waitUntil))
+      : parseMarkdown(parsedFrontmatter.body, {
+          hashPrefix: env.IMAGE_KEY,
+          sourcePrefix: env.SOURCE_PREFIX
+        }),
+    dir: dirData
+  }
+  waitUntil(env.PAGE_CACHE.put(path, JSON.stringify(content)))
+  if (isHome) {
+    homePage = content
+  }
+  return content
 }
 
 function errorHtml(error: unknown, path: string) {

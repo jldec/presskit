@@ -57,9 +57,9 @@ function sortFn(sortBy: string) {
   }
 }
 
-export async function getPagePaths(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
+export async function getPagePaths(env: Env, waitUntil: WaitUntil) {
   if (pagePathsMemo) return pagePathsMemo
-  const dirs = await getDirs(env, waitUntil, noCache)
+  const dirs = await getDirs(env, waitUntil)
   const pagePaths: Record<string, boolean> = { '/': true }
   for (const dirpath of Object.keys(dirs)) {
     pagePaths[dirpath] = true
@@ -78,28 +78,30 @@ export async function getPagePaths(env: Env, waitUntil: WaitUntil, noCache: bool
 //      path/dir/index.md becomes path -> dir
 // TODO: fix path sep to support windows, use path functions instead of regexp
 // TODO: handle dirs called <foo>.md
-export async function getDirs(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
+export async function getDirs(env: Env, waitUntil: WaitUntil) {
   let dirs: Record<string, string[]> = {}
 
-  if (!noCache && dirsMemo) return dirsMemo
+  if (dirsMemo) return dirsMemo
 
-  const manifest = await getManifest(env, waitUntil, noCache)
-  manifest.forEach((path) => {
-    let match = path.match(/^(\/.*\/|\/)([^\/]+)\.md$/i)
-    if (match) {
-      if (match[2].toLowerCase() === 'index') {
-        match = match[1].match(/^(\/.*\/|\/)([^\/]+)\/$/)
-      }
+  const manifest = await getManifest(env, waitUntil)
+  if (manifest.length) {
+    manifest.forEach((path) => {
+      let match = path.match(/^(\/.*\/|\/)([^\/]+)\.md$/i)
       if (match) {
-        const dirpath = match[1] === '/' ? match[1] : match[1].slice(0, -1)
-        const page = match[2]
-        dirs[dirpath] ??= []
-        dirs[dirpath].push(page)
+        if (match[2].toLowerCase() === 'index') {
+          match = match[1].match(/^(\/.*\/|\/)([^\/]+)\/$/)
+        }
+        if (match) {
+          const dirpath = match[1] === '/' ? match[1] : match[1].slice(0, -1)
+          const page = match[2]
+          dirs[dirpath] ??= []
+          dirs[dirpath].push(page)
+        }
       }
-    }
-  })
+    })
 
-  dirsMemo = dirs
-  pagePathsMemo = null // invalidate when dirs change
+    dirsMemo = dirs
+    pagePathsMemo = null // invalidate when dirs change
+  }
   return dirs
 }
