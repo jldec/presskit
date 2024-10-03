@@ -6,7 +6,7 @@ twitter: '@presskitjs'
 splash:
   image: /images/red-flowser.webp
 ---
-[GitHub](https://github.com/jldec/presskit) | [Writings](/blog)
+[GitHub](https://github.com/jldec/presskit) | [Writings](/blog) | [jldec.me](https://jldec.me)
 
 # Presskit ⚡️
 Fast and simple collaborative Web publishing.
@@ -21,3 +21,5 @@ Fast and simple collaborative Web publishing.
 
 ---
 👋 _This is a work in progress._
+
+Built on Cloudflare Workers. Layout inspired by [The Monospace Web](https://owickstrom.github.io/the-monospace-web/) 🙏

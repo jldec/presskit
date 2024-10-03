@@ -5,6 +5,6 @@ layout: BlogListLayout
 sortby: date
 ---
 
-[Home](/) | [GitHub](https://github.com/jldec/presskit)
+[Home](/) | [GitHub](https://github.com/jldec/presskit) | [jldec.me](https://jldec.me)
 
 # Writings
