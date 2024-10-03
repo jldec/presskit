@@ -20,4 +20,4 @@ Fast and simple collaborative Web publishing.
 - [ ] Installable, professional themes
 
 ---
-👋 _This is a work in progress. The roadmap is evolving._
+👋 _This is a work in progress._
