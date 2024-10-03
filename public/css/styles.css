@@ -219,7 +219,8 @@ video {
   object-fit: contain;
   overflow: hidden;
   margin: calc(var(--line-height)) 0;
-  border: 1px solid #999;
+  /* border: 1px solid #999; */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 img {
   font-style: italic;
@@ -262,6 +263,7 @@ pre {
   line-height: var(--line-height-pre);
   font-size: var(--font-size-pre);
   padding: 0.5rem 0 0.5rem 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 figure pre {
   margin: 0;
@@ -565,7 +567,6 @@ blockquote {
 .splash {
   margin: 0;
   border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   height: calc(var(--line-height) * 8);
   object-fit: cover;
 }
