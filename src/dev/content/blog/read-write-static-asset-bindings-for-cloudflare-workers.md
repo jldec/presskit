@@ -13,13 +13,13 @@ Bindings provide API access to other services from your worker. You can even cal
 
 Workers can already use the new `assets` binding to `GET` static assets which were uploaded as part of the worker deployment.
 
-BUT what if workers could also create, update, or delete assets using the assets binding API?
+BUT what if workers could also create, update, or delete assets using the assets binding API? This would enable web publishing frameworks to render and publish static content directly from workers.
 
 ### What about KV or R2?
 
 Workers can write to [KV](https://developers.cloudflare.com/kv/) and [R2](https://developers.cloudflare.com/r2), so why not use those services instead, particularly since R2 already supports large objects, CORS, and http headers?
 
-One reason is that static assets services include additional features like serving `index.html` files directories, and `_redirects` configuration.
+One reason is that static assets services include additional features like serving `index.html` files for directories, and `_redirects` config.
 
 Another reason is that serving static assets does not have to run any worker code. Static assets are simpler and cheaper and easier to operate reliably.
 
