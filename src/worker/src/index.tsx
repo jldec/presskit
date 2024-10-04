@@ -1,5 +1,4 @@
 import { Hono, WaitUntil } from './types'
-import { extname } from '@std/path'
 import { routePartykitRequest } from 'partyserver'
 import { getPagePaths } from './markdown/get-dirs'
 import { getManifest } from './manifest'

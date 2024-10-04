@@ -2,7 +2,7 @@
   "type": "module",
   "dependencies": {
     "fast-glob": "^3.3.2",
-    "wrangler": "^3.78.12"
+    "wrangler": "^3.79.0"
   },
   "scripts": {
     "build": "node build-manifest.js",
