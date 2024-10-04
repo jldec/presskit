@@ -35,6 +35,6 @@ Static assets are simple and cheap and easy to operate reliably. And, the platfo
 
 Wouldn't it be awesome if consumers could self-host their own content creation tools, and self-publish on the Web?
 
-Creating content for the Web is not just a developer activity. One of the goals of [Presskit](/) is to enable web publishing without installs or build steps.
+Creating content for the Web is not just a developer activity.
 
 > The Web is for everyone 🚀🚀
