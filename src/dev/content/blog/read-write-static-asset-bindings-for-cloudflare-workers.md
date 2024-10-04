@@ -29,7 +29,9 @@ Layering the assets API on top of KV and R2 might make sense, perhaps with the u
 
 Another benefit of serving static assets is that they work without running worker code.
 
-> Static assets are simple and cheap and easy to operate reliably. And, the platform can handle caching, making them faster.
+Static assets are simple and cheap and easy to operate reliably. And, the platform can handle caching, making them faster.
+
+### The Web FTW
 
 Wouldn't it be awesome if Cloudflare consumers could self-host their own content creation tools, and self-publish on the Web?
 
