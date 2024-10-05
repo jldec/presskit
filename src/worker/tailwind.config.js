@@ -40,6 +40,13 @@ module.exports = {
               borderTop: 'solid 1.5px currentColor',
               borderBottom: 'solid 1.5px currentColor'
             },
+            input: {
+              display: 'block',
+              minWidth: '75%',
+              margin: '1.4rem 0',
+              padding: '8px',
+              border: 'solid 1.5px currentColor'
+            },
             img: {
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
             },
