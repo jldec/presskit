@@ -1,5 +1,6 @@
 dist/
 public/js/partychat.js
+public/css/
 node_modules/
 .wrangler
 .env

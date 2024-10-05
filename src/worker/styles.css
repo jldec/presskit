@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  button, .button {
+    @apply py-2 px-3 mb-1 font-semibold border-2 border-current no-underline hover:underline;
+  }
+  .navlink {
+    @apply block no-underline border-b-[1.5px] border-b-transparent hover:border-b-current;
+  }
+}
