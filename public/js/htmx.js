@@ -206,7 +206,7 @@ var htmx = (function() {
       disableSelector: '[hx-disable], [data-hx-disable]',
       /**
        * @type {'auto' | 'instant' | 'smooth'}
-       * @default 'smooth'
+       * @default 'instant'
        */
       scrollBehavior: 'instant',
       /**
@@ -277,7 +277,7 @@ var htmx = (function() {
     parseInterval: null,
     /** @type {typeof internalEval} */
     _: null,
-    version: '2.0.1'
+    version: '2.0.3'
   }
   // Tsc madness part 2
   htmx.onLoad = onLoadHelper
@@ -337,21 +337,9 @@ var htmx = (function() {
     return '[hx-' + verb + '], [data-hx-' + verb + ']'
   }).join(', ')
 
-  const HEAD_TAG_REGEX = makeTagRegEx('head')
-
   //= ===================================================================
   // Utilities
   //= ===================================================================
-
-  /**
-   * @param {string} tag
-   * @param {boolean} global
-   * @returns {RegExp}
-   */
-  function makeTagRegEx(tag, global = false) {
-    return new RegExp(`<${tag}(\\s[^>]*>|>)([\\s\\S]*?)<\\/${tag}>`,
-      global ? 'gim' : 'im')
-  }
 
   /**
    * Parses an interval string consistent with the way htmx does. Useful for plugins that have timing-related attributes.
@@ -595,7 +583,7 @@ var htmx = (function() {
    */
   function makeFragment(response) {
     // strip head tag to determine shape of response we are dealing with
-    const responseWithNoHead = response.replace(HEAD_TAG_REGEX, '')
+    const responseWithNoHead = response.replace(/<head(\s[^>]*)?>[\s\S]*?<\/head>/i, '')
     const startTag = getStartTag(responseWithNoHead)
     /** @type DocumentFragmentWithTitle */
     let fragment
@@ -613,7 +601,7 @@ var htmx = (function() {
       fragment.title = doc.title
     } else {
       // otherwise we have non-body partial HTML content, so wrap it in a template to maximize parsing flexibility
-      const doc = parseHTML('<body><template>' + responseWithNoHead + '</template></body>')
+      const doc = parseHTML('<body><template class="internal-htmx-wrapper">' + responseWithNoHead + '</template></body>')
       fragment = /** @type DocumentFragmentWithTitle */ (doc.querySelector('template').content)
       // extract title into fragment for later processing
       fragment.title = doc.title
@@ -695,7 +683,7 @@ var htmx = (function() {
    * @property {boolean} [triggeredOnce]
    * @property {number} [delayed]
    * @property {number|null} [throttle]
-   * @property {string} [lastValue]
+   * @property {WeakMap<HtmxTriggerSpecification,WeakMap<EventTarget,string>>} [lastValue]
    * @property {boolean} [loaded]
    * @property {string} [path]
    * @property {string} [verb]
@@ -1161,6 +1149,8 @@ var htmx = (function() {
       return [document.body]
     } else if (selector === 'root') {
       return [getRootNode(elt, !!global)]
+    } else if (selector === 'host') {
+      return [(/** @type ShadowRoot */(elt.getRootNode())).host]
     } else if (selector.indexOf('global ') === 0) {
       return querySelectorAllExt(elt, selector.slice(7), true)
     } else {
@@ -1236,26 +1226,30 @@ var htmx = (function() {
    * @property {EventTarget} target
    * @property {AnyEventName} event
    * @property {EventListener} listener
+   * @property {Object|boolean} options
    */
 
   /**
    * @param {EventTarget|AnyEventName} arg1
    * @param {AnyEventName|EventListener} arg2
-   * @param {EventListener} [arg3]
+   * @param {EventListener|Object|boolean} [arg3]
+   * @param {Object|boolean} [arg4]
    * @returns {EventArgs}
    */
-  function processEventArgs(arg1, arg2, arg3) {
+  function processEventArgs(arg1, arg2, arg3, arg4) {
     if (isFunction(arg2)) {
       return {
         target: getDocument().body,
         event: asString(arg1),
-        listener: arg2
+        listener: arg2,
+        options: arg3
       }
     } else {
       return {
         target: resolveTarget(arg1),
         event: asString(arg2),
-        listener: arg3
+        listener: arg3,
+        options: arg4
       }
     }
   }
@@ -1267,13 +1261,14 @@ var htmx = (function() {
    *
    * @param {EventTarget|string} arg1 the element to add the listener to | the event name to add the listener for
    * @param {string|EventListener} arg2 the event name to add the listener for | the listener to add
-   * @param {EventListener} [arg3] the listener to add
+   * @param {EventListener|Object|boolean} [arg3] the listener to add | options to add
+   * @param {Object|boolean} [arg4] options to add
    * @returns {EventListener}
    */
-  function addEventListenerImpl(arg1, arg2, arg3) {
+  function addEventListenerImpl(arg1, arg2, arg3, arg4) {
     ready(function() {
-      const eventArgs = processEventArgs(arg1, arg2, arg3)
-      eventArgs.target.addEventListener(eventArgs.event, eventArgs.listener)
+      const eventArgs = processEventArgs(arg1, arg2, arg3, arg4)
+      eventArgs.target.addEventListener(eventArgs.event, eventArgs.listener, eventArgs.options)
     })
     const b = isFunction(arg2)
     return b ? arg2 : arg3
@@ -1412,9 +1407,11 @@ var htmx = (function() {
    * @param {string} oobValue
    * @param {Element} oobElement
    * @param {HtmxSettleInfo} settleInfo
+   * @param {Node|Document} [rootNode]
    * @returns
    */
-  function oobSwap(oobValue, oobElement, settleInfo) {
+  function oobSwap(oobValue, oobElement, settleInfo, rootNode) {
+    rootNode = rootNode || getDocument()
     let selector = '#' + getRawAttribute(oobElement, 'id')
     /** @type HtmxSwapStyle */
     let swapStyle = 'outerHTML'
@@ -1426,8 +1423,10 @@ var htmx = (function() {
     } else {
       swapStyle = oobValue
     }
+    oobElement.removeAttribute('hx-swap-oob')
+    oobElement.removeAttribute('data-hx-swap-oob')
 
-    const targets = getDocument().querySelectorAll(selector)
+    const targets = querySelectorAllExt(rootNode, selector, false)
     if (targets) {
       forEach(
         targets,
@@ -1445,7 +1444,9 @@ var htmx = (function() {
 
           target = beforeSwapDetails.target // allow re-targeting
           if (beforeSwapDetails.shouldSwap) {
+            handlePreservedElements(fragment)
             swapWithStyle(swapStyle, target, target, fragment, settleInfo)
+            restorePreservedElements()
           }
           forEach(settleInfo.elts, function(elt) {
             triggerEvent(elt, 'htmx:oobAfterSwap', beforeSwapDetails)
@@ -1460,15 +1461,39 @@ var htmx = (function() {
     return oobValue
   }
 
+  function restorePreservedElements() {
+    const pantry = find('#--htmx-preserve-pantry--')
+    if (pantry) {
+      for (const preservedElt of [...pantry.children]) {
+        const existingElement = find('#' + preservedElt.id)
+        // @ts-ignore - use proposed moveBefore feature
+        existingElement.parentNode.moveBefore(preservedElt, existingElement)
+        existingElement.remove()
+      }
+      pantry.remove()
+    }
+  }
+
   /**
-   * @param {DocumentFragment} fragment
+   * @param {DocumentFragment|ParentNode} fragment
    */
   function handlePreservedElements(fragment) {
     forEach(findAll(fragment, '[hx-preserve], [data-hx-preserve]'), function(preservedElt) {
       const id = getAttributeValue(preservedElt, 'id')
-      const oldElt = getDocument().getElementById(id)
-      if (oldElt != null) {
-        preservedElt.parentNode.replaceChild(oldElt, preservedElt)
+      const existingElement = getDocument().getElementById(id)
+      if (existingElement != null) {
+        if (preservedElt.moveBefore) { // if the moveBefore API exists, use it
+          // get or create a storage spot for stuff
+          let pantry = find('#--htmx-preserve-pantry--')
+          if (pantry == null) {
+            getDocument().body.insertAdjacentHTML('afterend', "<div id='--htmx-preserve-pantry--'></div>")
+            pantry = find('#--htmx-preserve-pantry--')
+          }
+          // @ts-ignore - use proposed moveBefore feature
+          pantry.moveBefore(existingElement, null)
+        } else {
+          preservedElt.parentNode.replaceChild(existingElement, preservedElt)
+        }
       }
     })
   }
@@ -1632,20 +1657,24 @@ var htmx = (function() {
     /** @type {Node} */
     let newElt
     const eltBeforeNewContent = target.previousSibling
-    insertNodesBefore(parentElt(target), target, fragment, settleInfo)
+    const parentNode = parentElt(target)
+    if (!parentNode) { // when parent node disappears, we can't do anything
+      return
+    }
+    insertNodesBefore(parentNode, target, fragment, settleInfo)
     if (eltBeforeNewContent == null) {
-      newElt = parentElt(target).firstChild
+      newElt = parentNode.firstChild
     } else {
       newElt = eltBeforeNewContent.nextSibling
     }
     settleInfo.elts = settleInfo.elts.filter(function(e) { return e !== target })
+    // scan through all newly added content and add all elements to the settle info so we trigger
+    // events properly on them
     while (newElt && newElt !== target) {
       if (newElt instanceof Element) {
         settleInfo.elts.push(newElt)
-        newElt = newElt.nextElementSibling
-      } else {
-        newElt = null
       }
+      newElt = newElt.nextSibling
     }
     cleanUpElement(target)
     if (target instanceof Element) {
@@ -1696,7 +1725,10 @@ var htmx = (function() {
    */
   function swapDelete(target) {
     cleanUpElement(target)
-    return parentElt(target).removeChild(target)
+    const parent = parentElt(target)
+    if (parent) {
+      return parent.removeChild(target)
+    }
   }
 
   /**
@@ -1753,7 +1785,7 @@ var htmx = (function() {
           try {
             const newElements = ext.handleSwap(swapStyle, target, fragment, settleInfo)
             if (newElements) {
-              if (typeof newElements.length !== 'undefined') {
+              if (Array.isArray(newElements)) {
                 // if handleSwap returns an array (like) of elements, we handle them
                 for (let j = 0; j < newElements.length; j++) {
                   const child = newElements[j]
@@ -1779,19 +1811,22 @@ var htmx = (function() {
   /**
    * @param {DocumentFragment} fragment
    * @param {HtmxSettleInfo} settleInfo
+   * @param {Node|Document} [rootNode]
    */
-  function findAndSwapOobElements(fragment, settleInfo) {
-    forEach(findAll(fragment, '[hx-swap-oob], [data-hx-swap-oob]'), function(oobElement) {
+  function findAndSwapOobElements(fragment, settleInfo, rootNode) {
+    var oobElts = findAll(fragment, '[hx-swap-oob], [data-hx-swap-oob]')
+    forEach(oobElts, function(oobElement) {
       if (htmx.config.allowNestedOobSwaps || oobElement.parentElement === null) {
         const oobValue = getAttributeValue(oobElement, 'hx-swap-oob')
         if (oobValue != null) {
-          oobSwap(oobValue, oobElement, settleInfo)
+          oobSwap(oobValue, oobElement, settleInfo, rootNode)
         }
       } else {
         oobElement.removeAttribute('hx-swap-oob')
         oobElement.removeAttribute('data-hx-swap-oob')
       }
     })
+    return oobElts.length > 0
   }
 
   /**
@@ -1808,6 +1843,7 @@ var htmx = (function() {
     }
 
     target = resolveTarget(target)
+    const rootNode = swapOptions.contextElement ? getRootNode(swapOptions.contextElement, false) : getDocument()
 
     // preserve focus and selection
     const activeElt = document.activeElement
@@ -1846,16 +1882,15 @@ var htmx = (function() {
           const oobValue = oobSelectValue[1] || 'true'
           const oobElement = fragment.querySelector('#' + id)
           if (oobElement) {
-            oobSwap(oobValue, oobElement, settleInfo)
+            oobSwap(oobValue, oobElement, settleInfo, rootNode)
           }
         }
       }
       // oob swaps
-      findAndSwapOobElements(fragment, settleInfo)
+      findAndSwapOobElements(fragment, settleInfo, rootNode)
       forEach(findAll(fragment, 'template'), /** @param {HTMLTemplateElement} template */function(template) {
-        findAndSwapOobElements(template.content, settleInfo)
-        if (template.content.childElementCount === 0 && template.content.textContent.trim() === '') {
-        // Avoid polluting the DOM with empty templates that were only used to encapsulate oob swap
+        if (findAndSwapOobElements(template.content, settleInfo, rootNode)) {
+          // Avoid polluting the DOM with empty templates that were only used to encapsulate oob swap
           template.remove()
         }
       })
@@ -1870,6 +1905,7 @@ var htmx = (function() {
       }
       handlePreservedElements(fragment)
       swapWithStyle(swapSpec.swapStyle, swapOptions.contextElement, target, fragment, settleInfo)
+      restorePreservedElements()
     }
 
     // apply saved focus and selection information to swapped content
@@ -1952,7 +1988,10 @@ var htmx = (function() {
       for (const eventName in triggers) {
         if (triggers.hasOwnProperty(eventName)) {
           let detail = triggers[eventName]
-          if (!isRawObject(detail)) {
+          if (isRawObject(detail)) {
+            // @ts-ignore
+            elt = detail.target !== undefined ? detail.target : elt
+          } else {
             detail = { value: detail }
           }
           triggerEvent(elt, eventName, detail)
@@ -2137,8 +2176,8 @@ var htmx = (function() {
           if (eventFilter) {
             triggerSpec.eventFilter = eventFilter
           }
+          consumeUntil(tokens, NOT_WHITESPACE)
           while (tokens.length > 0 && tokens[0] !== ',') {
-            consumeUntil(tokens, NOT_WHITESPACE)
             const token = tokens.shift()
             if (token === 'changed') {
               triggerSpec.changed = true
@@ -2183,6 +2222,7 @@ var htmx = (function() {
             } else {
               triggerErrorEvent(elt, 'htmx:syntax:error', { token: tokens.shift() })
             }
+            consumeUntil(tokens, NOT_WHITESPACE)
           }
           triggerSpecs.push(triggerSpec)
         }
@@ -2273,18 +2313,19 @@ var htmx = (function() {
    * @param {HtmxTriggerSpecification[]} triggerSpecs
    */
   function boostElement(elt, nodeData, triggerSpecs) {
-    if ((elt instanceof HTMLAnchorElement && isLocalLink(elt) && (elt.target === '' || elt.target === '_self')) || elt.tagName === 'FORM') {
+    if ((elt instanceof HTMLAnchorElement && isLocalLink(elt) && (elt.target === '' || elt.target === '_self')) || (elt.tagName === 'FORM' && String(getRawAttribute(elt, 'method')).toLowerCase() !== 'dialog')) {
       nodeData.boosted = true
       let verb, path
       if (elt.tagName === 'A') {
-        verb = 'get'
+        verb = (/** @type HttpVerb */('get'))
         path = getRawAttribute(elt, 'href')
       } else {
         const rawAttribute = getRawAttribute(elt, 'method')
-        verb = rawAttribute ? rawAttribute.toLowerCase() : 'get'
-        if (verb === 'get') {
-        }
+        verb = (/** @type HttpVerb */(rawAttribute ? rawAttribute.toLowerCase() : 'get'))
         path = getRawAttribute(elt, 'action')
+        if (verb === 'get' && path.includes('?')) {
+          path = path.replace(/\?[^#]+/, '')
+        }
       }
       triggerSpecs.forEach(function(triggerSpec) {
         addEventListener(elt, function(node, evt) {
@@ -2373,10 +2414,15 @@ var htmx = (function() {
     }
     // store the initial values of the elements, so we can tell if they change
     if (triggerSpec.changed) {
+      if (!('lastValue' in elementData)) {
+        elementData.lastValue = new WeakMap()
+      }
       eltsToListenOn.forEach(function(eltToListenOn) {
-        const eltToListenOnData = getInternalData(eltToListenOn)
+        if (!elementData.lastValue.has(triggerSpec)) {
+          elementData.lastValue.set(triggerSpec, new WeakMap())
+        }
         // @ts-ignore value will be undefined for non-input elements, which is fine
-        eltToListenOnData.lastValue = eltToListenOn.value
+        elementData.lastValue.get(triggerSpec).set(eltToListenOn, eltToListenOn.value)
       })
     }
     forEach(eltsToListenOn, function(eltToListenOn) {
@@ -2418,13 +2464,14 @@ var htmx = (function() {
             }
           }
           if (triggerSpec.changed) {
-            const eltToListenOnData = getInternalData(eltToListenOn)
+            const node = event.target
             // @ts-ignore value will be undefined for non-input elements, which is fine
-            const value = eltToListenOn.value
-            if (eltToListenOnData.lastValue === value) {
+            const value = node.value
+            const lastValue = elementData.lastValue.get(triggerSpec)
+            if (lastValue.has(node) && lastValue.get(node) === value) {
               return
             }
-            eltToListenOnData.lastValue = value
+            lastValue.set(node, value)
           }
           if (elementData.delayed) {
             clearTimeout(elementData.delayed)
@@ -2435,13 +2482,17 @@ var htmx = (function() {
 
           if (triggerSpec.throttle > 0) {
             if (!elementData.throttle) {
+              triggerEvent(elt, 'htmx:trigger')
               handler(elt, evt)
               elementData.throttle = getWindow().setTimeout(function() {
                 elementData.throttle = null
               }, triggerSpec.throttle)
             }
           } else if (triggerSpec.delay > 0) {
-            elementData.delayed = getWindow().setTimeout(function() { handler(elt, evt) }, triggerSpec.delay)
+            elementData.delayed = getWindow().setTimeout(function() {
+              triggerEvent(elt, 'htmx:trigger')
+              handler(elt, evt)
+            }, triggerSpec.delay)
           } else {
             triggerEvent(elt, 'htmx:trigger')
             handler(elt, evt)
@@ -2468,6 +2519,7 @@ var htmx = (function() {
         windowIsScrolling = true
       }
       window.addEventListener('scroll', scrollHandler)
+      window.addEventListener('resize', scrollHandler)
       setInterval(function() {
         if (windowIsScrolling) {
           windowIsScrolling = false
@@ -2797,12 +2849,6 @@ var htmx = (function() {
 
       triggerEvent(elt, 'htmx:beforeProcessNode')
 
-      // @ts-ignore value will be undefined for non-input elements, which is fine
-      if (elt.value) {
-        // @ts-ignore
-        nodeData.lastValue = elt.value
-      }
-
       const triggerSpecs = getTriggerSpecs(elt)
       const hasExplicitHttpAction = processVerbs(elt, nodeData, triggerSpecs)
 
@@ -3059,6 +3105,10 @@ var htmx = (function() {
     forEach(findAll(clone, '.' + className), function(child) {
       removeClassFromElement(child, className)
     })
+    // remove the disabled attribute for any element disabled due to an htmx request
+    forEach(findAll(clone, '[data-disabled-by-htmx]'), function(child) {
+      child.removeAttribute('disabled')
+    })
     return clone.innerHTML
   }
 
@@ -3141,7 +3191,9 @@ var htmx = (function() {
         const settleInfo = makeSettleInfo(historyElement)
         handleTitle(fragment.title)
 
+        handlePreservedElements(fragment)
         swapInnerHTML(historyElement, content, settleInfo)
+        restorePreservedElements()
         settleImmediately(settleInfo.tasks)
         currentPathForHistory = path
         triggerEvent(getDocument().body, 'htmx:historyRestore', { path, cacheMiss: true, serverResponse: this.response })
@@ -3163,8 +3215,10 @@ var htmx = (function() {
       const fragment = makeFragment(cached.content)
       const historyElement = getHistoryElement()
       const settleInfo = makeSettleInfo(historyElement)
-      handleTitle(fragment.title)
+      handleTitle(cached.title)
+      handlePreservedElements(fragment)
       swapInnerHTML(historyElement, fragment, settleInfo)
+      restorePreservedElements()
       settleImmediately(settleInfo.tasks)
       getWindow().setTimeout(function() {
         window.scrollTo(0, cached.scroll)
@@ -3212,6 +3266,7 @@ var htmx = (function() {
       const internalData = getInternalData(disabledElement)
       internalData.requestCount = (internalData.requestCount || 0) + 1
       disabledElement.setAttribute('disabled', '')
+      disabledElement.setAttribute('data-disabled-by-htmx', '')
     })
     return disabledElts
   }
@@ -3221,18 +3276,21 @@ var htmx = (function() {
    * @param {Element[]} disabled
    */
   function removeRequestIndicators(indicators, disabled) {
+    forEach(indicators.concat(disabled), function(ele) {
+      const internalData = getInternalData(ele)
+      internalData.requestCount = (internalData.requestCount || 1) - 1
+    })
     forEach(indicators, function(ic) {
       const internalData = getInternalData(ic)
-      internalData.requestCount = (internalData.requestCount || 0) - 1
       if (internalData.requestCount === 0) {
         ic.classList.remove.call(ic.classList, htmx.config.requestClass)
       }
     })
     forEach(disabled, function(disabledElement) {
       const internalData = getInternalData(disabledElement)
-      internalData.requestCount = (internalData.requestCount || 0) - 1
       if (internalData.requestCount === 0) {
         disabledElement.removeAttribute('disabled')
+        disabledElement.removeAttribute('data-disabled-by-htmx')
       }
     })
   }
@@ -3382,10 +3440,10 @@ var htmx = (function() {
   function overrideFormData(receiver, donor) {
     for (const key of donor.keys()) {
       receiver.delete(key)
-      donor.getAll(key).forEach(function(value) {
-        receiver.append(key, value)
-      })
     }
+    donor.forEach(function(value, key) {
+      receiver.append(key, value)
+    })
     return receiver
   }
 
@@ -3842,16 +3900,22 @@ var htmx = (function() {
     if (context) {
       if (context instanceof Element || typeof context === 'string') {
         return issueAjaxRequest(verb, path, null, null, {
-          targetOverride: resolveTarget(context),
+          targetOverride: resolveTarget(context) || DUMMY_ELT,
           returnPromise: true
         })
       } else {
+        let resolvedTarget = resolveTarget(context.target)
+        // If target is supplied but can't resolve OR both target and source can't be resolved
+        // then use DUMMY_ELT to abort the request with htmx:targetError to avoid it replacing body by mistake
+        if ((context.target && !resolvedTarget) || (!resolvedTarget && !resolveTarget(context.source))) {
+          resolvedTarget = DUMMY_ELT
+        }
         return issueAjaxRequest(verb, path, resolveTarget(context.source), context.event,
           {
             handler: context.handler,
             headers: context.headers,
             values: context.values,
-            targetOverride: resolveTarget(context.target),
+            targetOverride: resolvedTarget,
             swapOverride: context.swap,
             select: context.select,
             returnPromise: true
@@ -3913,9 +3977,9 @@ var htmx = (function() {
     const formData = new FormData()
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
-        if (typeof obj[key].forEach === 'function') {
+        if (obj[key] && typeof obj[key].forEach === 'function') {
           obj[key].forEach(function(v) { formData.append(key, v) })
-        } else if (typeof obj[key] === 'object') {
+        } else if (typeof obj[key] === 'object' && !(obj[key] instanceof Blob)) {
           formData.append(key, JSON.stringify(obj[key]))
         } else {
           formData.append(key, obj[key])
@@ -4006,8 +4070,10 @@ var htmx = (function() {
           return false
         }
         target.delete(name)
-        if (typeof value.forEach === 'function') {
+        if (value && typeof value.forEach === 'function') {
           value.forEach(function(v) { target.append(name, v) })
+        } else if (typeof value === 'object' && !(value instanceof Blob)) {
+          target.append(name, JSON.stringify(value))
         } else {
           target.append(name, value)
         }
@@ -4343,7 +4409,9 @@ var htmx = (function() {
         const hierarchy = hierarchyForElt(elt)
         responseInfo.pathInfo.responsePath = getPathFromResponse(xhr)
         responseHandler(elt, responseInfo)
-        removeRequestIndicators(indicators, disableElts)
+        if (responseInfo.keepIndicators !== true) {
+          removeRequestIndicators(indicators, disableElts)
+        }
         triggerEvent(elt, 'htmx:afterRequest', responseInfo)
         triggerEvent(elt, 'htmx:afterOnLoad', responseInfo)
         // if the body no longer contains the element, trigger the event on the closest parent
@@ -4583,12 +4651,14 @@ var htmx = (function() {
     const shouldRefresh = hasHeader(xhr, /HX-Refresh:/i) && xhr.getResponseHeader('HX-Refresh') === 'true'
 
     if (hasHeader(xhr, /HX-Redirect:/i)) {
+      responseInfo.keepIndicators = true
       location.href = xhr.getResponseHeader('HX-Redirect')
       shouldRefresh && location.reload()
       return
     }
 
     if (shouldRefresh) {
+      responseInfo.keepIndicators = true
       location.reload()
       return
     }
@@ -4635,7 +4705,8 @@ var htmx = (function() {
       serverResponse,
       isError,
       ignoreTitle,
-      selectOverride
+      selectOverride,
+      swapOverride
     }, responseInfo)
 
     if (responseHandling.event && !triggerEvent(target, responseHandling.event, beforeSwapDetails)) return
@@ -4647,6 +4718,7 @@ var htmx = (function() {
     isError = beforeSwapDetails.isError // allow updating error
     ignoreTitle = beforeSwapDetails.ignoreTitle // allow updating ignoring title
     selectOverride = beforeSwapDetails.selectOverride // allow updating select override
+    swapOverride = beforeSwapDetails.swapOverride // allow updating swap override
 
     responseInfo.target = target // Make updated target available to response events
     responseInfo.failed = isError // Make failed property available to response events
@@ -4666,9 +4738,6 @@ var htmx = (function() {
         saveCurrentPageToHistory()
       }
 
-      if (hasHeader(xhr, /HX-Reswap:/i)) {
-        swapOverride = xhr.getResponseHeader('HX-Reswap')
-      }
       var swapSpec = getSwapSpecification(elt, swapOverride)
 
       if (!swapSpec.hasOwnProperty('ignoreTitle')) {
@@ -5072,6 +5141,7 @@ var htmx = (function() {
  * @property {{requestPath: string, finalRequestPath: string, responsePath: string|null, anchor: string}} pathInfo
  * @property {boolean} [failed]
  * @property {boolean} [successful]
+ * @property {boolean} [keepIndicators]
  */
 
 /**
@@ -5100,7 +5170,7 @@ var htmx = (function() {
  */
 
 /**
- * @typedef {HtmxResponseInfo & {shouldSwap: boolean, serverResponse: any, isError: boolean, ignoreTitle: boolean, selectOverride:string}} HtmxBeforeSwapDetails
+ * @typedef {HtmxResponseInfo & {shouldSwap: boolean, serverResponse: any, isError: boolean, ignoreTitle: boolean, selectOverride:string, swapOverride:string}} HtmxBeforeSwapDetails
  */
 
 /**
@@ -5121,12 +5191,13 @@ var htmx = (function() {
  */
 
 /**
+ * @see https://github.com/bigskysoftware/htmx-extensions/blob/main/README.md
  * @typedef {Object} HtmxExtension
- * @see https://htmx.org/extensions/#defining
  * @property {(api: any) => void} init
  * @property {(name: string, event: Event|CustomEvent) => boolean} onEvent
  * @property {(text: string, xhr: XMLHttpRequest, elt: Element) => string} transformResponse
  * @property {(swapStyle: HtmxSwapStyle) => boolean} isInlineSwap
- * @property {(swapStyle: HtmxSwapStyle, target: Element, fragment: Node, settleInfo: HtmxSettleInfo) => boolean} handleSwap
- * @property {(xhr: XMLHttpRequest, parameters: FormData, elt: Element) => *|string|null} encodeParameters
+ * @property {(swapStyle: HtmxSwapStyle, target: Node, fragment: Node, settleInfo: HtmxSettleInfo) => boolean|Node[]} handleSwap
+ * @property {(xhr: XMLHttpRequest, parameters: FormData, elt: Node) => *|string|null} encodeParameters
+ * @property {() => string[]|null} getSelectors
  */

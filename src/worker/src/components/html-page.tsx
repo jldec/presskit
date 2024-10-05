@@ -72,16 +72,22 @@ export function renderJsx() {
           <link href="/css/styles.css" rel="stylesheet" />
           <script src="/js/htmx.min.js"></script>
         </head>
-        <body>
-          {splashimage ? (
-            <img src={splashimage} alt="splash image" class="splash" />
-          ) : null}
-          {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
-            children,
-            page,
-            dirPage: dirEntry
-          })}
-          <Dbg page={page} />
+        <body class=" dark:bg-black">
+          <div class="prose dark:prose-invert font-mono max-w-[76ch] md:mx-auto m-3">
+            {splashimage ? (
+              <img
+                src={splashimage}
+                alt="splash image"
+                class="h-[10.5rem] w-full object-cover"
+              />
+            ) : null}
+            {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
+              children,
+              page,
+              dirPage: dirEntry
+            })}
+            <Dbg page={page} />
+          </div>
         </body>
       </html>
     )

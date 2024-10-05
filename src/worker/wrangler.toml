@@ -3,6 +3,9 @@ compatibility_date = "2024-09-25"
 assets = { directory = "../../public" }
 main = "src/index.tsx"
 
+[build]
+command = "pnpm build:css"
+
 # https://developers.cloudflare.com/workers/observability/logs/workers-logs/
 [observability]
 enabled = true

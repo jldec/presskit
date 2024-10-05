@@ -9,18 +9,9 @@ export const BlogListLayout: FC = ({ children, page }) => {
       <ul>
         {page?.dir?.map((dirPage: DirData) => {
           const text = dirPage.attrs?.title ?? dirPage.path
-          // let date = dirPage.attrs?.date
-          // if (typeof date === "string") {
-          //   date = new Date(date)
-          // } // reparse JSON dates
-          // const dateStr =
-          //   date instanceof Date
-          //     ? ` ${date.getFullYear()}.${("0" + (date.getMonth() + 1)).slice(-2)}.${("0" + date.getDate()).slice(-2)}`
-          //     : ""
           return (
-            <li class="nav">
-              <a href={dirPage.path}>{text}</a>
-              {/* <span class="subtle">{dateStr}</span> */}
+            <li>
+              <a class="navlink" href={dirPage.path}>{text}</a>
             </li>
           )
         })}
