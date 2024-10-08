@@ -8,7 +8,6 @@ import { renderJsx } from './components/html-page'
 import { api } from './api'
 import { getStatic } from './static'
 import { getRedirects } from './redirects'
-import { RedirectStatusCode } from 'hono/utils/http-status'
 
 export { Party } from './party'
 
