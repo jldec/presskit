@@ -7,6 +7,7 @@ import { getImage } from './images'
 import { renderJsx } from './components/html-page'
 import { api } from './api'
 import { getStatic } from './static'
+import { getRedirects } from './redirects'
 
 export { Party } from './party'
 
@@ -35,7 +36,7 @@ app.use(async (c, next) => {
   // This should be the only place we force reloading the tree from source
   let manifest = await getManifest(c.env, waitUntil, noCache && isHome)
   if (manifest.includes(path)) {
-    const resp = await getStatic(path, c, noCache)
+    const resp = await getStatic(path, c.env, waitUntil, noCache)
     if (resp) return resp
   }
 
@@ -49,6 +50,11 @@ app.use(async (c, next) => {
         : undefined
       return c.render('', { page, site, dirEntry })
     }
+  }
+
+  let redirects = await getRedirects(c.env, waitUntil)
+  if (path in redirects) {
+    return c.redirect(redirects[path].redirect, redirects[path].status)
   }
 
   await next()

@@ -1,8 +1,9 @@
 import { type Context } from './types'
 import { hash } from './markdown/hash'
 
-// serve images from r2 bucket
-// if not found, serve from og src, and upload to r2 in background
+// DEPRECATED - only used for cross-origin images like github uploads
+// serves rewritten markdown image links from r2 bucket
+// if nots found, serve from og src, and upload to r2 in background
 // protects against unwanted sideloading by signing hashes
 // TODO: make signed hashes more secure
 // TODO: multi-part and ranges

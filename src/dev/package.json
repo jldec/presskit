@@ -6,6 +6,7 @@
   },
   "scripts": {
     "build": "node build-manifest.js",
+    "build-jldec": "node build-manifest.js ../../../jldec-me/content",
     "dev": "wrangler dev",
     "dev-jldec": "wrangler dev --env jldec",
     "ship": "wrangler deploy"
