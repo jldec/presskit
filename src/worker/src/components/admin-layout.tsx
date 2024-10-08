@@ -7,6 +7,9 @@ export const AdminLayout: FC = ({ page }) => (
     <button hx-get="/api/manifest" hx-target=".json">
       manifest
     </button>{' '}
+    <button hx-get="/api/redirects" hx-target=".json">
+      redirects
+    </button>{' '}
     <button hx-get="/api/dirs" hx-target=".json">
       dirs
     </button>{' '}

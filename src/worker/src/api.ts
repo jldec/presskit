@@ -1,6 +1,7 @@
 import { Hono, WaitUntil } from './types'
 import { getDirs, getPagePaths, zapDirCache } from './markdown/get-dirs'
 import { getManifest, zapManifestCache } from './manifest'
+import { getRedirects, zapRedirectCache } from './redirects'
 
 // instance to be mounted at /api
 export const api = new Hono()
@@ -59,6 +60,7 @@ api.delete('/static-cache', async (c) => {
   const keys = list.keys.map((o) => o.name)
   const deleted = await Promise.all(keys.map((key) => c.env.STATIC_CACHE.delete(key)))
   zapManifestCache()
+  zapRedirectCache()
   return fjson({ pageCache: deleted, caches: 'zapped' })
 })
 
@@ -85,6 +87,11 @@ api.delete('/images', async (c) => {
 api.get('/manifest', async (c) => {
   const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
   return fjson(await getManifest(c.env, waitUntil))
+})
+
+api.get('/redirects', async (c) => {
+  const waitUntil: WaitUntil = (promise) => c.executionCtx.waitUntil(promise)
+  return fjson(await getRedirects(c.env, waitUntil))
 })
 
 api.get('/dirs', async (c) => {

@@ -1,15 +1,22 @@
 name = "dev-content"
 compatibility_date = "2024-09-25"
 main = "./index.js"
-assets = { directory = "./content" }
 
 [dev]
 port = 8765
+
+[assets]
+directory = "./content"
 
 [build]
 command = "node build-manifest.js"
 watch_dir = "./content"
 
-[env.jldec]
-assets = { directory = "../../../jldec-me/content" }
-build = { command = "PRESSKIT_CONTENT_DIR=../../../jldec-me/content node build-manifest.js", watch_dir = "../../../jldec-me/content" }
+### env.jldec ###
+
+[env.jldec.assets]
+directory = "../../../jldec-me/content"
+
+[env.jldec.build]
+command = "node build-manifest.js ../../../jldec-me/content"
+watch_dir = "../../../jldec-me/content"

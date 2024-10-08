@@ -1,6 +1,7 @@
 import { Hono as HonoBase, Context as ContextBase } from 'hono'
 import type { Party } from './party'
-export type { StatusCode } from 'hono/utils/http-status'
+import type { RedirectStatusCode } from 'hono/utils/http-status'
+export type { StatusCode, RedirectStatusCode } from 'hono/utils/http-status'
 
 export type Env = {
   PAGE_CACHE: KVNamespace
@@ -103,4 +104,9 @@ export interface Splash {
   image?: string;
   title?: string;
   subtitle?: string;
+}
+
+export interface Redirect {
+  redirect: string
+  status?: RedirectStatusCode
 }

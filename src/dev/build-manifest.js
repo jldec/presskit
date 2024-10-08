@@ -4,10 +4,11 @@ import fs from 'node:fs'
 
 let cwd = process.cwd()
 let files = []
+let redirects = []
+let contentDir = process.argv[2] || path.join(cwd, 'content')
 
-let prefix = process.env.PRESSKIT_CONTENT_DIR ?? path.join(cwd, 'content')
-if (!fs.existsSync(prefix)) {
-  console.log(`Content directory: '${prefix}' does not exist.`)
+if (!fs.existsSync(contentDir)) {
+  console.log(`Content directory: '${contentDir}' does not exist.`)
   process.exit(1)
 }
 
@@ -17,13 +18,32 @@ if (!template) {
   process.exit(1)
 }
 
-// https://github.com/mrmlnc/fast-glob#readme
-let globPath = path.join(prefix, '/**/*.*')
-files = (await fg.glob(globPath)).map((file) => file.slice(prefix.length))
-let list = JSON.stringify(files, null, 2)
-let dir = JSON.stringify(prefix)
+try {
+  let redirectsFile = path.join(contentDir, '_redirects')
+  // this is just for testing
+  // _redirects is parsed in worker/src/redirects.ts
+  redirects = fs
+    .readFileSync(redirectsFile, { encoding: 'utf-8' })
+    .split('\n')
+    .map((line) => line.trim().split(/\s+/))
+    .filter((line) => line.length >= 2)
+    .map(([path, redirect, status]) => ({ path, redirect, status }))
+} catch (e) {
+  console.log(`No _redirects: ${e.message}`)
+}
 
-let outfile = template.replace('<MANIFEST>', list).replace('<CONTENT_DIR>', dir)
+// https://github.com/mrmlnc/fast-glob#readme
+try {
+  let globPath = path.join(contentDir, '/**/*')
+  files = (await fg.glob(globPath)).map((file) => file.slice(contentDir.length))
+} catch (e) {
+  console.log(`No files: ${e.message}`)
+}
+
+let outfile = template
+  .replace('<MANIFEST>', JSON.stringify(files, null, 2))
+  .replace('<REDIRECTS>', JSON.stringify(redirects, null, 2))
+  .replace('<CONTENT_DIR>', JSON.stringify(contentDir))
 // console.log(outfile)
 
 fs.writeFileSync('index.js', outfile)
