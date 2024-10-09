@@ -1,4 +1,5 @@
-import { test, extractYaml } from '@std/front-matter'
+import { test } from '@std/front-matter/test'
+import { extract } from '@std/front-matter/unstable-yaml'
 import type { Frontmatter } from '../types'
 
 export function parseFrontmatter(s: string) {
@@ -10,7 +11,7 @@ export function parseFrontmatter(s: string) {
     }
 
   try {
-    return extractYaml<Frontmatter>(s)
+    return extract<Frontmatter>(s, { schema: "json" })
   } catch (error) {
     return {
       frontMatter: '',

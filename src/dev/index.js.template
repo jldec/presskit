@@ -7,9 +7,8 @@ console.log('dev PRESSKIT_CONTENT_DIR', dir)
 export default {
   async fetch(request) {
     let url = new URL(request.url)
-    if (url.pathname === '/redirects') {
-      return Response.json(redirects)
-    }
-    return Response.json(manifest)
+    if (url.pathname === '/') return Response.json(manifest)
+    if (url.pathname === '/redirects') return Response.json(redirects)
+    return new Response('Not found', { status: 404 })
   }
 }

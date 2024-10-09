@@ -5,7 +5,8 @@ const frontMatter = `foo: bar
 baz: 1
 array: [1, 2, 3]
 nested:
-  inner: yo`
+  inner: yo
+date: 2022-11-01`
 
 const body = `# markdown header
 paragraphs`
@@ -21,7 +22,8 @@ const attrs = {
   array: [1, 2, 3],
   nested: {
     inner: 'yo'
-  }
+  },
+  date: '2022-11-01'
 }
 
 const expectedResult = {

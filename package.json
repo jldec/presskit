@@ -6,5 +6,9 @@
     "semi": false,
     "printWidth": 100,
     "trailingComma": "none"
+  },
+  "type": "module",
+  "dependencies": {
+    "benchmark": "^2.1.4"
   }
 }

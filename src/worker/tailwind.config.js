@@ -22,7 +22,7 @@ module.exports = {
             },
             li: {
               lineHeight: '1.2',
-              margin: '0.25rem 0',
+              margin: '0.25rem 0'
             },
             p: {
               marginTop: '1.4rem',
@@ -48,12 +48,23 @@ module.exports = {
               border: 'solid 1.5px currentColor'
             },
             img: {
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
+              boxShadow: '0 4px 8px rgba(0, 0, 0´, 0.2)'
             },
             pre: {
               backgroundColor: '#222',
               color: '#7f7',
-              minHeight: '100px',
+              minHeight: '100px'
+            },
+            blockquote: {
+              fontSize: theme('fontSize.xl'),
+              maxWidth: '40ch',
+              margin: '3rem 0'
+            },
+            ['blockquote p::before']: {
+              content: 'none'
+            },
+            ['blockquote p::after']: {
+              content: 'none'
             }
           }
         }

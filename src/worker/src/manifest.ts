@@ -1,4 +1,6 @@
 import { Env, WaitUntil } from './types'
+import { zapDirCache } from './markdown/get-dirs'
+import { zapRedirectCache } from './redirects'
 
 const manifestCacheKey = 'manifest:jldec/presskit'
 
@@ -51,6 +53,9 @@ export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boole
   if (manifest.length) {
     manifestMemo = manifest
     waitUntil(env.PAGE_CACHE.put(manifestCacheKey, JSON.stringify(manifest)))
+    // invalidate caches when manifest is reloaded
+    zapDirCache()
+    zapRedirectCache()
   }
   return manifest
 }
