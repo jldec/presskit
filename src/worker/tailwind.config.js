@@ -56,7 +56,8 @@ module.exports = {
               minHeight: '100px'
             },
             blockquote: {
-              fontSize: theme('fontSize.xl'),
+              fontSize: theme('fontSize.lg'),
+              fontStyle: 'normal',
               maxWidth: '40ch',
               margin: '3rem 0'
             },
