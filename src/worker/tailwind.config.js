@@ -56,10 +56,10 @@ module.exports = {
               minHeight: '100px'
             },
             blockquote: {
-              fontSize: theme('fontSize.lg'),
               fontStyle: 'normal',
-              maxWidth: '40ch',
-              margin: '3rem 0'
+              margin: '2rem auto',
+              padding: '0 1rem',
+              border: 'solid 1.5px currentColor'
             },
             ['blockquote p::before']: {
               content: 'none'
