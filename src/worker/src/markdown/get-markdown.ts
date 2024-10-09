@@ -1,4 +1,4 @@
-import type { PageData, DirData, Env, WaitUntil } from '../types'
+import type { PageData, Env, WaitUntil } from '../types'
 import { parseFrontmatter } from './parse-frontmatter'
 import { parseMarkdown } from './parse-markdown'
 import { getDirData, getDirs } from './get-dirs'

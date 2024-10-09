@@ -49,10 +49,10 @@ export async function getDirData(
 
 function sortFn(sortBy: string) {
   return function (a: DirData, b: DirData) {
-    const v1 = a.attrs && a.attrs[sortBy]
-    const v2 = b.attrs && b.attrs[sortBy]
-    // @ts-expect-error
+    const v1 = (a.attrs && a.attrs[sortBy]) ?? ''
+    const v2 = (b.attrs && b.attrs[sortBy]) ?? ''
     const result = v1 === v2 ? 0 : v1 > v2 ? 1 : -1
+    console.log('sortFn', a.path, b.path, v1, v2, result)
     return result
   }
 }
@@ -89,12 +89,15 @@ export async function getDirs(env: Env, waitUntil: WaitUntil) {
       let match = path.match(/^(\/.*\/|\/)([^\/]+)\.md$/i)
       if (match) {
         if (match[2].toLowerCase() === 'index') {
+          // capture dir even when index.md is the only file in the dir
+          const dirpath = match[1] === '/' ? match[1] : match[1].slice(0, -1)
+          dirs[dirpath] ??= []
           match = match[1].match(/^(\/.*\/|\/)([^\/]+)\/$/)
         }
         if (match) {
           const dirpath = match[1] === '/' ? match[1] : match[1].slice(0, -1)
-          const page = match[2]
           dirs[dirpath] ??= []
+          const page = match[2]
           dirs[dirpath].push(page)
         }
       }
