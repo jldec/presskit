@@ -48,7 +48,8 @@ module.exports = {
               border: 'solid 1.5px currentColor'
             },
             img: {
-              boxShadow: '0 4px 8px rgba(0, 0, 0´, 0.2)'
+              boxShadow: '0 4px 8px rgba(0, 0, 0´, 0.2)',
+              borderRadius: theme('borderRadius.md'),
             },
             pre: {
               backgroundColor: '#222',
