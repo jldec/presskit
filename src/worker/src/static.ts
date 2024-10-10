@@ -20,9 +20,9 @@ export async function getStatic(
 
   const [body, body2] = resp.body.tee()
   const headers = copyHeaders(resp.headers)
+  headers['cache-control'] = 'public, max-age=86400'
   waitUntil(env.STATIC_CACHE.put(path, body2, { metadata: { headers } }))
   console.log('getStatic', path)
-  headers['cache-control'] = 'public, max-age=600'
   return new Response(body, { headers })
 }
 
