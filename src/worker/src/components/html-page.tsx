@@ -73,7 +73,7 @@ export function renderJsx() {
           <script src="/js/htmx.min.js"></script>
         </head>
         <body class=" dark:bg-black">
-          <div class="prose dark:prose-invert font-mono max-w-[76ch] md:mx-auto m-3">
+          <div class="prose dark:prose-invert font-mono max-w-[76ch] md:mx-auto mx-3 mt-3 mb-9">
             {splashimage ? (
               <img
                 src={splashimage}
