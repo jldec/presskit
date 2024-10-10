@@ -60,7 +60,8 @@ module.exports = {
               fontStyle: 'normal',
               margin: '2rem auto',
               padding: '0 1rem',
-              border: 'solid 1.5px currentColor'
+              border: 'solid 1.5px currentColor',
+              borderRadius: theme('borderRadius.md'),
             },
             ['blockquote p::before']: {
               content: 'none'
