@@ -22,7 +22,7 @@ module.exports = {
             },
             li: {
               lineHeight: '1.2',
-              margin: '0.25rem 0'
+              margin: '0.5rem 0'
             },
             p: {
               marginTop: '1.4rem',
