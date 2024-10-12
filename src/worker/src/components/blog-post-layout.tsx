@@ -17,7 +17,7 @@ export const BlogPostLayout: FC = ({ children, page, dirPage }) => {
   const credits = [formatDate(page.attrs?.date)].filter(Boolean).join(' - ')
   return (
     <>
-      <p class="whitespace-nowrap">
+      <p class="whitespace-nowrap overflow-hidden overflow-ellipsis">
         <a href="/">Home</a> | <a href="/blog">Writings</a>
         {dirPage?.nextPath ? (
           <>
