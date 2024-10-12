@@ -56,6 +56,12 @@ module.exports = {
               color: '#7f7',
               minHeight: '100px'
             },
+            ['code::before']: {
+              content: 'none'
+            },
+            ['code::after']: {
+              content: 'none'
+            },
             blockquote: {
               fontStyle: 'normal',
               margin: '2rem auto',
