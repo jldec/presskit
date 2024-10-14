@@ -65,6 +65,6 @@ export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boole
     manifest = []
   }
 
-  console.log('getManifest', source, manifest?.length, '')
+  console.log('getManifest', source, manifest?.length, 'files')
   return manifest
 }
