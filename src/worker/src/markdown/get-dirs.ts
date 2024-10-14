@@ -52,7 +52,7 @@ function sortFn(sortBy: string) {
     const v1 = (a.attrs && a.attrs[sortBy]) ?? ''
     const v2 = (b.attrs && b.attrs[sortBy]) ?? ''
     const result = v1 === v2 ? 0 : v1 > v2 ? 1 : -1
-    console.log('sortFn', a.path, b.path, v1, v2, result)
+    // console.log('sortFn', a.path, b.path, v1, v2, result)
     return result
   }
 }

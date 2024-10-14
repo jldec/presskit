@@ -40,10 +40,12 @@ app.use(async (c, next) => {
     if (resp) return resp
   }
 
+  // TODO: extract "render" worker for theming and css
   let pagePaths = await getPagePaths(c.env, waitUntil)
   if (path in pagePaths) {
     const page = await getMarkdown(path, c.env, waitUntil, noCache)
     if (page) {
+      // site is used for meta headers, dirEntry is only used for "next" links on blog pages
       const site = (await getMarkdown('/', c.env, waitUntil))?.attrs
       const dirEntry = path.startsWith('/blog/')
         ? (await getMarkdown('/blog', c.env, waitUntil))?.dir?.find((p) => p.path === path)

@@ -4,7 +4,7 @@ import { useRequestContext } from 'hono/jsx-renderer'
 export const Debug: FC = ({ page }) => {
   const c = useRequestContext()
   const user = c.req.header('cf-access-authenticated-user-email')
-  if (page /* && c.env.ENVIRONMENT === 'dev'*/)
+  if (page && c.env.DEBUG)
     return (
       <details class="mt-4 cursor-pointer">
         <summary class="text-black/30 dark:text-white/40">debug</summary>

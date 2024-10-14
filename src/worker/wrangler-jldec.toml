@@ -20,7 +20,7 @@ enabled = true
 [vars]
 ENVIRONMENT = "prod"
 SOURCE_PREFIX = "https://raw.githubusercontent.com/jldec/jldec-me/main/content"
-SOURCE_TREE_URL = "https://api.github.com/repos/jldec/jldec-me/git/trees/main:content"
+SOURCE_TREE_URL = "https://api.github.com/repos/jldec/jldec-me/git/trees/main:content?recursive=1"
 
 [ai]
 binding = "AI"
