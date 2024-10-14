@@ -10,10 +10,10 @@ export type Env = {
   AI: any
   GH_PAT: string
   IMAGE_KEY: string
-  ENVIRONMENT: string
   CHATS: DurableObjectNamespace<Party>
   SOURCE_PREFIX: string
   SOURCE_TREE_URL: string
+  DEBUG: string
 }
 
 export type WaitUntil = (promise: Promise<any>) => void

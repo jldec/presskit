@@ -25,15 +25,16 @@ export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boole
   }
 
   // local dev uses content directory in worker site public assets manifest
-  if (env.ENVIRONMENT === 'dev') {
-    const resp = await fetch(env.SOURCE_TREE_URL)
+  const source = env.SOURCE_TREE_URL
+  if (source.startsWith('http://localhost:8765/')) {
+    const resp = await fetch(source)
     if (resp.ok) {
+      // TODO: validate json
       manifest = (await resp.json()) as string[]
     }
-    console.log('getManifest from local dev', resp.status)
-  } else {
-    // https://docs.github.com/en/rest/git/trees (in prod)
-    const resp = await fetch(env.SOURCE_TREE_URL + '?recursive=1', {
+  } else if (source.startsWith('https://api.github.com/repos/')) {
+    // https://docs.github.com/en/rest/git/trees
+    const resp = await fetch(source, {
       headers: {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${env.GH_PAT}`,
@@ -43,19 +44,23 @@ export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boole
     })
     if (resp.ok) {
       const rawtree = ((await resp.json()) as { tree: { path: string }[] })?.tree
+      // TODO: validate json
       for (const { path } of rawtree) {
         manifest.push('/' + path)
       }
     }
-    console.log('getManifest from github', resp.status)
   }
 
-  if (manifest.length) {
+  if (manifest?.length) {
     manifestMemo = manifest
     waitUntil(env.PAGE_CACHE.put(manifestCacheKey, JSON.stringify(manifest)))
     // invalidate caches when manifest is reloaded
     zapDirCache()
     zapRedirectCache()
+  } else {
+    manifest = []
   }
+
+  console.log('getManifest from', source, manifest?.length)
   return manifest
 }

@@ -28,11 +28,6 @@ api.get('/echo', async (c) => {
   return fjson(echo)
 })
 
-api.get('/env', async (c) => {
-  //⚠️ don't return c.env secrets
-  return fjson(c.env.ENVIRONMENT)
-})
-
 // page cache
 api.get('/cache', async (c) => {
   const list = await c.env.PAGE_CACHE.list()

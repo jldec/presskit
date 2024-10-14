@@ -19,9 +19,6 @@ export const AdminLayout: FC = ({ page }) => (
     <button hx-get="/api/echo" hx-target=".json">
       echo
     </button>{' '}
-    <button hx-get="/api/env" hx-target=".json">
-      env
-    </button>{' '}
     <button hx-get="/api/cache" hx-target=".json">
       page cache
     </button>{' '}
