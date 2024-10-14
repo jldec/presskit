@@ -13,14 +13,13 @@ enabled = true
 # see .dev.env for local vars and secrets
 # export GH_PAT=<GitHub-token>
 # export IMAGE_KEY=<image-hash-key>
-# export ENVIRONMENT=dev
-# export SOURCE_PREFIX=http://localhost:8765
-# export SOURCE_TREE_URL=http://localhost:8765
 
 [vars]
 ENVIRONMENT = "prod"
-SOURCE_PREFIX = "https://raw.githubusercontent.com/jldec/jldec-me/main/content"
-SOURCE_TREE_URL = "https://api.github.com/repos/jldec/jldec-me/git/trees/main:content?recursive=1"
+GH_OWNER = "jldec"
+GH_REPO = "jldec-me"
+GH_BRANCH = "main"
+GH_PATH = "content"
 
 [ai]
 binding = "AI"

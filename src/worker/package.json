@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@std/front-matter": "npm:@jsr/std__front-matter@1.0.5",
+    "@std/media-types": "npm:@jsr/std__media-types@^1.0.3",
+    "@std/path": "npm:@jsr/std__path@^1.0.6",
     "eventsource-parser": "^2.0.1",
     "hono": "^4.6.3",
     "markdown-it": "^14.1.0",

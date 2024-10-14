@@ -13,6 +13,7 @@ export function zapManifestCache() {
 // Fetch array of rooted file paths from source
 export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boolean = false) {
   let manifest: string[] = []
+  let source = 'github'
 
   if (!noCache) {
     if (manifestMemo) return manifestMemo
@@ -25,16 +26,17 @@ export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boole
   }
 
   // local dev uses content directory in worker site public assets manifest
-  const source = env.SOURCE_TREE_URL
-  if (source.startsWith('http://localhost:8765/')) {
-    const resp = await fetch(source)
+  if (env.ENVIRONMENT === 'dev') {
+    source = 'localhost:8765'
+    const resp = await fetch('http://localhost:8765/')
     if (resp.ok) {
       // TODO: validate json
       manifest = (await resp.json()) as string[]
     }
-  } else if (source.startsWith('https://api.github.com/repos/')) {
+  } else {
     // https://docs.github.com/en/rest/git/trees
-    const resp = await fetch(source, {
+    const url = `https://api.github.com/repos/${env.GH_OWNER}/${env.GH_REPO}/git/trees/${env.GH_BRANCH}:${env.GH_PATH}?recursive=1`
+    const resp = await fetch(url, {
       headers: {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${env.GH_PAT}`,
@@ -43,10 +45,12 @@ export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boole
       }
     })
     if (resp.ok) {
-      const rawtree = ((await resp.json()) as { tree: { path: string }[] })?.tree
+      const rawtree = ((await resp.json()) as { tree: { type: string, path: string }[] })?.tree
       // TODO: validate json
-      for (const { path } of rawtree) {
-        manifest.push('/' + path)
+      for (const { type, path } of rawtree) {
+        if (type === 'blob') {
+          manifest.push('/' + path)
+        }
       }
     }
   }
@@ -61,6 +65,6 @@ export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boole
     manifest = []
   }
 
-  console.log('getManifest from', source, manifest?.length)
+  console.log('getManifest', source, manifest?.length, '')
   return manifest
 }
