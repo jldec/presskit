@@ -9,10 +9,13 @@ export type Env = {
   IMAGES: R2Bucket
   AI: any
   GH_PAT: string
+  GH_OWNER: string
+  GH_REPO: string
+  GH_BRANCH: string
+  GH_PATH: string
   IMAGE_KEY: string
   CHATS: DurableObjectNamespace<Party>
-  SOURCE_PREFIX: string
-  SOURCE_TREE_URL: string
+  ENVIRONMENT: string
   DEBUG: string
 }
 

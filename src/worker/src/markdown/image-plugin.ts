@@ -8,12 +8,11 @@ import { hash } from './hash'
 export interface Options {
   imagePrefix?: string
   hashPrefix?: string
-  sourcePrefix?: string
 }
 
 export const imagePlugin = (
   md: MarkdownIt,
-  { imagePrefix, hashPrefix, sourcePrefix }: Options = {}
+  { imagePrefix, hashPrefix }: Options = {}
 ) => {
   const imageRule = md.renderer.rules.image!
   md.renderer.rules.image = (tokens, idx, options, env, self) => {
@@ -21,8 +20,6 @@ export const imagePlugin = (
     let url = token.attrGet('src')
     if (url && url.match(/^http:\/\/|^https:\/\//i)) {
       token.attrSet('src', rewriteUrl(url, imagePrefix ?? '/img/', hashPrefix ?? ''))
-    // } else if (url && url.match(/^\/images\//)) {
-    //   token.attrSet('src', rewriteUrl(url, imagePrefix ?? '/img/', hashPrefix ?? '', sourcePrefix))
     }
     return imageRule(tokens, idx, options, env, self)
   }
