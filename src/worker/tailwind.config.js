@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['src/**/*.{html,js,jsx,ts,tsx,md}', '../client/index.tsx}'],
+  content: ['src/**/*.{html,js,jsx,ts,tsx,md}', '../client/index.tsx}', '../../public/js/image-enlarge.js'],
   darkMode: 'media',
   theme: {
     extend: {
@@ -50,6 +50,7 @@ module.exports = {
             img: {
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
               borderRadius: theme('borderRadius.md'),
+              cursor: 'pointer'
             },
             pre: {
               backgroundColor: '#222',
@@ -67,7 +68,7 @@ module.exports = {
               margin: '2rem auto',
               padding: '0 1rem',
               border: 'solid 1.5px currentColor',
-              borderRadius: theme('borderRadius.md'),
+              borderRadius: theme('borderRadius.md')
             },
             ['blockquote p::before']: {
               content: 'none'
@@ -77,7 +78,21 @@ module.exports = {
             }
           }
         }
-      })
+      }),
+      keyframes: {
+        'pop-in': {
+          '0%': { transform: 'scale(0.2)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' }
+        },
+        'pop-out': {
+          '0%': { transform: 'scale(1)', opacity: '1' },
+          '100%': { transform: 'scale(0.2)', opacity: '0' }
+        }
+      },
+      animation: {
+        'pop-in': 'pop-in 0.1s ease-out',
+        'pop-out': 'pop-out 0.1s ease-in'
+      }
     }
   },
   plugins: [require('@tailwindcss/typography')]
