@@ -2,6 +2,7 @@
   "name": "presskit-worker",
   "scripts": {
     "build:css": "tailwindcss -i styles.css -o ../../public/css/styles.css --minify",
+    "dev:css": "tailwindcss -i styles.css -o ../../public/css/styles.css --minify -w",
     "dev": "wrangler dev src/index.tsx",
     "ship": "wrangler deploy --minify src/index.tsx",
     "tail": "wrangler tail",

@@ -1,7 +1,7 @@
 let overlay
 
 document.addEventListener('mousedown', function (event) {
-  if (event.target.tagName === 'IMG') {
+  if (event.target.tagName === 'IMG' && event.target.id !== 'splashimage') {
     event.preventDefault()
 
     overlay = document.createElement('div')

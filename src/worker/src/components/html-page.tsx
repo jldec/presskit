@@ -77,6 +77,7 @@ export function renderJsx() {
           <div class="prose dark:prose-invert font-mono max-w-[76ch] overflow-hidden md:mx-auto mx-3 mt-3 mb-9">
             {splashimage ? (
               <img
+                id="splashimage"
                 src={splashimage}
                 alt="splash image"
                 class="h-[10.5rem] w-full object-cover"
