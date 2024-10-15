@@ -80,7 +80,7 @@ export function renderJsx() {
                 id="splashimage"
                 src={splashimage}
                 alt="splash image"
-                class="h-[10.5rem] w-full object-cover"
+                class="h-[10.5rem] w-full object-cover cursor-default"
               />
             ) : null}
             {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
