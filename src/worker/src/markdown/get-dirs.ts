@@ -43,7 +43,7 @@ export async function getDirData(
       dirData[i].nextTitle = dirData[i + 1].attrs?.title
     }
   }
-  console.log('getDirData', dirPath)
+  // console.log('getDirData', dirPath)
   return dirData
 }
 
@@ -68,7 +68,7 @@ export async function getPagePaths(env: Env, waitUntil: WaitUntil) {
     }
   }
   pagePathsMemo = pagePaths
-  console.log('getPagePaths')
+  // console.log('getPagePaths')
   return pagePaths
 }
 
