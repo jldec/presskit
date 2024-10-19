@@ -14,6 +14,11 @@ export { Party } from './party'
 const app = new Hono()
 app.use(renderJsx())
 
+app.use(async (c, next) => {
+  await next()
+  c.header('Access-Control-Allow-Origin', '*')
+})
+
 app.route('/api', api)
 
 // serve rewritten markdown image links (deprecated)
