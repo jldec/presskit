@@ -22,14 +22,14 @@
     "partyserver": "^0.0.56"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240925.0",
+    "@cloudflare/workers-types": "^4.20241018.0",
     "@tailwindcss/typography": "^0.5.15",
     "@types/markdown-it": "^14.1.2",
     "autoprefixer": "^10.4.20",
     "htmx.org": "^2.0.3",
     "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.13",
+    "tailwindcss": "^3.4.14",
     "vitest": "^2.1.2",
-    "wrangler": "^3.80.0"
+    "wrangler": "^3.81.0"
   }
 }
