@@ -34,12 +34,14 @@ export function renderJsx() {
     const title = page?.attrs.title ?? site?.title
     const description = page?.attrs.description
     const twitter = site?.twitter
+    const favicon = site?.favicon
 
     return (
       <html lang="en" data-theme="dark">
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          {favicon ? <link rel="icon" href={favicon} /> : null}
           {title ? (
             <>
               <title>{title}</title>

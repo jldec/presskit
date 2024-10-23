@@ -8,6 +8,7 @@ import { renderJsx } from './components/html-page'
 import { api } from './api'
 import { getStatic } from './static'
 import { getRedirects } from './redirects'
+import { cors } from 'hono/cors'
 
 export { Party } from './party'
 
@@ -16,7 +17,10 @@ app.use(renderJsx())
 
 app.use(async (c, next) => {
   await next()
-  c.header('Access-Control-Allow-Origin', '*')
+  // web socket requests depend on headers not normally allowed in CORS
+  if (!c.req.path.startsWith('/parties')) {
+    c.header('Access-Control-Allow-Origin', '*')
+  }
 })
 
 app.route('/api', api)

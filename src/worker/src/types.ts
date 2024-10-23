@@ -59,6 +59,7 @@ export interface Frontmatter {
   image?: string
   splashimage?: string
   splash?: Splash
+  favicon?: string
   [key: string]: unknown
 }
 
