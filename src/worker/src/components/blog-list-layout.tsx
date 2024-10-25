@@ -13,7 +13,7 @@ export const BlogListLayout: FC = ({ children, page }) => {
           return (
             <li>
               <a
-                class="flex gap-4 text-transparent hover:text-gray-300 no-underline border-b-[1.5px] border-b-transparent hover:border-b-black"
+                class="flex gap-4 text-transparent hover:text-gray-400 no-underline border-b-[1.5px] border-b-transparent hover:border-b-black"
                 href={dirPage.path}
               >
                 <span class="flex-grow text-black">{text}</span>
