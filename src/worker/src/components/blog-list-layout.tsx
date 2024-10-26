@@ -11,15 +11,13 @@ export const BlogListLayout: FC = ({ children, page }) => {
           const text = dirPage.attrs?.title ?? dirPage.path
           let date = dirPage.attrs?.date ?? ''
           return (
-            <li>
+            <li class="">
               <a
-                class="flex gap-4 text-transparent hover:text-gray-400 no-underline border-b-[1.5px] border-b-transparent hover:border-b-black"
+                class="group flex items-end gap-4 no-underline border-b-[1.5px] border-b-transparent hover:border-b-current"
                 href={dirPage.path}
               >
-                <span class="flex-grow text-black">{text}</span>
-                <span class="">
-                  {date}
-                </span>
+                <span class="flex-grow">{text}</span>
+                <span class="hidden md:block text-transparent group-hover:text-gray-400">{date}</span>
               </a>
             </li>
           )
