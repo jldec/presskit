@@ -55,7 +55,7 @@ module.exports = {
             pre: {
               backgroundColor: '#222',
               color: '#7f7',
-              minHeight: '100px'
+              minHeight: '70px'
             },
             ['code::before']: {
               content: 'none'
