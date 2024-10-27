@@ -12,27 +12,26 @@ export function formatDate(date: any) {
   }).format(date)
 }
 
-export const BlogPostLayout: FC = ({ children, page, dirPage }) => {
+export const BlogPostLayout: FC = ({ children, page, dirEntry }) => {
   // console.log('BlogPostLayout', dirPage)
-  const credits = [formatDate(page.attrs?.date)].filter(Boolean).join(' - ')
+  const longdate = [formatDate(page.attrs?.date)].filter(Boolean).join(' - ')
   return (
     <>
       <p class="whitespace-nowrap overflow-hidden overflow-ellipsis">
         <a href="/">Home</a> | <a href="/blog">Writings</a>
-        {dirPage?.nextPath ? (
+        {dirEntry?.nextPath ? (
           <>
-            <span class="text-black/30 dark:text-white/40">{' >> '}</span>
-            <a class="text-black/30 dark:text-white/40 hover:text-current" href={dirPage.nextPath}>
-              {dirPage.nextTitle || dirPage.nextPath}
+            <span class="text-gray-400">{' >> '}</span>
+            <a class="text-gray-400 hover:text-current" href={dirEntry.nextPath}>
+              {dirEntry.nextTitle || dirEntry.nextPath}
             </a>
           </>
         ) : (
           ''
         )}
       </p>
-      <p class="text-black/30 dark:text-white/40">{credits}</p>
-      {raw(page?.html ?? '')}
-      {children}
+      <p class="text-gray-400">{longdate}</p>
+      {raw(page.html)}
     </>
   )
 }

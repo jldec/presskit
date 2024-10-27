@@ -1,9 +1,11 @@
 import { raw } from 'hono/html'
 import { type FC } from 'hono/jsx'
+import { Menu } from './menu'
 
-export const AdminLayout: FC = ({ page }) => (
+export const AdminLayout: FC = ({ page, site }) => (
   <>
-    {raw(page?.html ?? '')}
+    <Menu site={site} />
+    {raw(page.html)}
     <button hx-get="/api/manifest" hx-target=".json">
       manifest
     </button>{' '}

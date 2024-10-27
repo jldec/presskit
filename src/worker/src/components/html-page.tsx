@@ -88,7 +88,8 @@ export function renderJsx() {
             {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
               children,
               page,
-              dirPage: dirEntry
+              site,
+              dirEntry
             })}
             <Dbg page={page} />
           </div>

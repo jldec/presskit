@@ -1,10 +1,12 @@
 import { raw } from 'hono/html'
 import { type FC } from 'hono/jsx'
+import { Menu } from './menu'
 
-export const ChatLayout: FC = ({ page }) => {
+export const ChatLayout: FC = ({ page, site }) => {
   return (
     <>
-      {raw(page?.html ?? '')}
+      <Menu site={site} />
+      {raw(page.html)}
       <div id="chat-root"></div>
       <script src="/js/partychat.js" type="module"></script>
     </>

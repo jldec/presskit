@@ -46,11 +46,11 @@ export interface Frontmatter {
   description?: string
   siteurl?: string // e.g. https://jldec.me
   icon?: Icon | string
-  sidebars?: Array<Sidebar>
-  navlinks?: Array<Navlink> // main menu
+  sidebars?: Sidebar[]
+  navlinks?: Navlink[] // main menu
   hero?: Hero
-  actionlinks?: Array<Navlink> // contact sales, etc.
-  features?: Array<Navlink>
+  actionlinks?: Navlink[] // contact sales, etc.
+  features?: Navlink[]
   footer?: Footer
   twitter?: string // e.g. jldec - for meta tags
   error?: unknown
@@ -62,7 +62,6 @@ export interface Frontmatter {
   favicon?: string
   [key: string]: unknown
 }
-
 export interface Navlink {
   href: string
   text: string

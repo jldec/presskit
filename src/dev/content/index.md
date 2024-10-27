@@ -5,9 +5,14 @@ description: Fast and simple collaborative Web publishing.
 twitter: '@presskitjs'
 splash:
   image: /images/red-flowser.webp
+navlinks:
+  - href: /
+    text: Home
+  - href: https://github.com/jldec/presskit
+    text: GitHub
+  - href: https://jldec.me
+    text: jldec.me
 ---
-[GitHub](https://github.com/jldec/presskit) | [jldec.me](https://jldec.me)
-
 # Presskit ⚡️
 Fast and simple collaborative Web publishing.
 

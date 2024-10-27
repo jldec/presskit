@@ -1,10 +1,13 @@
 import { raw } from 'hono/html'
-import { type FC } from 'hono/jsx'
+import { PropsWithChildren } from 'hono/jsx'
+import { Frontmatter, PageData } from '../types'
+import { Menu } from './menu'
 
-export const DefaultLayout: FC = ({ children, page }) => {
+export function DefaultLayout({ children, page, site }: PropsWithChildren<{ page: PageData, site: Frontmatter }>) {
   return (
     <>
-      {raw(page?.html ?? '')}
+      <Menu site={site} />
+      {raw(page.html)}
       {children}
     </>
   )

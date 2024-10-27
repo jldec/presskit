@@ -1,11 +1,13 @@
 import { raw } from 'hono/html'
 import { type FC } from 'hono/jsx'
 import { type DirData } from '../types'
+import { Menu } from './menu'
 
-export const BlogListLayout: FC = ({ children, page }) => {
+export const BlogListLayout: FC = ({ page, site }) => {
   return (
     <>
-      {raw(page?.html ?? '')}
+      <Menu site={site} />
+      {raw(page.html)}
       <ul>
         {page?.dir?.map((dirPage: DirData) => {
           const text = dirPage.attrs?.title ?? dirPage.path
