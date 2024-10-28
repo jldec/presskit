@@ -19,15 +19,15 @@ export const BlogPostLayout: FC = ({ page, site, dirEntry }) => {
     <>
       <Menu site={site} />
       <Splash page={page} />
-      <p class="text-gray-400 flex">
+      <p class="flex text-gray-400 hover:text-current">
         <span class="flex-grow">{longdate}</span>
         {dirEntry?.nextPath ? (
         <a
-          class="text-gray-400 hover:text-current no-underline px-4"
+          class="px-4"
           href={dirEntry.nextPath}
-          title={dirEntry.nextTitle || dirEntry.nextPath}
+          title={`Next: ${dirEntry.nextTitle || dirEntry.nextPath}`}
         >
-          {' >> '}
+          {'next'}
         </a>
       ) : (
         ''
