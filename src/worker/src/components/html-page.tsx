@@ -75,16 +75,8 @@ export function renderJsx() {
           <script src="/js/htmx.min.js"></script>
           <script src="/js/image-enlarge.js"></script>
         </head>
-        <body class=" dark:bg-black">
+        <body class="dark:bg-black">
           <div class="prose dark:prose-invert font-mono max-w-[76ch] overflow-hidden md:mx-auto mx-3 mt-3 mb-9 marker:text-current">
-            {splashimage ? (
-              <img
-                id="splashimage"
-                src={splashimage}
-                alt="splash image"
-                class="h-[10.5rem] w-full object-cover cursor-default"
-              />
-            ) : null}
             {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
               children,
               page,
