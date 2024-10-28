@@ -19,19 +19,21 @@ export const BlogPostLayout: FC = ({ page, site, dirEntry }) => {
     <>
       <Menu site={site} />
       <Splash page={page} />
-      <p class="text-right gap-2 whitespace-nowrap overflow-hidden overflow-ellipsis">
+      <p class="text-gray-400 flex">
+        <span class="flex-grow">{longdate}</span>
         {dirEntry?.nextPath ? (
-          <>
-            <span class="text-gray-400">{' >> '}</span>
-            <a class="text-gray-300 hover:text-current" href={dirEntry.nextPath}>
-              {dirEntry.nextTitle || dirEntry.nextPath}
-            </a>
-          </>
-        ) : (
-          ''
-        )}
+        <a
+          class="text-gray-400 hover:text-current no-underline px-4"
+          href={dirEntry.nextPath}
+          title={dirEntry.nextTitle || dirEntry.nextPath}
+        >
+          {' >> '}
+        </a>
+      ) : (
+        ''
+      )}
+
       </p>
-      <p class="text-gray-400">{longdate}</p>
       {raw(page.html)}
     </>
   )
