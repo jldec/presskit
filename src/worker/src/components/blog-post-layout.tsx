@@ -27,7 +27,7 @@ export const BlogPostLayout: FC = ({ page, site, dirEntry }) => {
           href={dirEntry.nextPath}
           title={`Next: ${dirEntry.nextTitle || dirEntry.nextPath}`}
         >
-          {'next'}
+          {'>>'}
         </a>
       ) : (
         ''
