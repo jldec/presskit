@@ -6,7 +6,7 @@ export const ChatLayout: FC = ({ page, site }) => {
   return (
     <>
       <Menu site={site} />
-      {raw(page.html)}
+      {raw(page?.html ?? '')}
       <div id="chat-root"></div>
       <script src="/js/partychat.js" type="module"></script>
     </>

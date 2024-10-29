@@ -9,7 +9,7 @@ export function DefaultLayout({ children, page, site }: PropsWithChildren<{ page
     <>
       <Menu site={site} />
       <Splash page={page} />
-      {raw(page.html)}
+      {raw(page?.html ?? '')}
       {children}
     </>
   )

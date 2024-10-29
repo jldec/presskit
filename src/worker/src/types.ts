@@ -28,8 +28,8 @@ export type Context = ContextBase<{ Bindings: Env }>
 export type DirData = {
   path: string
   attrs?: Frontmatter
-  nextPath?: string
-  nextTitle?: string
+  next?: Navlink
+  prev?: Navlink
 }
 
 export type PageData = {

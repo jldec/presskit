@@ -5,7 +5,7 @@ import { Menu } from './menu'
 export const AdminLayout: FC = ({ page, site }) => (
   <>
     <Menu site={site} />
-    {raw(page.html)}
+    {raw(page?.html ?? '')}
     <button hx-get="/api/manifest" hx-target=".json">
       manifest
     </button>{' '}

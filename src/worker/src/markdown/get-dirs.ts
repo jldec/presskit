@@ -36,14 +36,33 @@ export async function getDirData(
   if (sortBy) {
     dirData.sort(sortFn(sortBy)).reverse()
   }
-  // sort before populating nextPath/nextTitle
+  // sort before populating next/prev
   for (let i = 0; i < dirData.length; i++) {
     if (i < dirData.length - 1) {
-      dirData[i].nextPath = dirData[i + 1].path
-      dirData[i].nextTitle = dirData[i + 1].attrs?.title
+      dirData[i].next = {
+        href: dirData[i + 1].path,
+        text: dirData[i + 1].attrs?.title ?? ''
+      }
+    }
+    if (i > 0) {
+      dirData[i].prev = {
+        href: dirData[i - 1].path,
+        text: dirData[i - 1].attrs?.title ?? ''
+      }
+    }
+    if (i === dirData.length - 1) {
+      dirData[i].next = {
+        href: dirData[0].path,
+        text: dirData[0].attrs?.title ?? ''
+      }
+    }
+    if (i === 0) {
+      dirData[i].prev = {
+        href: dirData[dirData.length - 1].path,
+        text: dirData[dirData.length - 1].attrs?.title ?? ''
+      }
     }
   }
-  // console.log('getDirData', dirPath)
   return dirData
 }
 
