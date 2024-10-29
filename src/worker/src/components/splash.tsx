@@ -1,8 +1,8 @@
 import { FC } from 'hono/jsx'
 import { PageData } from '../types'
 
-export const Splash: FC<{ page: PageData }> = ({ page }) => {
-  const splashimage = page.attrs.splash?.image ?? page.attrs.splashimage
+export const Splash: FC<{ page?: PageData }> = ({ page }) => {
+  const splashimage = page?.attrs.splash?.image ?? page?.attrs.splashimage
   if (!splashimage) return null
   return (
     <img

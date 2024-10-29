@@ -9,7 +9,7 @@ export const BlogListLayout: FC = ({ page, site }) => {
     <>
       <Menu site={site} />
       <Splash page={page} />
-      {raw(page.html)}
+      {raw(page?.html ?? '')}
       <ul>
         {page?.dir?.map((dirPage: DirData) => {
           const text = dirPage.attrs?.title ?? dirPage.path

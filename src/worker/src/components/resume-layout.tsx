@@ -4,7 +4,7 @@ import { type FC } from 'hono/jsx'
 export const ResumeLayout: FC = ({ children, page }) => {
   return (
     <div class="resume">
-      {raw(page.html)}
+      {raw(page?.html ?? '')}
       {children}
     </div>
   )
