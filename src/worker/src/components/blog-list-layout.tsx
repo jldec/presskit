@@ -2,11 +2,13 @@ import { raw } from 'hono/html'
 import { type FC } from 'hono/jsx'
 import { type DirData } from '../types'
 import { Menu } from './menu'
+import { Splash } from './splash'
 
 export const BlogListLayout: FC = ({ page, site }) => {
   return (
     <>
       <Menu site={site} />
+      <Splash page={page} />
       {raw(page.html)}
       <ul>
         {page?.dir?.map((dirPage: DirData) => {
