@@ -36,6 +36,9 @@ app.get('/img/:image{.+$}', async (c) => {
 app.use(async (c, next) => {
   const noCache = c.req.header('Cache-Control') === 'no-cache'
   const path = c.req.path // includes leading /
+  if (path.endsWith('/') && path.length > 1) {
+    return c.redirect(path.slice(0, -1))
+  }
   const isHome = path === '/'
   if (c.req.method !== 'GET' || path.startsWith('/parties')) {
     return await next()
