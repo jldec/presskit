@@ -30,7 +30,7 @@ export const BlogPostLayout: FC = ({ page, site, dirEntry }) => {
             href={dirEntry.prev.href}
             title={`Prev: ${dirEntry.prev.text}`}
           >
-            up
+            {'<<'}
           </a>
         ) : (
           ''
@@ -41,7 +41,7 @@ export const BlogPostLayout: FC = ({ page, site, dirEntry }) => {
             href={dirEntry.next.href}
             title={`Next: ${dirEntry.next.text}`}
           >
-            down
+            {'>>'}
           </a>
         ) : (
           ''

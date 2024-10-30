@@ -1,8 +1,6 @@
-import { Env, WaitUntil, DirData } from '../types'
+import { Env, WaitUntil, DirData, Navlink } from '../types'
 import { getMarkdown } from './get-markdown'
 import { getManifest } from '../manifest'
-
-const treeCacheKey = 'tree:jldec/presskit'
 
 let dirsMemo: null | Record<string, string[]> = null
 let pagePathsMemo: null | Record<string, boolean> = null
@@ -38,32 +36,17 @@ export async function getDirData(
   }
   // sort before populating next/prev
   for (let i = 0; i < dirData.length; i++) {
-    if (i < dirData.length - 1) {
-      dirData[i].next = {
-        href: dirData[i + 1].path,
-        text: dirData[i + 1].attrs?.title ?? ''
-      }
-    }
-    if (i > 0) {
-      dirData[i].prev = {
-        href: dirData[i - 1].path,
-        text: dirData[i - 1].attrs?.title ?? ''
-      }
-    }
-    if (i === dirData.length - 1) {
-      dirData[i].next = {
-        href: dirData[0].path,
-        text: dirData[0].attrs?.title ?? ''
-      }
-    }
-    if (i === 0) {
-      dirData[i].prev = {
-        href: dirData[dirData.length - 1].path,
-        text: dirData[dirData.length - 1].attrs?.title ?? ''
-      }
-    }
+    dirData[i].next = i < dirData.length - 1 ? linkify(dirData[i + 1]) : linkify(dirData[0])
+    dirData[i].prev = i > 0 ? linkify(dirData[i - 1]) : linkify(dirData[dirData.length - 1])
   }
   return dirData
+}
+
+function linkify(d: DirData): Navlink {
+  return {
+    href: d.path,
+    text: d.attrs?.title ?? ''
+  }
 }
 
 function sortFn(sortBy: string) {
