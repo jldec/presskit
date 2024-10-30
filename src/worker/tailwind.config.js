@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['src/**/*.{html,js,jsx,ts,tsx,md}', '../client/index.tsx}', '../../public/js/image-enlarge.js'],
-  darkMode: 'media',
+  darkMode: 'class',
   theme: {
     extend: {
       typography: (theme) => ({
