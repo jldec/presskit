@@ -8,10 +8,13 @@ splash:
 navlinks:
   - href: /
     text: Home
-  - href: https://github.com/jldec/presskit
-    text: GitHub
+    icon: home
   - href: https://jldec.me
     text: jldec.me
+sociallinks:
+  - href: https://github.com/jldec/presskit
+    text: GitHub
+    icon: github
 ---
 # Presskit ⚡️
 Fast and simple collaborative Web publishing.
