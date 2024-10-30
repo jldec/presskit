@@ -10,7 +10,7 @@ export const Menu: FC<{ site?: Frontmatter }> = ({ site }) => {
         return (
           <a class="px-1" href={link.href}>
             {link.icon
-              ? (icons[link.icon] ?? icons['default'])({ name: link.icon, class: 'h-5 hover:text-blue-500' })
+              ? (icons[link.icon] ?? icons['default'])({ name: link.icon, class: 'h-5 hover:text-orange-500' })
               : link.text}
           </a>
         )
@@ -20,7 +20,7 @@ export const Menu: FC<{ site?: Frontmatter }> = ({ site }) => {
         return (
           <a class="px-1" href={link.href}>
             {link.icon
-              ? (icons[link.icon] ?? icons['default'])({ name: link.icon, class: 'h-5 hover:text-blue-500' })
+              ? (icons[link.icon] ?? icons['default'])({ name: link.icon, class: 'h-5 hover:text-orange-500' })
               : link.text}
           </a>
         )
