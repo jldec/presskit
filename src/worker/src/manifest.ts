@@ -6,6 +6,8 @@ const manifestCacheKey = 'manifest:jldec/presskit'
 
 let manifestMemo: null | string[] = null
 
+// TODO: remove.
+// This is of dubious value in prod, since there may be multiple workers in flight.
 export function zapManifestCache() {
   manifestMemo = null
 }
