@@ -19,7 +19,7 @@ function menuLink(link: Navlink) {
       {link.icon
         ? (icons[link.icon] ?? icons['default'])({
             name: link.icon,
-            class: 'h-5 hover:text-orange-500'
+            class: 'h-5 hover:text-orange-500 transition-colors duration-200 ease-in-out'
           })
         : link.text}
     </a>

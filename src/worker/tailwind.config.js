@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['src/**/*.{html,js,jsx,ts,tsx,md}', '../client/index.tsx}', '../../public/js/image-enlarge.js'],
+  content: [
+    'src/**/*.{html,js,jsx,ts,tsx,md}',
+    '../client/index.tsx}',
+    '../../public/js/image-enlarge.js'
+  ],
   darkMode: 'class',
   theme: {
     extend: {
@@ -24,6 +28,9 @@ module.exports = {
               lineHeight: '1.2',
               margin: '0.25rem 0'
             },
+            ['li:hover']: {
+              color: theme('colors.orange.500')
+            },
             p: {
               marginTop: '1.4rem',
               marginBottom: '1.4rem'
@@ -32,7 +39,9 @@ module.exports = {
               textDecorationThickness: '1.5px'
             },
             ['a:hover']: {
-              textDecorationStyle: 'double'
+              textDecorationStyle: 'double',
+              color: theme('colors.orange.500'),
+              transform: 'scale(1.05)'
             },
             hr: {
               margin: '1.4rem 0',
