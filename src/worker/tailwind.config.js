@@ -28,9 +28,6 @@ module.exports = {
               lineHeight: '1.2',
               margin: '0.25rem 0'
             },
-            ['li:hover']: {
-              color: theme('colors.orange.500')
-            },
             p: {
               marginTop: '1.4rem',
               marginBottom: '1.4rem'
