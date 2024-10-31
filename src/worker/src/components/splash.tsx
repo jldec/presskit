@@ -10,7 +10,6 @@ export const Splash: FC<{ page?: PageData }> = ({ page }) => {
       src={splashimage}
       class="h-[10.5rem] w-full my-6 object-cover cursor-default"
       alt="splash image"
-      role="presentation"
     />
   )
 }

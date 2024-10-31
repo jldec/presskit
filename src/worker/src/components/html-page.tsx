@@ -32,7 +32,7 @@ export function renderJsx() {
     const image = page?.attrs.image ?? splashimage
     const siteimage = siteurl && image ? '' + new URL(image, url) : ''
     const title = page?.attrs.title ?? site?.title
-    const description = page?.attrs.description
+    const description = page?.attrs.description ?? title ?? path ?? 'Homepage'
     const twitter = site?.twitter
     const favicon = site?.favicon
 
@@ -41,6 +41,8 @@ export function renderJsx() {
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="description" content={description} />
+          <meta property="og:description" content={description} />
           {favicon ? <link rel="icon" href={favicon} /> : null}
           {title ? (
             <>
@@ -52,11 +54,6 @@ export function renderJsx() {
             <>
               <link rel="canonical" href={url} />
               <meta property="og:url" content={url} />
-            </>
-          ) : null}
-          {description ? (
-            <>
-              <meta property="og:description" content={description} />
             </>
           ) : null}
           {siteimage ? (
