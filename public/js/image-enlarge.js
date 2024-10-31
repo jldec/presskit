@@ -26,7 +26,8 @@ document.addEventListener('mousedown', function (event) {
       'max-w-[95vw]',
       'max-h-[95vh]',
       'object-contain',
-      'animate-pop-in'
+      'animate-pop-in',
+      'rounded-md'
     )
 
     overlay.appendChild(enlargedImg)
@@ -37,7 +38,6 @@ document.addEventListener('mousedown', function (event) {
     overlay.classList.remove('opacity-0');
   }
 })
-
 document.addEventListener('mouseup', function () {
   if (overlay) {
     const enlargedImg = overlay.querySelector('.enlarged-image')
