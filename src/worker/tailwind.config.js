@@ -8,9 +8,14 @@ module.exports = {
   darkMode: 'media',
   theme: {
     extend: {
+      fontSmoothing: {
+        antialiased: true,
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
+            WebkitFontSmoothing: 'antialiased',
+            MozOsxFontSmoothing: 'grayscale',
             fontSize: '15px',
             lineHeight: '1.4',
             h1: {
@@ -25,25 +30,29 @@ module.exports = {
               listStyleType: 'square',
               paddingInlineStart: '1.75ch'
             },
-            li: {
-              margin: '0.2ch 0'
+            ol: {
+              paddingInlineStart: '1ch'
             },
             "ul > li": {
+              margin: '0.2ch 0',
               paddingInlineStart: '0.25ch'
             },
             "ol > li": {
-              margin: '0 0 0.2ch 1ch'
+              margin: '0 0 0.2ch 2ch'
             },
             p: {
               marginTop: '1.4rem',
               marginBottom: '1.4rem'
             },
             a: {
-              textDecorationThickness: '1.5px'
+              textDecorationThickness: '1.5px',
+              textDecorationColor: theme('colors.gray.500')
             },
             ['a:hover']: {
-              textDecorationStyle: 'double',
               color: theme('colors.orange.500'),
+              textDecorationStyle: 'double',
+              textDecorationColor: theme('colors.orange.500'),
+              textDecorationThickness: '1.5px',
               transform: 'scale(1.05)'
             },
             hr: {
