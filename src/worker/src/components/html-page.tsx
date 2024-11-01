@@ -72,7 +72,7 @@ export function renderJsx() {
           <script src="/js/image-enlarge.js" defer></script>
         </head>
         <body class="bg-white dark:bg-gray-900">
-          <div class="prose dark:prose-invert font-mono max-w-[76ch] overflow-hidden mx-4 md:mx-auto mb-8 marker:text-orange-500">
+          <div class="prose dark:prose-invert font-mono max-w-[76ch] overflow-hidden mx-3 md:mx-auto mb-8 marker:text-orange-500">
             {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
               children,
               page,
