@@ -31,7 +31,8 @@ module.exports = {
               paddingInlineStart: '1.75ch'
             },
             ol: {
-              paddingInlineStart: '1ch'
+              paddingInlineStart: '1ch',
+              padding: '0 0 0 1.5ch'
             },
             "ul > li": {
               margin: '0.2ch 0',
