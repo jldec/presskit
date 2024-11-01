@@ -35,9 +35,8 @@ export function renderJsx() {
     const description = page?.attrs.description ?? title ?? path ?? 'Homepage'
     const twitter = site?.twitter
     const favicon = site?.favicon
-
     return (
-      <html lang="en" class="dark">
+      <html lang="en" class="dark bg-white dark:bg-gray-900">
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -72,8 +71,8 @@ export function renderJsx() {
           <script src="/js/htmx.min.js" defer></script>
           <script src="/js/image-enlarge.js" defer></script>
         </head>
-        <body class="bg-black">
-          <div class="prose dark:prose-invert font-mono max-w-[76ch] overflow-hidden md:mx-auto mx-3 mt-3 mb-9 marker:text-orange-500">
+        <body class="bg-white dark:bg-gray-900">
+          <div class="prose dark:prose-invert font-mono max-w-[76ch] overflow-hidden mx-4 md:mx-auto marker:text-orange-500">
             {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
               children,
               page,

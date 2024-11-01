@@ -5,7 +5,7 @@ module.exports = {
     '../client/index.tsx}',
     '../../public/js/image-enlarge.js'
   ],
-  darkMode: 'class',
+  darkMode: 'media',
   theme: {
     extend: {
       typography: (theme) => ({
@@ -22,11 +22,14 @@ module.exports = {
               textTransform: 'uppercase'
             },
             ul: {
-              listStyleType: 'square'
+              listStyleType: 'square',
+              paddingInlineStart: '1.75ch'
             },
             li: {
-              lineHeight: '1.2',
-              margin: '0.25rem 0'
+              margin: '2px 0'
+            },
+            "ul > li": {
+              paddingInlineStart: '0.25ch'
             },
             p: {
               marginTop: '1.4rem',
