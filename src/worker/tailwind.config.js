@@ -16,7 +16,6 @@ module.exports = {
           css: {
             WebkitFontSmoothing: 'antialiased',
             MozOsxFontSmoothing: 'grayscale',
-            fontSize: '15px',
             lineHeight: '1.4',
             h1: {
               fontSize: theme('fontSize.3xl'),
