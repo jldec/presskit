@@ -21,12 +21,12 @@ export const BlogPostLayout: FC = ({ page, site, dirEntry }) => {
       <Splash page={page} />
       <p class="flex">
         <span class="flex-grow">{longdate}</span>
-        <a class="px-2 text-gray-400 hover:text-current" href={'.'}>
+        <a class="px-2 text-gray-400 hover:text-orange-500" href={'.'}>
           list
         </a>
         {dirEntry?.prev ? (
           <a
-            class="px-2 text-gray-400 hover:text-current"
+            class="px-2 text-gray-400 hover:text-orange-500"
             href={dirEntry.prev.href}
             title={`Prev: ${dirEntry.prev.text}`}
           >
@@ -37,7 +37,7 @@ export const BlogPostLayout: FC = ({ page, site, dirEntry }) => {
         )}
         {dirEntry?.next ? (
           <a
-            class="px-2 text-gray-400 hover:text-current"
+            class="px-2 text-gray-400 hover:text-orange-500"
             href={dirEntry.next.href}
             title={`Next: ${dirEntry.next.text}`}
           >

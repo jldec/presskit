@@ -5,7 +5,7 @@ import { icons } from './icons'
 export const Menu: FC<{ site?: Frontmatter }> = ({ site }) => {
   if (!site) return null
   return (
-    <nav class="flex flex-wrap gap-1 mb-6">
+    <nav class="flex flex-wrap my-4">
       {site?.navlinks?.map(menuLink)}
       <span class="flex-grow"></span>
       {site?.sociallinks?.map(menuLink)}
@@ -15,7 +15,7 @@ export const Menu: FC<{ site?: Frontmatter }> = ({ site }) => {
 
 function menuLink(link: Navlink) {
   return (
-    <a class="px-1" href={link.href} aria-label={link.text}>
+    <a class="px-[6px]" href={link.href} aria-label={link.text}>
       {link.icon
         ? (icons[link.icon] ?? icons['default'])({
             name: link.icon,
