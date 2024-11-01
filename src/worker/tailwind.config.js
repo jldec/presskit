@@ -26,10 +26,13 @@ module.exports = {
               paddingInlineStart: '1.75ch'
             },
             li: {
-              margin: '2px 0'
+              margin: '0.2ch 0'
             },
             "ul > li": {
               paddingInlineStart: '0.25ch'
+            },
+            "ol > li": {
+              margin: '0 0 0.2ch 1ch'
             },
             p: {
               marginTop: '1.4rem',
