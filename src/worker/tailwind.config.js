@@ -17,6 +17,7 @@ module.exports = {
             WebkitFontSmoothing: 'antialiased',
             MozOsxFontSmoothing: 'grayscale',
             lineHeight: '1.4',
+            fontSize: '15px',
             h1: {
               fontSize: theme('fontSize.3xl'),
               textTransform: 'uppercase'
@@ -46,7 +47,6 @@ module.exports = {
             },
             a: {
               textDecorationThickness: '1.5px',
-              textDecorationColor: theme('colors.gray.500')
             },
             ['a:hover']: {
               color: theme('colors.orange.500'),

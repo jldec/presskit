@@ -41,6 +41,7 @@ export type PageData = {
 }
 
 export interface Frontmatter {
+  draft?: boolean
   layout?: string
   title?: string
   description?: string
