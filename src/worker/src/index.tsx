@@ -62,7 +62,9 @@ app.use(async (c, next) => {
       const dirEntry = path.startsWith('/blog/')
         ? (await getMarkdown('/blog', c.env, waitUntil))?.dir?.find((p) => p.path === path)
         : undefined
-      return c.render('', { page, site, dirEntry })
+      const resp = c.render('', { page, site, dirEntry })
+      c.res.headers.set('cache-control', 'public, max-age=600')
+      return resp
     }
   }
 
