@@ -3,6 +3,11 @@ import { type FC } from 'hono/jsx'
 import { Splash } from './splash'
 import { Menu } from './menu'
 import { List, SquareChevronUp, SquareChevronDown } from './icons'
+
+export function parentPath(path: string) {
+  return path.split('/').slice(0, -1).join('/') || '/'
+}
+
 export function formatDate(date: any) {
   if (typeof date === 'string') {
     date = new Date(date)
@@ -22,7 +27,7 @@ export const BlogPostLayout: FC = ({ page, site, dirEntry }) => {
       <p class="flex">
         <span class="flex-grow">{longdate}</span>
         {dirEntry?.next ? (
-          <a class="px-[6px] text-gray-400 hover:text-orange-500" href={'.'}>
+          <a class="px-[6px] text-gray-400 hover:text-orange-500" href={parentPath(page.path)}>
             <List class="h-5" />
           </a>
         ) : (
