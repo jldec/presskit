@@ -2,7 +2,7 @@ import { raw } from 'hono/html'
 import { type FC } from 'hono/jsx'
 import { Splash } from './splash'
 import { Menu } from './menu'
-
+import { List, SquareChevronUp, SquareChevronDown } from './icons'
 export function formatDate(date: any) {
   if (typeof date === 'string') {
     date = new Date(date)
@@ -22,30 +22,30 @@ export const BlogPostLayout: FC = ({ page, site, dirEntry }) => {
       <p class="flex">
         <span class="flex-grow">{longdate}</span>
         {dirEntry?.next ? (
-          <a class="px-2 text-gray-400 hover:text-orange-500" href={'.'}>
-            list
+          <a class="px-[6px] text-gray-400 hover:text-orange-500" href={'.'}>
+            <List class="h-5" />
           </a>
         ) : (
           ''
         )}
         {dirEntry?.prev ? (
           <a
-            class="px-2 text-gray-400 hover:text-orange-500"
+            class="px-[6px] text-gray-400 hover:text-orange-500"
             href={dirEntry.prev.href}
             title={`Prev: ${dirEntry.prev.text}`}
           >
-            {'<<'}
+            <SquareChevronUp class="h-5" />
           </a>
         ) : (
           ''
         )}
         {dirEntry?.next ? (
           <a
-            class="px-2 text-gray-400 hover:text-orange-500"
+            class="px-[6px] text-gray-400 hover:text-orange-500"
             href={dirEntry.next.href}
             title={`Next: ${dirEntry.next.text}`}
           >
-            {'>>'}
+            <SquareChevronDown class="h-5" />
           </a>
         ) : (
           ''

@@ -22,6 +22,116 @@ import { FC, PropsWithChildren } from 'hono/jsx'
 export type IconProps = { class: string; name?: string }
 export type Icon = FC<IconProps>
 
+// To add more icons from https://lucide.dev/icons/list
+// - copy and paste svg
+// - remove ns, width, height
+// - replace class with class,role,aria-label
+//
+// export function Foo(props: IconProps) {
+//   return (
+//
+//   )
+// }
+
+export function SquareChevronUp(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={props.class}
+      role="img"
+      aria-label={props.name || 'GitHub'}
+    >
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="m8 14 4-4 4 4" />
+    </svg>
+  )
+}
+
+export function SquareChevronDown(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={props.class}
+      role="img"
+      aria-label={props.name || 'GitHub'}
+    >
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="m16 10-4 4-4-4" />
+    </svg>
+  )
+}
+
+export function SquareChevronLeft(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={props.class}
+      role="img"
+      aria-label={props.name || 'GitHub'}
+    >
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="m14 16-4-4 4-4" />
+    </svg>
+  )
+}
+
+export function SquareChevronRight(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={props.class}
+      role="img"
+      aria-label={props.name || 'GitHub'}
+    >
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="m10 8 4 4-4 4" />
+    </svg>
+  )
+}
+
+export function List(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={props.class}
+      role="img"
+      aria-label={props.name || 'GitHub'}
+    >
+      <path d="M3 12h.01" />
+      <path d="M3 18h.01" />
+      <path d="M3 6h.01" />
+      <path d="M8 12h13" />
+      <path d="M8 18h13" />
+      <path d="M8 6h13" />
+    </svg>
+  )
+}
+
 export function Email(props: IconProps) {
   return (
     <svg
@@ -110,7 +220,7 @@ export function Default(props: IconProps) {
   return <>{`[${props.name}]`}</>
 }
 
-export const icons: Record<string, Icon> = {
+export const frontmatterIcons: Record<string, Icon> = {
   email: Email,
   home: Home,
   twitter: Twitter,

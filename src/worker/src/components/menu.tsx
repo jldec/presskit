@@ -1,6 +1,6 @@
 import { FC } from 'hono/jsx'
 import { Frontmatter, Navlink } from '../types'
-import { icons } from './icons'
+import { frontmatterIcons } from './icons'
 
 export const Menu: FC<{ site?: Frontmatter }> = ({ site }) => {
   if (!site) return null
@@ -17,7 +17,7 @@ function menuLink(link: Navlink) {
   return (
     <a class="px-[6px]" href={link.href} aria-label={link.text}>
       {link.icon
-        ? (icons[link.icon] ?? icons['default'])({
+        ? (frontmatterIcons[link.icon] ?? frontmatterIcons['default'])({
             name: link.icon,
             class: 'h-5 hover:text-orange-500 transition-colors duration-200 ease-in-out'
           })
