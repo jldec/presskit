@@ -50,6 +50,9 @@ module.exports = {
             a: {
               textDecorationThickness: '1.5px'
             },
+            ['.private a']: {
+              textDecorationColor: theme('colors.orange.500'),
+            },
             ['a:hover']: {
               color: theme('colors.orange.500'),
               textDecorationStyle: 'double',
