@@ -9,7 +9,10 @@ module.exports = {
   theme: {
     extend: {
       fontSmoothing: {
-        antialiased: true,
+        antialiased: true
+      },
+      screens: {
+        md: '745px',
       },
       typography: (theme) => ({
         DEFAULT: {
@@ -17,7 +20,6 @@ module.exports = {
             WebkitFontSmoothing: 'antialiased',
             MozOsxFontSmoothing: 'grayscale',
             lineHeight: '1.4',
-            fontSize: '15px',
             h1: {
               fontSize: theme('fontSize.3xl'),
               textTransform: 'uppercase'
@@ -34,11 +36,11 @@ module.exports = {
               paddingInlineStart: '1ch',
               padding: '0 0 0 1.5ch'
             },
-            "ul > li": {
+            ['ul > li']: {
               margin: '0.2ch 0',
               paddingInlineStart: '0.25ch'
             },
-            "ol > li": {
+            ['ol > li']: {
               margin: '0 0 0.2ch 2ch'
             },
             p: {
@@ -46,7 +48,7 @@ module.exports = {
               marginBottom: '1.4rem'
             },
             a: {
-              textDecorationThickness: '1.5px',
+              textDecorationThickness: '1.5px'
             },
             ['a:hover']: {
               color: theme('colors.orange.500'),

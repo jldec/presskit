@@ -21,7 +21,7 @@ export const BlogListLayout: FC = ({ page, site }) => {
                 href={dirPage.path}
               >
                 <span class="flex-grow">{text}</span>
-                <span class="hidden md:block text-transparent group-hover:text-orange-500">{date}</span>
+                <span class="hidden sm:block text-transparent group-hover:text-orange-500">{date}</span>
               </a>
             </li>
           )
