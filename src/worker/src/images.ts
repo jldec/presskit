@@ -8,7 +8,7 @@ import { hash } from './markdown/hash'
 // TODO: make signed hashes more secure
 // TODO: multi-part and ranges
 export async function getImage(image: string, c: Context) {
-  if (c.req.header('Cache-Control') !== 'no-cachey-cache') {
+  if (c.req.header('Cache-Control') !== 'no-cache') {
     let object = await c.env.IMAGES.get(image)
     if (object !== null) {
       const headers = new Headers()
