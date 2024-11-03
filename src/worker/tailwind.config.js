@@ -12,7 +12,7 @@ module.exports = {
         antialiased: true
       },
       screens: {
-        md: '745px',
+        md: '745px', // 722.667px = 80ch monospace on macOS + (0.75 * 2 * 15px) for mx-3 margins'
       },
       typography: (theme) => ({
         DEFAULT: {
