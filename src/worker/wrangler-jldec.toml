@@ -20,6 +20,7 @@ GH_OWNER = "jldec"
 GH_REPO = "jldec-me"
 GH_BRANCH = "main"
 GH_PATH = "content"
+DEBUG = "true"
 
 [ai]
 binding = "AI"

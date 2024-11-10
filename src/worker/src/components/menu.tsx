@@ -5,7 +5,7 @@ import { frontmatterIcons } from './icons'
 export const Menu: FC<{ site?: Frontmatter }> = ({ site }) => {
   if (!site) return null
   return (
-    <nav class="flex flex-wrap py-4 mb-4">
+    <nav class="flex flex-wrap mb-4">
       {site?.navlinks?.map(menuLink)}
       <span class="flex-grow"></span>
       {site?.sociallinks?.map(menuLink)}

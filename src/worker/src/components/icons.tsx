@@ -33,6 +33,24 @@ export type Icon = FC<IconProps>
 //   )
 // }
 
+export function MessageSquare(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={props.class}
+      role="img"
+      aria-label={props.name || 'Chat Message Square Icon'}
+    >
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+  )
+}
+
 export function SquareChevronUp(props: IconProps) {
   return (
     <svg
