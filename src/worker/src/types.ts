@@ -17,6 +17,7 @@ export type Env = {
   CHATS: DurableObjectNamespace<Party>
   ENVIRONMENT: string
   DEBUG: string
+  DEBUG_USER: string
 }
 
 export type WaitUntil = (promise: Promise<any>) => void
