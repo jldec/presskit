@@ -4,9 +4,10 @@
 // https://hono.dev/docs/middleware/builtin/jsx-renderer
 // jsxRenderer is required for <doctype html>
 
-import { jsxRenderer } from 'hono/jsx-renderer'
+import { jsxRenderer, useRequestContext } from 'hono/jsx-renderer'
 import { componentMap } from './component-map'
-import { PageData, DirData, Frontmatter, Splash } from '../types'
+import { PageData, DirData, Frontmatter, Context } from '../types'
+import { Chat } from './chat'
 import { Debug as Dbg } from './debug'
 
 declare module 'hono' {
@@ -25,6 +26,7 @@ declare module 'hono' {
 
 export function renderJsx() {
   return jsxRenderer(({ children, page, site, dirEntry }) => {
+    const c: Context = useRequestContext()
     const path = page?.path
     const siteurl = site?.siteurl
     const url = (siteurl ?? '') + (path ?? '/')
@@ -35,6 +37,8 @@ export function renderJsx() {
     const description = page?.attrs.description ?? title ?? path ?? 'Homepage'
     const twitter = site?.twitter
     const favicon = site?.favicon
+    const user =
+      c.req.header('cf-access-authenticated-user-email') || c.env.DEBUG_USER || 'anonymous'
     return (
       <html lang="en" class="dark bg-white dark:bg-gray-900">
         <head>
@@ -70,16 +74,24 @@ export function renderJsx() {
           <link href="/css/styles.css" rel="stylesheet" />
           <script src="/js/htmx.min.js" defer></script>
           <script src="/js/image-enlarge.js" defer></script>
+          <script src="/js/partychat.js" type="module" defer></script>
         </head>
-        <body class="bg-white dark:bg-gray-900">
-          <div class="prose dark:prose-invert max-w-[80ch] overflow-hidden mx-3 md:mx-auto mb-8 marker:text-orange-500">
-            {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
-              children,
-              page,
-              site,
-              dirEntry
-            })}
-            <Dbg page={page} />
+        <body class="bg-white dark:bg-gray-900 prose dark:prose-invert max-w-none">
+          <div class="flex flex-col md:flex-row min-h-screen">
+            {user !== 'anonymous' ? (
+              <div class="p-3 max-w-[80ch] bg-orange-100">
+                <Chat />
+              </div>
+            ) : null}
+            <div class="p-3 max-w-[81ch] min-w-[35ch] overflow-hidden md:mx-auto mb-8 marker:text-orange-500">
+              {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
+                children,
+                page,
+                site,
+                dirEntry
+              })}
+              <Dbg page={page} />
+            </div>
           </div>
         </body>
       </html>
