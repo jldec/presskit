@@ -20,10 +20,14 @@ export type Env = {
   DEBUG_USER: string
 }
 
+type Variables = {
+  user: string
+}
+
 export type WaitUntil = (promise: Promise<any>) => void
 
-export class Hono extends HonoBase<{ Bindings: Env }> {}
-export type Context = ContextBase<{ Bindings: Env }>
+export class Hono extends HonoBase<{ Bindings: Env, Variables: Variables }> {}
+export type Context = ContextBase<{ Bindings: Env, Variables: Variables }>
 
 // TODO: DirData should be part of PageData
 export type DirData = {

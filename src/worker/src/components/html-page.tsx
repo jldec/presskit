@@ -39,8 +39,9 @@ export function renderJsx() {
     const favicon = site?.favicon
     const user =
       c.req.header('cf-access-authenticated-user-email') || c.env.DEBUG_USER || 'anonymous'
+    c.set('user', user)
     return (
-      <html lang="en" class="dark bg-white dark:bg-gray-900">
+      <html lang="en" class="dark bg-white dark:bg-gray-900" data-user={user}>
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -7,6 +7,8 @@ import { names, type ChatMessage, type Message } from '../worker/src/shared'
 
 function App() {
   const [name] = useState(() => {
+    const user = document.documentElement.dataset.user
+    if (user) return user
     const storedName = localStorage.getItem('chatName')
     if (storedName) return storedName
     const newName = names[Math.floor(Math.random() * names.length)]
@@ -74,7 +76,6 @@ function App() {
 
   return (
     <div>
-      <h1>{name}</h1>
       <div>
         {messages.map((message) => (
           <div key={message.id}>
@@ -111,7 +112,7 @@ function App() {
           <input
             type="text"
             name="content"
-            placeholder={`Hello ${name}! Type a message...`}
+            placeholder={`Type a message...`}
             autoComplete="off"
           />
         </div>
