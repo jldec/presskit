@@ -19,7 +19,7 @@ function App() {
 
   const socket = usePartySocket({
     party: 'c-h-a-t-s', // kebab-cased CHATS binding name
-    room: 'general',
+    room: window.location.pathname.replace('/', '_'),
     onMessage: (evt) => {
       const message = JSON.parse(evt.data) as Message
       switch (message.type) {
@@ -76,6 +76,7 @@ function App() {
 
   return (
     <div>
+      <div>{window.location.pathname}</div>
       <div>
         {messages.map((message) => (
           <div key={message.id}>
@@ -109,12 +110,7 @@ function App() {
         }}
       >
         <div>
-          <input
-            type="text"
-            name="content"
-            placeholder={`Type a message...`}
-            autoComplete="off"
-          />
+          <input type="text" name="content" placeholder={`Type a message...`} autoComplete="off" />
         </div>
       </form>
     </div>
