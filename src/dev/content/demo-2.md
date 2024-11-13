@@ -1,6 +1,6 @@
-# Demo 2
+### Demo 2
 
-Austin (/ˈɔːstɪn/ ⓘ AW-stin) is the capital of the U.S. state of Texas and the seat and most populous city of Travis County, with portions extending into Hays and Williamson counties. Incorporated on December 27, 1839, it is the 26th-largest metropolitan area in the United States, the 11th-most populous city in the United States, the fourth-most populous city in the state after Houston, San Antonio, and Dallas, and the second-most populous state capital city after Phoenix, the capital of Arizona. It has been one of the fastest growing large cities in the United States since 2010. Downtown Austin and Downtown San Antonio are approximately 80 miles (129 km) apart, and both fall along the Interstate 35 corridor. This combined metropolitan region of San Antonio–Austin has approximately 5 million people. Austin is the southernmost state capital in the contiguous United States and is considered a Gamma + level global city as categorized by the Globalization and World Cities Research Network.
+**Austin** (/ˈɔːstɪn/ ⓘ AW-stin) is the capital of the U.S. state of Texas and the seat and most populous city of Travis County, with portions extending into Hays and Williamson counties. Incorporated on December 27, 1839, it is the 26th-largest metropolitan area in the United States, the 11th-most populous city in the United States, the fourth-most populous city in the state after Houston, San Antonio, and Dallas, and the second-most populous state capital city after Phoenix, the capital of Arizona. It has been one of the fastest growing large cities in the United States since 2010. Downtown Austin and Downtown San Antonio are approximately 80 miles (129 km) apart, and both fall along the Interstate 35 corridor. This combined metropolitan region of San Antonio–Austin has approximately 5 million people. Austin is the southernmost state capital in the contiguous United States and is considered a Gamma + level global city as categorized by the Globalization and World Cities Research Network.
 
 As of 2024, Austin had an estimated population of 984,567, up from 961,855 at the 2020 census. The city is the cultural and economic center of the Austin–Round Rock metropolitan statistical area, which had an estimated population of 2,473,275 as of July 1, 2023. Located in Central Texas within the greater Texas Hill Country, it is home to numerous lakes, rivers, and waterways, including Lady Bird Lake and Lake Travis on the Colorado River, Barton Springs, McKinney Falls, and Lake Walter E. Long.
 
@@ -214,35 +214,6 @@ Whole Foods Market, an international grocery store chain specializing in fresh a
 Other companies based in Austin include NXP Semiconductors, GoodPop, Temple-Inland, Sweet Leaf Tea Company, Keller Williams Realty, National Western Life, GSD&M, Dimensional Fund Advisors, Golfsmith, Forestar Group, EZCorp, Outdoor Voices, Tito's Vodka, Speak Social, and YETI.
 
 In 2018, Austin metro-area companies saw a total of $1.33 billion invested. In 2018, Austin's venture capital investments accounted for more than 60 percent of Texas' total investments.
-Top employers
-
-According to Austin's comprehensive annual financial reports, the top employers by number of employees in the county are the following. "NR" indicates the employer was not ranked among the top ten employers that year.
-Employer 	Employees
-(2022) 	Employees
-(2013) 	Employees
-(2004) 	Employees
-(1998)
-Government of Texas 	39,306 	36,948 	NR 	NR
-University of Texas at Austin 	29,597 	24,183 	21,000 	20,342
-H-E-B 	20,749 	11,277 	NR 	NR
-City of Austin 	15,548 	12,372 	10,617 	10,606
-Federal government of the United States 	15,000 	10,500 	10,200 	NR
-Dell Technologies 	13,000 	14,000 	16,500 	10,700
-Ascension Seton 	12,086 	12,609 	6,393 	NR
-Amazon.com 	11,000 	NR 	NR 	NR
-St. David's Healthcare Partnership 	10,854 	7,950 	5,000 	NR
-Austin Independent School District 	10,565 	11,465 	10,714 	9,159
-IBM 	NR 	6,000 	6,200 	7,000
-Freescale Semiconductor 	NR 	NR 	6,500 	NR
-Texas State University 	NR 	NR 	5,103 	NR
-Motorola 	NR 	NR 	NR 	10,000
-Internal Revenue Service 	NR 	NR 	NR 	5,700
-Texas Department of Health 	NR 	NR 	NR 	5,634
-Advanced Micro Devices 	NR 	NR 	NR 	4,200
-Texas Department of Public Safety 	NR 	NR 	NR 	4,000
-Technology
-
-    WebAI, privacy-focused artificial intelligence (AI) solutions
 
 Transportation
 
