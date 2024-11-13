@@ -5,13 +5,16 @@ import { nanoid } from 'nanoid'
 import { EventSourceParserStream } from 'eventsource-parser/stream'
 
 import type { ChatMessage, Message } from './shared'
+import type { PageData } from './types'
 
 type Env = {
   AI: Ai
+  PAGE_CACHE: KVNamespace
 }
 
 export class Party extends Server<Env> {
   messages = [] as ChatMessage[]
+  pageData: PageData | undefined = undefined
 
   sendMessage(connection: Connection, message: Message) {
     connection.send(JSON.stringify(message))
@@ -22,6 +25,13 @@ export class Party extends Server<Env> {
   }
 
   async onConnect(connection: Connection, ctx: ConnectionContext) {
+    const path = ctx.request.headers.get('x-partykit-room')?.replace('_','/')
+    if (path && !this.pageData) {
+      const cachedContent = await this.env.PAGE_CACHE.get(path)
+      if (cachedContent !== null) {
+        this.pageData = JSON.parse(cachedContent) as PageData
+      }
+    }
     this.sendMessage(connection, {
       type: 'all',
       messages: this.messages
@@ -51,12 +61,17 @@ export class Party extends Server<Env> {
         ...aiMessage
       })
 
+      const messages = [{
+        role: 'system',
+        content: 'talk about this content only: ' + this.pageData?.md
+      }]
+
       const aiMessageStream = (await this.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
         stream: true,
-        messages: this.messages.map((m) => ({
+        messages: messages.concat(this.messages.map((m) => ({
           content: m.content,
           role: m.role
-        }))
+        })))
       })) as ReadableStream
 
       this.messages.push(aiMessage)
