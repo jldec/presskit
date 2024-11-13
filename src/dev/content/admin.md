@@ -1,4 +1,0 @@
----
-title: Admin
-layout: AdminLayout
----
