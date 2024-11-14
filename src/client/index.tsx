@@ -19,7 +19,8 @@ function App() {
 
   const socket = usePartySocket({
     party: 'c-h-a-t-s', // kebab-cased CHATS binding name
-    room: window.location.pathname.replace('/', '_'),
+    // TODO: protect against paths with _
+    room: window.location.pathname.replace(/\//g, '_'),
     onMessage: (evt) => {
       const message = JSON.parse(evt.data) as Message
       switch (message.type) {

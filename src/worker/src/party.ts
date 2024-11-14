@@ -25,7 +25,8 @@ export class Party extends Server<Env> {
   }
 
   async onConnect(connection: Connection, ctx: ConnectionContext) {
-    const path = ctx.request.headers.get('x-partykit-room')?.replace('_', '/')
+    // TODO: protect against paths with _
+    const path = ctx.request.headers.get('x-partykit-room')?.replace(/_/g, '/')
     if (path) {
       const cachedContent = await this.env.PAGE_CACHE.get(path)
       if (cachedContent !== null) {
