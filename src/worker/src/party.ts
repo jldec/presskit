@@ -25,7 +25,7 @@ export class Party extends Server<Env> {
   }
 
   async onConnect(connection: Connection, ctx: ConnectionContext) {
-    const path = ctx.request.headers.get('x-partykit-room')?.replace('_','/')
+    const path = ctx.request.headers.get('x-partykit-room')?.replace('_', '/')
     if (path) {
       const cachedContent = await this.env.PAGE_CACHE.get(path)
       if (cachedContent !== null) {
@@ -61,65 +61,75 @@ export class Party extends Server<Env> {
         ...aiMessage
       })
 
-      const messages = [{
+      const systemMessage = {
         role: 'system',
-        content: 'talk about this content only: ' + this.pageData?.md
-      }]
+        content: 'talk about this content only: ' + (this.pageData?.md || '')
+      }
 
-      const aiMessageStream = (await this.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
-        stream: true,
-        messages: messages.concat(this.messages.map((m) => ({
-          content: m.content,
-          role: m.role
-        })))
-      })) as ReadableStream
+      try {
+        const aiMessageStream = (await this.env.AI.run('@cf/meta/llama-3-8b-instruct-awq', {
+          stream: true,
+          messages: [
+            systemMessage,
+            ...this.messages.map((m) => ({
+              content: m.content,
+              role: m.role
+            }))
+          ] as RoleScopedChatInput[]
+        })) as ReadableStream
 
-      this.messages.push(aiMessage)
+        this.messages.push(aiMessage)
 
-      const eventStream = aiMessageStream
-        .pipeThrough(new TextDecoderStream())
-        .pipeThrough(new EventSourceParserStream())
+        const eventStream = aiMessageStream
+          .pipeThrough(new TextDecoderStream())
+          .pipeThrough(new EventSourceParserStream())
 
-      // We want the AI to respond to the message in real-time
-      // so we're going to stream every chunk as an "update" message
+        // We want the AI to respond to the message in real-time
+        // so we're going to stream every chunk as an "update" message
 
-      let buffer = ''
+        let buffer = ''
 
-      for await (const event of eventStream) {
-        if (event.data !== '[DONE]') {
-          // let's append the response to the buffer
-          buffer += JSON.parse(event.data).response
-          // and broadcast the buffer as an update
-          this.broadcastMessage({
-            type: 'update',
-            ...aiMessage,
-            content: buffer + '...' // let's add an ellipsis to show it's still typing
-          })
-        } else {
-          // the AI is done responding
-          // we update our local messages store with the final response
-          this.messages = this.messages.map((m) => {
-            if (m.id === aiMessage.id) {
-              return {
-                ...m,
-                content: buffer
+        for await (const event of eventStream) {
+          if (event.data !== '[DONE]') {
+            // let's append the response to the buffer
+            buffer += JSON.parse(event.data).response
+            // and broadcast the buffer as an update
+            this.broadcastMessage({
+              type: 'update',
+              ...aiMessage,
+              content: buffer + '...' // let's add an ellipsis to show it's still typing
+            })
+          } else {
+            // the AI is done responding
+            // we update our local messages store with the final response
+            this.messages = this.messages.map((m) => {
+              if (m.id === aiMessage.id) {
+                return {
+                  ...m,
+                  content: buffer
+                }
               }
-            }
-            return m
-          })
+              return m
+            })
 
-          // let's update the message with the final response
-          this.broadcastMessage({
-            type: 'update',
-            ...aiMessage,
-            content: buffer
-          })
+            // let's update the message with the final response
+            this.broadcastMessage({
+              type: 'update',
+              ...aiMessage,
+              content: buffer
+            })
+          }
         }
+      } catch (err) {
+        console.error(err)
       }
     } else if (parsed.type === 'update') {
       // update the message in the local store
       const index = this.messages.findIndex((m) => m.id === parsed.id)
       this.messages[index] = parsed
+    } else if (parsed.type === 'clear') {
+      // clear the local store
+      this.messages = []
     }
   }
 }
