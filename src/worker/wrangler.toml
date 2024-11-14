@@ -18,7 +18,7 @@ enabled = true
 ENVIRONMENT = "prod"
 GH_OWNER = "jldec"
 GH_REPO = "presskit"
-GH_BRANCH = "austin-hacknight"
+GH_BRANCH = "main"
 GH_PATH = "src/dev/content"
 
 [ai]
