@@ -1,33 +1,32 @@
 ---
-title: Presskit
+title: Austin AI Hacknight
 siteurl: https://presskit.jldec.me
-description: Fast and simple collaborative Web publishing.
+description: AI tool for website content .
 twitter: '@presskitjs'
 splash:
-  image: /images/red-flowser.webp
+  image: /images/hacknight.webp
 navlinks:
   - href: /
     text: Home
     icon: home
-  - href: https://jldec.me
-    text: jldec.me
+  - href: /demo-1
+    text: Demo-1
+  - href: /demo-2
+    text: Demo-2
 sociallinks:
   - href: https://github.com/jldec/presskit
     text: GitHub
     icon: github
 ---
-# Presskit ⚡️
-Fast and simple collaborative Web publishing.
+# Austin AI Hacknight
 
-### Roadmap
-- [ ] Pick a domain and go
-- [ ] Zero install, zero build (not just for devs)
-- [x] Single click publishing, fully versioned
-- [ ] Editor to collaborate with AI and humans
-- [ ] Whiteboard + notes retained for every page
-- [ ] Installable, professional themes
+### https://presskit.jldec.me
 
----
-👋 _This is a work in progress._
+AI tool for ??? website content
 
-Built on Cloudflare Workers. Layout inspired by [The Monospace Web](https://owickstrom.github.io/the-monospace-web/) 🙏
+
+
+
+
+.........1.........2.........3.........4.........5.........6.........7.........8
+

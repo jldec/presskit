@@ -73,6 +73,17 @@ module.exports = {
               padding: '8px',
               border: 'solid 1.5px currentColor'
             },
+            button: {
+              textDecoration: 'underline',
+              textDecorationThickness: '1.5px',
+              padding: '0.25rem',
+            },
+            ['button:hover']: {
+              color: theme('colors.orange.500'),
+              textDecorationStyle: 'double',
+              textDecorationColor: theme('colors.orange.500'),
+              transform: 'scale(1.05)'
+            },
             img: {
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
               borderRadius: theme('borderRadius.md'),

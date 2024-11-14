@@ -70,6 +70,9 @@ function App() {
         case 'all':
           setMessages(message.messages)
           break
+        case 'clear':
+          setMessages([])
+          break
       }
     }
   })
@@ -112,6 +115,16 @@ function App() {
         <div>
           <input type="text" name="content" placeholder={`Type a message...`} autoComplete="off" />
         </div>
+        <button type="submit">Send</button>
+        <button onClick={(e) => {
+          e.preventDefault()
+          setMessages([])
+          socket.send(
+            JSON.stringify({
+              type: 'clear'
+            } satisfies Message)
+          )
+        }}>Clear</button>
       </form>
     </div>
   )
