@@ -42,13 +42,24 @@ export class Party extends Server<Env> {
   async onMessage(connection: Connection, message: WSMessage) {
     // let's broadcast the raw message to everyone else
     this.broadcast(message)
-
     // let's update our local messages store
     const parsed = JSON.parse(message as string) as Message
 
     if (parsed.type === 'add') {
       // add the message to the local store
       this.messages.push(parsed)
+
+      // TODO: better logging
+      const log = this.pageData?.path + '\n' + parsed.content
+      console.log('message', log)
+      fetch('https://my-email-worker.jldec.workers.dev/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain'
+        },
+        body: log
+      })
+
       // let's ask AI to respond as well for fun
       const aiMessage = {
         id: nanoid(8),
