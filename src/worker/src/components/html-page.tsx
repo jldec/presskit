@@ -79,7 +79,7 @@ export function renderJsx() {
         </head>
         <body class="bg-white dark:bg-gray-900 prose dark:prose-invert max-w-none">
           <div class="flex flex-col md:flex-row min-h-screen">
-            {user !== 'anonymous' ? (
+            {user !== 'hide-chat' ? (
               <div class="p-3 max-w-[80ch] bg-orange-100">
                 <Chat />
               </div>

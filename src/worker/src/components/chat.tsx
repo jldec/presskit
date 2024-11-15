@@ -8,7 +8,7 @@ export const Chat: FC = () => {
   return (
     <>
       <nav class="flex md:mb-2">
-        <span id="chat-user" class="hidden">{c.get('user')}</span>
+        <span id="chat-user" class="hidden font-semibold">{c.get('user')}</span>
         <a
           class="ml-auto mr-[6px] md:mr-0"
           role="button"

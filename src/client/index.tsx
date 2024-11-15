@@ -80,7 +80,6 @@ function App() {
 
   return (
     <div>
-      <div>{window.location.pathname}</div>
       <div>
         {messages.map((message) => (
           <div key={message.id}>
