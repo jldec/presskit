@@ -88,7 +88,7 @@ function App() {
         {messages.map((message) => (
           <div key={message.id}>
             <div className="text-xs font-bold ml-2 mt-1">{message.user}</div>
-            <div className="bg-white dark:bg-black p-2 rounded-md prose-p:my-0">
+            <div className="bg-orange-50 dark:bg-black p-2 rounded-md prose-p:mt-0">
               <div dangerouslySetInnerHTML={{ __html: md.render(message.content) }}></div>
             </div>
           </div>

@@ -30,7 +30,7 @@ module.exports = {
             },
             ul: {
               listStyleType: 'square',
-              paddingInlineStart: '1.75ch'
+              paddingInlineStart: '1.75ch',
             },
             ol: {
               paddingInlineStart: '1ch',
@@ -39,6 +39,9 @@ module.exports = {
             ['ul > li']: {
               margin: '0.2ch 0',
               paddingInlineStart: '0.25ch'
+            },
+            ['ul > li::marker']: {
+              color: theme('colors.orange.500'),
             },
             ['ol > li']: {
               margin: '0 0 0.2ch 2ch'

@@ -10,6 +10,7 @@ import type { PageData } from './types'
 type Env = {
   AI: Ai
   PAGE_CACHE: KVNamespace
+  ENVIRONMENT: string
 }
 
 export class Party extends Server<Env> {
@@ -52,13 +53,15 @@ export class Party extends Server<Env> {
       // TODO: better logging
       const log = this.pageData?.path + '\n' + parsed.content
       console.log('message', log)
-      fetch('https://my-email-worker.jldec.workers.dev/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain'
-        },
-        body: log
-      })
+      if (this.env.ENVIRONMENT === 'prod') {
+        fetch('https://my-email-worker.jldec.workers.dev/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain'
+          },
+          body: log
+        })
+      }
 
       // let's ask AI to respond as well for fun
       const aiMessage = {
@@ -73,9 +76,23 @@ export class Party extends Server<Env> {
         ...aiMessage
       })
 
+      const links =
+        `\n\n# ${this.pageData?.attrs?.title || 'Links'}\n\n` +
+          this.pageData?.dir
+            ?.map(
+              (d) =>
+                `- [${d.attrs?.title || d.path.split('/').filter(Boolean).join(' ') || 'Home'}](${
+                  d.path
+                })`
+            )
+            .join('\n') || ''
+
       const systemMessage = {
         role: 'system',
-        content: 'Respond with references to just the following content: ' + (this.pageData?.md || '')
+        content:
+          'You are a helpful assistant. Respond with levity and respect about just the following content: ' +
+          (this.pageData?.md || '') +
+          links
       }
 
       try {

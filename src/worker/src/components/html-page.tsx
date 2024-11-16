@@ -82,7 +82,7 @@ export function renderJsx() {
             <div class="p-3 max-w-[80ch] bg-orange-100 dark:bg-gray-800">
               <Chat />
             </div>
-            <div class="p-3 max-w-[81ch] min-w-[35ch] overflow-hidden md:mx-auto mb-8 marker:text-orange-500">
+            <div class="p-3 max-w-[81ch] min-w-[35ch] overflow-hidden md:mx-auto mb-8">
               {(componentMap[page?.attrs.layout as string] ?? componentMap['DefaultLayout'])({
                 children,
                 page,
