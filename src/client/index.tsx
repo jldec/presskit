@@ -2,8 +2,12 @@ import { createRoot } from 'react-dom/client'
 import { usePartySocket } from 'partysocket/react'
 import { useState } from 'react'
 import { nanoid } from 'nanoid'
-
 import { names, type ChatMessage, type Message } from '../worker/src/shared'
+
+import markdownit from 'markdown-it'
+const md = markdownit({
+  linkify: true
+})
 
 function App() {
   const [name] = useState(() => {
@@ -83,8 +87,9 @@ function App() {
       <div>
         {messages.map((message) => (
           <div key={message.id}>
-            <div>
-              {message.user}: {message.content}
+            <div className="text-xs font-bold ml-2 mt-1">{message.user}</div>
+            <div className="bg-white dark:bg-black p-2 rounded-md prose-p:my-0">
+              <div dangerouslySetInnerHTML={{ __html: md.render(message.content) }}></div>
             </div>
           </div>
         ))}
@@ -113,18 +118,22 @@ function App() {
         }}
       >
         <div>
-          <input type="text" name="content" placeholder={`Type a message...`} autoComplete="off" />
+          <input type="text" name="content" placeholder={`Type a message...`} autoComplete="off" className="rounded-md text-black" />
         </div>
         <button type="submit">Send</button>
-        <button onClick={(e) => {
-          e.preventDefault()
-          setMessages([])
-          socket.send(
-            JSON.stringify({
-              type: 'clear'
-            } satisfies Message)
-          )
-        }}>Clear</button>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            setMessages([])
+            socket.send(
+              JSON.stringify({
+                type: 'clear'
+              } satisfies Message)
+            )
+          }}
+        >
+          Clear
+        </button>
       </form>
     </div>
   )
