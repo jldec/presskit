@@ -118,7 +118,7 @@ function App() {
         }}
       >
         <div>
-          <input type="text" name="content" placeholder={`Type a message...`} autoComplete="off" className="rounded-md text-black" />
+          <input id="chat-input" type="text" name="content" placeholder={`Type a message...`} autoComplete="off" className="rounded-md text-black" />
         </div>
         <button type="submit">Send</button>
         <button
