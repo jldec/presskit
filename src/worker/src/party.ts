@@ -75,7 +75,7 @@ export class Party extends Server<Env> {
 
       const systemMessage = {
         role: 'system',
-        content: 'talk about this content only: ' + (this.pageData?.md || '')
+        content: 'Respond with references to just the following content: ' + (this.pageData?.md || '')
       }
 
       try {

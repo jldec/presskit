@@ -2,7 +2,7 @@
 module.exports = {
   content: [
     'src/**/*.{html,js,jsx,ts,tsx,md}',
-    '../client/index.tsx}',
+    '../client/*.{html,js,jsx,ts,tsx,md}',
     '../../public/js/image-enlarge.js'
   ],
   darkMode: 'media',
