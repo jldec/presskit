@@ -1,5 +1,5 @@
 name = "presskit-worker"
-compatibility_date = "2024-11-12"
+compatibility_date = "2024-11-06"
 assets = { directory = "../../public" }
 main = "src/index.tsx"
 
@@ -31,11 +31,11 @@ bucket_name = 'presskit-img-v0'
 preview_bucket_name = 'presskit-img-v0-preview'
 
 [[kv_namespaces]]
-# pnpm wrangler kv namespace create PAGE_CACHE
-# pnpm wrangler kv namespace create PAGE_CACHE --preview
-binding = "PAGE_CACHE"
-id = "956d187f071b4b1b8c39e7f66dec6f53"
-preview_id = "839c3eabff6340ceb10f7c4a4ebabda6"
+# pnpm wrangler kv namespace create PAGEDATA_CACHE
+# pnpm wrangler kv namespace create PAGEDATA_CACHE --preview
+binding = "PAGEDATA_CACHE"
+id = "059d93f832ac4eb1b0bee87420399a54"
+preview_id = "c779ce3d69754eb297b6e97e1aaaeebf"
 
 [[kv_namespaces]]
 # pnpm wrangler kv namespace create STATIC_CACHE

@@ -2,7 +2,7 @@ import { Hono, WaitUntil } from './types'
 import { routePartykitRequest } from 'partyserver'
 import { getPagePaths } from './markdown/get-dirs'
 import { getManifest } from './manifest'
-import { getMarkdown } from './markdown/get-markdown'
+import { getPageData } from './markdown/get-markdown'
 import { getImage } from './images'
 import { renderJsx } from './components/html-page'
 import { api } from './api'
@@ -55,12 +55,12 @@ app.use(async (c, next) => {
   // TODO: extract "render" worker for theming and css
   let pagePaths = await getPagePaths(c.env, waitUntil)
   if (path in pagePaths) {
-    const page = await getMarkdown(path, c.env, waitUntil, noCache)
+    const page = await getPageData(path, c.env, waitUntil, noCache)
     if (page) {
       // site is used for meta headers, dirEntry is only used for "next" links on blog pages
-      const site = (await getMarkdown('/', c.env, waitUntil))?.attrs
+      const site = (await getPageData('/', c.env, waitUntil))?.attrs
       const dirEntry = path.startsWith('/blog/')
-        ? (await getMarkdown('/blog', c.env, waitUntil))?.dir?.find((p) => p.path === path)
+        ? (await getPageData('/blog', c.env, waitUntil))?.dir?.find((p) => p.path === path)
         : undefined
       const resp = c.render('', { page, site, dirEntry })
       c.res.headers.set('cache-control', 'public, max-age=600')

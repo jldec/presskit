@@ -20,7 +20,7 @@ export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boole
   if (!noCache) {
     if (manifestMemo) return manifestMemo
 
-    const cachedContent = await env.PAGE_CACHE.get(manifestCacheKey)
+    const cachedContent = await env.PAGEDATA_CACHE.get(manifestCacheKey)
     if (cachedContent !== null) {
       manifestMemo = JSON.parse(cachedContent) as string[]
       return manifestMemo
@@ -59,7 +59,7 @@ export async function getManifest(env: Env, waitUntil: WaitUntil, noCache: boole
 
   if (manifest?.length) {
     manifestMemo = manifest
-    waitUntil(env.PAGE_CACHE.put(manifestCacheKey, JSON.stringify(manifest)))
+    waitUntil(env.PAGEDATA_CACHE.put(manifestCacheKey, JSON.stringify(manifest)))
     // invalidate caches when manifest is reloaded
     zapDirCache()
     zapRedirectCache()

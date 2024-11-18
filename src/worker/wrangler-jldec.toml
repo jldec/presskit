@@ -1,5 +1,5 @@
 name = "jldec-worker"
-compatibility_date = "2024-09-25"
+compatibility_date = "2024-11-06"
 assets = { directory = "../../public" }
 main = "src/index.tsx"
 
@@ -32,11 +32,11 @@ bucket_name = "jldec-img-v0"
 preview_bucket_name = "presskit-img-v0-preview"
 
 [[kv_namespaces]]
-# pnpm wrangler -c wrangler-jldec.toml kv namespace create PAGE_CACHE
-# pnpm wrangler -c wrangler-jldec.toml kv namespace create PAGE_CACHE --preview
-binding = "PAGE_CACHE"
-id = "fb2c61987df84068b2d8c36847e8c8a6"
-preview_id = "c1648c1fc9a5495780739119cbb7c7f5"
+# pnpm wrangler -c wrangler-jldec.toml kv namespace create PAGEDATA_CACHE
+# pnpm wrangler -c wrangler-jldec.toml kv namespace create PAGEDATA_CACHE --preview
+binding = "PAGEDATA_CACHE"
+id = "5f8d80af855f41ecbfc5979785c3a198"
+preview_id = "bffac0aa358e427caf02baa3b1bd3dcf"
 
 [[kv_namespaces]]
 # pnpm wrangler -c wrangler-jldec.toml kv namespace create STATIC_CACHE

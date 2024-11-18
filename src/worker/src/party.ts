@@ -9,7 +9,7 @@ import type { PageData } from './types'
 
 type Env = {
   AI: Ai
-  PAGE_CACHE: KVNamespace
+  PAGEDATA_CACHE: KVNamespace
   ENVIRONMENT: string
 }
 
@@ -29,7 +29,7 @@ export class Party extends Server<Env> {
     // TODO: protect against paths with _
     const path = ctx.request.headers.get('x-partykit-room')?.replace(/_/g, '/')
     if (path) {
-      const cachedContent = await this.env.PAGE_CACHE.get(path)
+      const cachedContent = await this.env.PAGEDATA_CACHE.get(path)
       if (cachedContent !== null) {
         this.pageData = JSON.parse(cachedContent) as PageData
       }
