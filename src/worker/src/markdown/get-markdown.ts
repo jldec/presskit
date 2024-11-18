@@ -14,7 +14,7 @@ async function filePath(path: string, env: Env, waitUntil: WaitUntil): Promise<s
   return `${path}.md`
 }
 
-async function getTextFile(path: string, env: Env, waitUntil: WaitUntil): Promise<string> {
+async function getSourceText(path: string, env: Env, waitUntil: WaitUntil): Promise<string> {
   const filepath = await filePath(path, env, waitUntil)
   let resp: Response
   let source = 'github'
@@ -40,7 +40,9 @@ async function getTextFile(path: string, env: Env, waitUntil: WaitUntil): Promis
   return await resp.text()
 }
 
-export async function getMarkdown(
+// Return unstyled HTML content for a page
+// Fetches and parses markdown from source, if not cached.
+export async function getPageData(
   path: string,
   env: Env,
   waitUntil: WaitUntil,
@@ -50,14 +52,14 @@ export async function getMarkdown(
 
   if (!noCache) {
     if (isHome && homePage) return homePage
-    const cachedContent = await env.PAGE_CACHE.get(path)
+    const cachedContent = await env.PAGEDATA_CACHE.get(path)
     if (cachedContent !== null) return JSON.parse(cachedContent) as PageData
   }
 
-  const text = await getTextFile(path, env, waitUntil)
-  const parsedFrontmatter = parseFrontmatter(text)
+  const sourceText = await getSourceText(path, env, waitUntil)
+  const parsedFrontmatter = parseFrontmatter(sourceText)
   const dirData = await getDirData(path, env, waitUntil, parsedFrontmatter.attrs.sortby)
-  const content = {
+  const pageData = {
     path,
     attrs: parsedFrontmatter.attrs,
     md: parsedFrontmatter.body,
@@ -68,11 +70,11 @@ export async function getMarkdown(
         }),
     dir: dirData
   }
-  waitUntil(env.PAGE_CACHE.put(path, JSON.stringify(content)))
+  waitUntil(env.PAGEDATA_CACHE.put(path, JSON.stringify(pageData)))
   if (isHome) {
-    homePage = content
+    homePage = pageData
   }
-  return content
+  return pageData
 }
 
 function errorHtml(error: unknown, path: string) {

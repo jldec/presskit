@@ -1,5 +1,5 @@
 import { Env, WaitUntil, DirData, Navlink } from '../types'
-import { getMarkdown } from './get-markdown'
+import { getPageData } from './get-markdown'
 import { getManifest } from '../manifest'
 
 let dirsMemo: null | Record<string, string[]> = null
@@ -27,7 +27,7 @@ export async function getDirData(
   // TODO: throttle and detect cycles
   const dirPromises = dir?.map(async (pageName): Promise<DirData> => {
     const pagePath = dirPath + (dirPath === '/' ? '' : '/') + pageName
-    const dirPage = await getMarkdown(pagePath, env, waitUntil)
+    const dirPage = await getPageData(pagePath, env, waitUntil)
     return { path: pagePath, attrs: dirPage?.attrs }
   })
   const dirData = await Promise.all(dirPromises || [])

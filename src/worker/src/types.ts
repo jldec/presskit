@@ -4,7 +4,7 @@ import type { RedirectStatusCode } from 'hono/utils/http-status'
 export type { StatusCode, RedirectStatusCode } from 'hono/utils/http-status'
 
 export type Env = {
-  PAGE_CACHE: KVNamespace
+  PAGEDATA_CACHE: KVNamespace
   STATIC_CACHE: KVNamespace
   IMAGES: R2Bucket
   AI: any

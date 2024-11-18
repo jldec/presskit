@@ -30,15 +30,15 @@ api.get('/echo', async (c) => {
 
 // page cache
 api.get('/cache', async (c) => {
-  const list = await c.env.PAGE_CACHE.list()
+  const list = await c.env.PAGEDATA_CACHE.list()
   const keys = list.keys.map((o) => o.name)
   return fjson(list)
 })
 
 api.delete('/cache', async (c) => {
-  const list = await c.env.PAGE_CACHE.list()
+  const list = await c.env.PAGEDATA_CACHE.list()
   const keys = list.keys.map((o) => o.name)
-  const deleted = await Promise.all(keys.map((key) => c.env.PAGE_CACHE.delete(key)))
+  const deleted = await Promise.all(keys.map((key) => c.env.PAGEDATA_CACHE.delete(key)))
   zapDirCache()
   return fjson({ pageCache: deleted, caches: 'zapped' })
 })
