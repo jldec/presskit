@@ -90,7 +90,7 @@ export class Party extends Server<Env> {
       const systemMessage = {
         role: 'system',
         content:
-          'You are a helpful assistant. Respond with levity and respect about just the following content: ' +
+          'You are a helpful assistant. Respond concisely, with levity and respect, about the following content: ' +
           (this.pageData?.md || '') +
           links
       }
