@@ -17,6 +17,9 @@
   }
 }
 @media print {
+  #chat, #debug {
+    display: none;
+  }
   a {
     text-decoration-color: #f97316 !important;
   }
