@@ -14,9 +14,11 @@ export const Chat: FC = () => {
             chatRoot.classList.toggle('hidden');
             chatHeading.classList.toggle('hidden');
             if (!chatRoot.classList.contains('hidden')) {
+              window.startChat()
               document.getElementById('chat-input')?.focus()
             }`}
-          title="Toggle Chat"        >
+          title="Toggle Chat"
+        >
           <MessageSquare class="h-5 hover:text-orange-500 transition-colors duration-200 ease-in-out" />
         </a>
         <span id="chat-heading" class="hidden text-sm font-semibold">
@@ -26,6 +28,4 @@ export const Chat: FC = () => {
       <div id="chat-root" class="hidden"></div>
     </>
   )
-  function toggleChat() {
-  }
 }
