@@ -118,7 +118,14 @@ function App() {
         }}
       >
         <div>
-          <input id="chat-input" type="text" name="content" placeholder={`Type a message...`} autoComplete="off" className="rounded-md text-black" />
+          <input
+            id="chat-input"
+            type="text"
+            name="content"
+            placeholder={`Type a message...`}
+            autoComplete="off"
+            className="rounded-md text-black"
+          />
         </div>
         <button type="submit">Send</button>
         <button
@@ -141,4 +148,12 @@ function App() {
 
 const root = createRoot(document.getElementById('chat-root')!)
 
-root.render(<App />)
+let hydrated = false
+
+// @ts-expect-error
+window.startChat = function() {
+  if (!hydrated) {
+    hydrated = true
+    root.render(<App />)
+  }
+}
