@@ -14,6 +14,9 @@ type Env = {
 }
 
 export class Party extends Server<Env> {
+  static options = {
+    hibernate: true
+  }
   messages = [] as ChatMessage[]
   pageData: PageData | undefined = undefined
 
