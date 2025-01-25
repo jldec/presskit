@@ -188,6 +188,26 @@ export function Home(props: IconProps) {
   )
 }
 
+// https://lucide.dev/icons/x
+export function Close(props: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentcolor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={props.class}
+      role="img"
+      aria-label={props.name || 'Close Icon'}
+    >
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </svg>
+  )
+}
+
 /*
 Not from Lucide below
 */
