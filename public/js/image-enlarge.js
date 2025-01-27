@@ -32,7 +32,7 @@ document.addEventListener('click', function (event) {
     closeButton.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8" role="img" aria-label="Close Icon"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>`
     closeButton.setAttribute('aria-label', 'Close image viewer')
     closeButton.setAttribute('type', 'button')
-    closeButton.setAttribute('title', 'Close image viewer (ESC)')
+    closeButton.setAttribute('title', 'ESC to close')
     closeButton.classList.add(
       'absolute',
       'top-4',
@@ -52,7 +52,7 @@ document.addEventListener('click', function (event) {
       'animate-pop-in',
       'rounded-md'
     )
-    enlargedImg.setAttribute('title', 'Click or press ESC to close')
+    enlargedImg.setAttribute('title', 'ESC to close')
 
     overlay.appendChild(enlargedImg)
     overlay.appendChild(closeButton)
