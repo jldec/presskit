@@ -20,6 +20,17 @@ export class Party extends Server<Env> {
   messages = [] as ChatMessage[]
   pageData: PageData | undefined = undefined
 
+  constructor(ctx: DurableObjectState, env: Env) {
+    super(ctx, env)
+    ctx.blockConcurrencyWhile(async () => {
+      const savedMessages = await ctx.storage.get<ChatMessage[]>('messages')
+      if (savedMessages?.length) {
+        this.messages = savedMessages
+        console.log(`Loaded ${savedMessages.length} messages from storage`)
+      }
+    })
+  }
+
   sendMessage(connection: Connection, message: Message) {
     connection.send(JSON.stringify(message))
   }
@@ -29,12 +40,14 @@ export class Party extends Server<Env> {
   }
 
   async onConnect(connection: Connection, ctx: ConnectionContext) {
-    // TODO: protect against paths with _
-    const path = ctx.request.headers.get('x-partykit-room')?.replace(/_/g, '/')
-    if (path) {
-      const cachedContent = await this.env.PAGEDATA_CACHE.get(path)
-      if (cachedContent !== null) {
-        this.pageData = JSON.parse(cachedContent) as PageData
+    if (!this.pageData) {
+      // TODO: protect against paths with _
+      const path = ctx.request.headers.get('x-partykit-room')?.replace(/_/g, '/')
+      if (path) {
+        const cachedContent = await this.env.PAGEDATA_CACHE.get(path)
+        if (cachedContent !== null) {
+          this.pageData = JSON.parse(cachedContent) as PageData
+        }
       }
     }
     this.sendMessage(connection, {
@@ -52,6 +65,7 @@ export class Party extends Server<Env> {
     if (parsed.type === 'add') {
       // add the message to the local store
       this.messages.push(parsed)
+      // this.saveMessages()
 
       // TODO: better logging
       const log = this.pageData?.path + '\n' + parsed.content
@@ -143,6 +157,8 @@ export class Party extends Server<Env> {
               }
               return m
             })
+            this.ctx.waitUntil(this.ctx.storage.put('messages', this.messages))
+            console.log(`saved ${this.messages.length} messages to storage`)
 
             // let's update the message with the final response
             this.broadcastMessage({
@@ -159,9 +175,15 @@ export class Party extends Server<Env> {
       // update the message in the local store
       const index = this.messages.findIndex((m) => m.id === parsed.id)
       this.messages[index] = parsed
+      // this.saveMessages()
     } else if (parsed.type === 'clear') {
       // clear the local store
       this.messages = []
+      this.saveMessages()
     }
+  }
+  saveMessages() {
+    this.ctx.waitUntil(this.ctx.storage.put('messages', this.messages))
+    console.log(`saved ${this.messages.length} messages to storage`)
   }
 }
