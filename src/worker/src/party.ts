@@ -20,6 +20,25 @@ export class Party extends Server<Env> {
   messages = [] as ChatMessage[]
   pageData: PageData | undefined = undefined
 
+  async onStart() {
+    // TODO: protect against paths with _
+    const path = this.name.replace(/_/g, '/')
+    console.log('Party started on', path)
+    const savedMessages = await this.ctx.storage.get<ChatMessage[]>('messages')
+    if (savedMessages?.length) {
+      this.messages = savedMessages
+      console.log(`Loaded ${savedMessages.length} messages from storage`)
+    }
+    if (!this.pageData) {
+      if (path) {
+        const cachedContent = await this.env.PAGEDATA_CACHE.get(path)
+        if (cachedContent !== null) {
+          this.pageData = JSON.parse(cachedContent) as PageData
+        }
+      }
+    }
+  }
+
   sendMessage(connection: Connection, message: Message) {
     connection.send(JSON.stringify(message))
   }
@@ -29,14 +48,6 @@ export class Party extends Server<Env> {
   }
 
   async onConnect(connection: Connection, ctx: ConnectionContext) {
-    // TODO: protect against paths with _
-    const path = ctx.request.headers.get('x-partykit-room')?.replace(/_/g, '/')
-    if (path) {
-      const cachedContent = await this.env.PAGEDATA_CACHE.get(path)
-      if (cachedContent !== null) {
-        this.pageData = JSON.parse(cachedContent) as PageData
-      }
-    }
     this.sendMessage(connection, {
       type: 'all',
       messages: this.messages
@@ -143,6 +154,7 @@ export class Party extends Server<Env> {
               }
               return m
             })
+            this.saveMessages()
 
             // let's update the message with the final response
             this.broadcastMessage({
@@ -162,6 +174,11 @@ export class Party extends Server<Env> {
     } else if (parsed.type === 'clear') {
       // clear the local store
       this.messages = []
+      this.saveMessages()
     }
+  }
+  saveMessages() {
+    this.ctx.waitUntil(this.ctx.storage.put('messages', this.messages))
+    console.log(`Saved ${this.messages.length} messages to storage`)
   }
 }

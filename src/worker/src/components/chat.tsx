@@ -18,6 +18,7 @@ export const Chat: FC = () => {
               document.getElementById('chat-input')?.focus()
             }`}
           title="Toggle Chat"
+          id="chat-icon"
         >
           <MessageSquare class="h-5 hover:text-orange-500 transition-colors duration-200 ease-in-out" />
         </a>

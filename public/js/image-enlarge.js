@@ -76,8 +76,8 @@ function closeOverlay() {
   enlargedImg.classList.add('animate-pop-out')
   overlay.classList.add('opacity-0')
 
-  enlargedImg.addEventListener(
-    'animationend',
+  overlay.addEventListener(
+    'transitionend',
     function () {
       document.body.removeChild(overlay)
       overlay = null
