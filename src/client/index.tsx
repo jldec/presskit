@@ -22,7 +22,7 @@ function App() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
 
   const socket = usePartySocket({
-    party: 'c-h-a-t-s', // kebab-cased CHATS binding name
+    party: 'chats', // kebab-cased CHATS binding name
     // TODO: protect against paths with _
     room: window.location.pathname.replace(/\//g, '_'),
     onMessage: (evt) => {
