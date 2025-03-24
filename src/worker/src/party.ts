@@ -110,7 +110,7 @@ export class Party extends Server<Env> {
       }
 
       try {
-        const aiMessageStream = (await this.env.AI.run('@cf/meta/llama-3-8b-instruct-awq', {
+        const aiMessageStream = (await this.env.AI.run('@cf/meta/llama-3.1-8b-instruct-fp8-fast', {
           stream: true,
           messages: [
             systemMessage,
