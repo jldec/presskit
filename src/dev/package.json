@@ -1,8 +1,8 @@
 {
   "type": "module",
   "dependencies": {
-    "fast-glob": "^3.3.2",
-    "wrangler": "^3.81.0"
+    "fast-glob": "^3.3.3",
+    "wrangler": "^4.4.0"
   },
   "scripts": {
     "build": "node build-manifest.js",
