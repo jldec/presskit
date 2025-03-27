@@ -3,13 +3,17 @@
 # Presskit ⚡️
 Fast and simple collaborative Web publishing.
 
-### Roadmap
-- [ ] Pick a domain and go
-- [ ] Zero install, zero build (not just for devs)
-- [x] Single click publishing, fully versioned
-- [ ] Editor to collaborate with AI and humans
-- [ ] Whiteboard + notes retained for every page
-- [ ] Installable, professional themes
+Presskit is an experimental project and latest platform for delivering [jldec.me](https://jldec.me). It serves as a playground for ideas about how AI might contribute value for Web users -- readers and writers alike.
 
----
-👋 _This is a work in progress._
+### currently working
+- Page content is versioned in markdown files in git.
+- There is not static build - pages are re-rendered from source on-demand.
+- Evey page has it's own AI chat, the page content is part of the context.
+
+### future ideas
+- Wiki-like collboration with AI for page content creation and maintenance.
+- End-to-end usability by non-developers.
+- Installable themes for different layouts and presentations styles.
+- Plugins for content sources (like CMS services)
+- Public and private pages
+- Every page needs a history of conversations (with humans and AI) as context for how the content in the page was arrived at.
