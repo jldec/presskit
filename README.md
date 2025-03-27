@@ -7,13 +7,17 @@ Presskit is an experimental project and latest platform for delivering [jldec.me
 
 ### currently working
 - Page content is versioned in markdown files in git.
-- There is not static build - pages are re-rendered from source on-demand.
+- There is no static build - pages are re-rendered from source on-demand.
 - Evey page has it's own AI chat, the page content is part of the context.
 
 ### future ideas
-- Wiki-like collboration with AI for page content creation and maintenance.
+- Wiki-like (async) collboration with AI for page content creation and maintenance.
+- Per-page history of conversations (with humans and AI) as context for how content in the page was arrived at.
 - End-to-end usability by non-developers.
 - Installable themes for different layouts and presentations styles.
-- Plugins for content sources (like CMS services)
+- Plugins for content sources or destinations (like CMS services)
 - Public and private pages
-- Every page needs a history of conversations (with humans and AI) as context for how the content in the page was arrived at.
+- Broad AI awareness of content (not just per-page)
+- Site-level conversations
+- Private conversations
+- Conversation moderation
