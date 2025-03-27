@@ -3,7 +3,9 @@
 # Presskit ⚡️
 Fast and simple collaborative Web publishing.
 
-Presskit is an experimental project and latest platform for delivering [jldec.me](https://jldec.me). It serves as a playground for ideas about how AI might contribute value for Web users -- readers and writers alike.
+Presskit is an experimental project and latest platform for delivering [jldec.me](https://jldec.me).
+
+It serves as a playground for ideas about how AI might contribute value for Web users -- readers and writers alike. It's also a way for me to learn about Cloudflare Workers, Workers AI, Durable Objects and other services.
 
 ### currently working
 - Page content is versioned in markdown files in git.
