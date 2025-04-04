@@ -157,3 +157,7 @@ window.startChat = function() {
     root.render(<App />)
   }
 }
+
+if (new URLSearchParams(window.location.search).has('chat')) {
+  document.getElementById('chat-icon')?.click();
+}
