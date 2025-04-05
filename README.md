@@ -9,15 +9,15 @@ It serves as a playground for ideas about how AI might contribute value for Web 
 
 ### currently working
 - Page content is versioned in markdown files in git.
-- There is no static build - pages are re-rendered from source on-demand.
+- There is no site-wide build - pages are rendered on-demand and subsequently served from cache.
 - Evey page has it's own AI chat, the page content is part of the context.
 
 ### future ideas
-- Wiki-like (async) collboration with AI for page content creation and maintenance.
-- Per-page history of conversations (with humans and AI) as context for how content in the page was arrived at.
-- End-to-end usability by non-developers.
+- Wiki-like collaboration with AI for page content creation and maintenance.
+- Per-page history of conversations with humans and AI.
+- End-to-end setup and content management by non-developers.
 - Installable themes for different layouts and presentations styles.
-- Plugins for content sources or destinations (like CMS services)
+- Plugins for content sources or destinations e.g. CMS services
 - Public and private pages
 - Broad AI awareness of content (not just per-page)
 - Site-level conversations
