@@ -11,7 +11,7 @@ It serves as a playground for ideas about how AI might contribute value for Web 
 - Page content is versioned in markdown files in git.
 - There is no site-wide build - pages are rendered on-demand and subsequently served from cache.
 - When content changes, pages can selectively re-render.
-- Evey page has it's own AI chat, the page content is part of the context.
+- Evey page has it's own AI chat, the page content is part of the conversation context.
 
 ### future ideas
 - Wiki-like collaboration with AI for page content creation and maintenance.
