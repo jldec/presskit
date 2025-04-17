@@ -1,17 +1,15 @@
-![photo of red flowsers by yours truly](src/dev/content/images/red-flowser.webp)
 
 # Presskit ⚡️
-Fast and simple collaborative Web publishing.
+Presskit is a simple git-backed Web + AI publishing platform built on [Cloudflare workers](https://developers.cloudflare.com/workers/) and [Partykit](https://docs.partykit.io/how-partykit-works/).  
+For an example project see [jldec.me](https://jldec.me?chat)
 
-Presskit is an experimental project and latest platform for delivering [jldec.me](https://jldec.me).
-
-It serves as a playground for ideas about how AI might contribute value for Web users -- readers and writers alike. It's also a way for me to learn about Cloudflare Workers, Workers AI, Durable Objects and other services.
+<img width="1184" alt="Screenshot 2025-04-17 at 11 35 54" src="https://github.com/user-attachments/assets/a8d2f4db-268f-415d-9feb-442d5d53902d" />
 
 ### currently working
+- Evey page has it's own AI chat, the page content is part of the conversation context.
 - Page content is versioned in markdown files in git.
 - There is no site-wide build - pages are rendered on-demand and subsequently served from cache.
 - When content changes, pages can selectively re-render.
-- Evey page has it's own AI chat, the page content is part of the conversation context.
 
 ### future ideas
 - Wiki-like collaboration with AI for page content creation and maintenance.
