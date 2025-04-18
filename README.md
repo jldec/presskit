@@ -6,10 +6,9 @@ For an example project see [jldec.me](https://jldec.me?chat)
 <img width="1184" alt="Screenshot 2025-04-17 at 11 35 54" src="https://github.com/user-attachments/assets/a8d2f4db-268f-415d-9feb-442d5d53902d" />
 
 ### currently working
-- Evey page has it's own AI chat, the page content is part of the conversation context.
-- Page content is versioned in markdown files in git.
-- There is no site-wide build - pages are rendered on-demand and subsequently served from cache.
-- When content changes, pages can selectively re-render.
+- Evey page has it's own AI chat. Page content is part of the conversation context. Multiple users can participate in each page-specific conversation. Behind the scenes websockets connect to a [durable object](https://developers.cloudflare.com/durable-objects/what-are-durable-objects/) instance per page, and chat history is saved as the durable object state.
+
+- Page content is versioned in markdown files in git. When content changes, pages can selectively re-render.  There is no site-wide build - pages are rendered on-demand and subsequently served from cache.
 
 ### future ideas
 - Wiki-like collaboration with AI for page content creation and maintenance.
