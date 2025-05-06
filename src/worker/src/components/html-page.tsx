@@ -79,7 +79,7 @@ export function renderJsx() {
         </head>
         <body class="bg-white dark:bg-gray-900 prose dark:prose-invert max-w-none">
           <div class="flex flex-col md:flex-row min-h-screen">
-            <div id="chat" class="p-3 max-w-[80ch] bg-orange-100 dark:bg-gray-800">
+            <div id="chat" class="p-3 md:max-w-[50%] bg-orange-100 dark:bg-gray-800">
               <Chat />
             </div>
             <div class="p-3 max-w-[81ch] min-w-[35ch] overflow-hidden md:mx-auto mb-8">
