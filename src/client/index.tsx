@@ -122,7 +122,7 @@ function App() {
             id="chat-input"
             type="text"
             name="content"
-            placeholder={`Type a message...`}
+            placeholder={`Ask AI...`}
             autoComplete="off"
             className="rounded-md text-black"
           />
