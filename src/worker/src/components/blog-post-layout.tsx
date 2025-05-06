@@ -26,7 +26,7 @@ export const BlogPostLayout: FC = ({ page, site, dirEntry }) => {
       <Splash page={page} />
       <p class="flex">
         <span class="flex-grow">{longdate}</span>
-        <a class="px-[6px]" role="button" onclick="document.getElementById('chat-icon')?.click()">Ask AI</a>
+        <a class="px-[6px] text-gray-400 hover:text-orange-500" role="button" onclick="document.getElementById('chat-icon')?.click()">Ask AI</a>
         {dirEntry?.next ? (
           <a class="px-[6px] text-gray-400 hover:text-orange-500" href={parentPath(page.path)}>
             <List class="h-5" />

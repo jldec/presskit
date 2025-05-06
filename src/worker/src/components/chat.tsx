@@ -17,7 +17,7 @@ export const Chat: FC = () => {
               window.startChat()
               document.getElementById('chat-input')?.focus()
             }`}
-          title="Toggle Chat"
+          title="Toggle Chat to Ask AI"
           id="chat-icon"
         >
           <MessageSquare class="h-5 hover:text-orange-500 transition-colors duration-200 ease-in-out" />
